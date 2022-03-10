@@ -1,0 +1,29 @@
+﻿@model  InvoiceNew.Models.UserMappingModel 
+   <div>
+    <div>
+        @Html.ListBoxFor(m => m.TeamIds, Model.Teams, new { @class = "form-control lstBoxHeight", @cols = 80, @rows = 10 })
+    </div>
+       <!--
+       <div class="col-sm-4">
+           <input type="button" value="Remove>>" id="Remove" class="btn btn-danger" />
+       </div>-->
+</div>
+
+<script>
+    
+    var jsontype = '@Html.Raw(@Model.MultiBranch)';
+    window.jsontype = jsontype;
+    console.log(jsontype);
+    var branchData = @Html.Raw(@ViewBag.BranchDetails);
+    window.branchDetails = branchData.Data.branchDetails;
+    
+    if (jsontype == 'False') {
+        $(".selectedBranch").removeAttr("multiple");
+        $(".selectedBranch").multiselect('rebuild');
+    }
+    else {
+        $(".selectedBranch").attr("multiple", "multiple");
+        $(".selectedBranch").multiselect('rebuild');
+    }
+    
+</script>

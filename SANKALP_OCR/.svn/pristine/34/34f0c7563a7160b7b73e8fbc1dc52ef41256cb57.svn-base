@@ -1,0 +1,13 @@
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-03-28 06:08:14
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-03-28 06:08:14 ::1 GET / - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 - 200 0 0 11211
+2017-03-28 06:08:14 ::1 GET /Content/site.css - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 3
+2017-03-28 06:08:14 ::1 GET /Content/jquery.dataTables.min.css - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 23
+2017-03-28 06:08:14 ::1 GET /bower_components/font-awesome/css/font-awesome.min.css - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 94
+2017-03-28 06:08:14 ::1 GET /Content/bootstrap.css - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 97
+2017-03-28 06:08:14 ::1 GET /Content/images/zoom_in.png - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 3
+2017-03-28 06:08:14 ::1 GET /Content/images/zoom_out.png - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 4
+2017-03-28 06:08:14 ::1 GET /bower_components/font-awesome/fonts/fontawesome-webfont.woff v=4.2.0 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/bower_components/font-awesome/css/font-awesome.min.css 200 0 0 16
+2017-03-28 06:08:14 ::1 GET /__browserLink/requestData/a67d56895b31457aa35e36cdd58574ef version=2 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 53

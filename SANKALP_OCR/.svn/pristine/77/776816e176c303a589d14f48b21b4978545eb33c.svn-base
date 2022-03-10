@@ -1,0 +1,149 @@
+﻿@model InvoiceNew.Models.ActiveInvoiceModel
+
+@{
+    ViewBag.Title = "Active Invoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-info">
+                <div class="panel-heading" style="height:100px;">
+                    <div class="pull-left">
+                        <h4><b>Active Invoices</b></h4>
+                        <br /><span id="tallyerror" style="color:red;"></span>
+                    </div>
+                    <div class="pull-right" style="position:relative;top: 20px;">
+                        <div>
+                            <a style="position:relative;bottom:20px;" class="pull-right" href="@Url.Action("Index", "Dashboard" )"> <i class="fa fa-backward"></i> Back </a>
+                        </div>
+                        <div >
+                        @{ var singleBranch = ""; }
+                        @if (ViewBag.BranchDropDown == "Enabled")
+                        {
+                            if(Model.SelectedBranch != null)
+                            {
+                                singleBranch = Model.SelectedBranch;
+                            }
+                            else
+                            {
+                                singleBranch = Model.BranchDropDown[0].Value;
+                            }
+
+                            <div>
+                                @Html.DropDownListFor(model => model.SelectedBranch, new SelectList(Model.BranchDropDown, "Value", "Text"), new { @class = "ddlUsers form-control" })
+                            </div>
+                        }
+                        else
+                        {
+                            singleBranch = Model.BranchDropDown[0].Value;
+                        }
+                        </div>
+                    </div>
+                    <br />
+                </div>
+                
+                @*<div class="col-md-2 col-md-offset-10 pull-right">
+
+                    </div>*@
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    @* <div><input type="button" id="btnExport" value="Export To Excel" class="btn btn-primary" /></div>*@
+
+                    <div id="rendercontainer" class="table-responsive">
+                        
+                       
+                    </div>
+                   
+                    @*<div class=" col-md-2 col-md-offset-10 pull-right">
+                            <h3><a class="text-right" href="@Url.Action("Index", "Dashboard" )"><i class="fa fa-backward"></i> Hide </a></h3>
+                        </div>*@
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+<script>
+
+    $(document).ready(function () {
+        function loadGrid(selected){
+            $.ajax({
+                url: "GetAllProducts",
+                data: { selectedBranch : selected },
+                async: false,
+                //contentType: "application/html; charset=utf-8",
+                dataType: "html",
+                type: "POST",
+                success: function (data) {
+                    
+                    $('#rendercontainer').html(data);
+                }
+            });
+        }
+        if(@singleBranch != ""){
+            var selected = @singleBranch;
+            loadGrid(selected);
+        }
+        
+
+        $("#SelectedBranch").on("change", function () {
+            //console.log(this.value);
+            
+            loadGrid(this.value);
+
+        });
+        
+        /*
+        $.post("GetAllProducts", { selectedBranch: 2 }, function (data, status) {
+            $('#rendercontainer').html(data);
+
+        });*/
+       
+
+        
+        
+        
+
+    });
+
+
+</script>
+
+<script>
+  $(document).ready(function(){
+
+
+      var success = @((TempData["ErrorMessage"] != null).ToString().ToLower());
+      if (success== true)
+      {
+          alert(@Html.Raw(Json.Encode(TempData["ErrorMessage"])));
+         // var tallylabel = @Html.Raw(TempData["TallyErrorMessage"]);
+         // $("#tallyerror").text(tallylabel);
+      }
+      //else {
+      //    $("#tallyerror").text("");
+      //}
+
+
+
+      var successtally = @((TempData["TallyErrorMessage"] != null).ToString().ToLower());
+
+
+      if (successtally == true)
+      {
+
+
+          var tallylabel = "@Html.Raw(TempData["TallyErrorMessage"])";
+
+          $("#tallyerror").text(tallylabel);
+      }
+      else {
+          $("#tallyerror").text("");
+      }
+
+
+          });
+</script>

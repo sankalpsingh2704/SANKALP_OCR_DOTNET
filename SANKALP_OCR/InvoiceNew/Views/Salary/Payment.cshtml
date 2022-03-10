@@ -1,0 +1,280 @@
+﻿@model InvoiceNew.Models.PaymentInputModel
+@{
+    ViewBag.Title = "Payment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/dist/css/datepicker.min.css" rel="stylesheet" />
+<script src="~/Content/dist/js/bootstrap-datepicker.min.js"></script>
+
+<style>
+    .content-wrapper {
+        height: 100%;
+    }
+
+    .form-control[readonly] {
+        background: white;
+    }
+    .row{
+        margin-left: 0;
+    }
+</style>
+<div id="content">
+
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 panel panel-info">
+            <!-- col -->
+            <div class="panel-heading" style="margin-left: -15px;">
+                <h3 class="page-title txt-color-blueDark">
+                    <!-- PAGE HEADER --><i class="fa-fw fa fa-pie-chart"></i> IQ Invoice <span>
+                        - Payments
+                    </span>
+                </h3>
+            </div>
+
+
+            <div id="widget-grid" class="panel-body">
+                <!-- row -->
+                <div class="row" id="symaindiv">
+                    <!-- NEW WIDGET START -->
+                    <div class="col-lg-12" style="margin-left:20px;">
+                        <p>
+                            This report provides Payment details of Employees for the duration selected to generate the report.
+                        </p>
+                    </div>
+                    <!-- WIDGET END -->
+                </div>
+                <!-- end row -->
+            </div>
+
+            <div class="col-sm-12 col-md-12" style="background-color:white">
+                <div class="panel panel-info" style="margin-left:10px;margin-right:10px;">
+                    <div class="panel-heading">
+                        <span class="widget-icon"> <i class="fa-lg fa fa-pie-chart"></i></span>
+                        <b>PAYMENT SEARCH</b>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-inline" role="form">
+                            <div align="center" id="cmnt">
+                                @using (Html.BeginForm("PaymentUpload", "Salary", FormMethod.Post, new {  id = "Excelupload" }))
+                                {
+                                    <table id="divReport" border="0" width="100%">
+                                        <tr>
+
+                                            <td width="10%" align="right"><b>Page Type :&nbsp;</b></td>
+
+                                            <td width="15%">
+                                                @Html.DropDownListFor(model => Model.PageName, new SelectList(Model.PageTypes, "Value", "Text", Model.PageName), new { @class = "ddlUsers form-control" })
+
+                                            </td>
+                                            <td width="10%" align="right"><b>Month :&nbsp;</b></td>
+                                            <td width="10%">
+                                                <!--<input type="text" class="form-control form-control-2 input-sm month" placeholder="Month">-->
+                                                @Html.TextBoxFor(m => Model.Month, new {@autocomplete = "off", @class = "form-control month", @data_val = "true", @data_val_required = "Month is required" })
+                                                <span style="color:red;"></span>
+
+                                            </td>
+                                            <td width="10%" align="right"><b>Year :&nbsp;</b></td>
+                                            <td width="15%">
+                                                @Html.TextBoxFor(m => Model.Year, new { @autocomplete = "off", @class = "form-control year", @data_val = "true", @data_val_required = "Month is required" })
+                                                <span style="color:red;"></span>
+
+                                            </td>
+                                            <td width="30%">
+
+                                              
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                               
+                                                
+                                            </td>
+                                            <td colspan="6">@Html.ValidationSummary()</td>
+                                        </tr>
+                                    </table>
+                                    <div>
+                                                                              
+                                        <input type="button" class="btn btn-primary cmd " style="margin: 64px 0 43px 46px;float:left;" id="btnSubmit" value="Search" />
+                                        <input type="button" class="btn btn-primary cmd " style="float:left;margin: 64px 0 43px 43px;display:none;width:70px;" id="pay" value="Pay" />
+                                        <label id="labtally" for="tallycomment" style="float:left; margin: 70px 0 43px 17px;position: relative;left: 40px;display:none;" >Tally Comment:</label>
+                                        <input type="text" maxlength="100" class="form-control" style="float:left;margin: 64px 0 43px 50px;max-width:500px;width:480px;display:none;" name="TallyComment" id="tallycomment" placeholder="Tally Comment" />
+                                        <span style="color:red;display:none; margin: 71px 0px 43px 10px;float: left;">Can't be Empty</span>
+                                    </div>}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="paymentlist" class="panel-body" >
+                        <table class="table table-bordered table-hover table-striped table-responsive" >
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $("#Month,#Year").on("change", function () {
+        if ($(this).attr("id") == "Month") {
+            if ($(this).val() === "" || $(this).val() == null) {
+                $("#Month + span").text("Can't be Empty !");
+                return false;
+            }
+            else {
+                $("#Month + span").text("");
+            }
+        }
+        else {
+            if ($(this).val() === "" || $(this).val() == null) {
+                $("#Year + span").text("Can't be Empty !");
+                return false;
+            }
+            else {
+                $("#Year + span").text("");
+            }
+        }
+    });
+
+
+
+
+
+
+    $(() => {
+        var startDate = new Date();
+        var fechaFin = new Date();
+        var FromEndDate = new Date();
+        var ToEndDate = new Date();
+
+        $('.month').datepicker({
+            autoclose: true,
+            minViewMode: 1,
+            format: 'mm'
+        }).on('changeDate', function (selected) {
+            startDate = new Date(selected.date.valueOf());
+            startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+            //$('.year').datepicker('setStartDate', startDate);
+            $('.year').val(startDate.getFullYear());
+        });
+
+        $('.year').datepicker({
+            autoclose: true,
+            minViewMode: 2,
+            format: 'yyyy'
+        }).on('changeDate', function (selected) {
+            FromEndDate = new Date(selected.date.valueOf());
+            // FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf()).setMonth(12)));
+            FromEndDate.setMonth(new Date(selected.date.valueOf()).getMonth() + 11)
+            $('.month').datepicker('setEndDate', FromEndDate);
+        });
+        
+        $("#btnSubmit").on("click", function () {
+            
+            
+            $("#paymentlist").slideUp(function () {
+                $("#paymentlist > table").empty();
+                var form = new FormData($("#Excelupload")[0]);
+                $.ajax({
+                    url: "PaymentUpload",
+                    method: "POST",
+                    dataType: 'json',
+                    data: form,
+                    async: true,
+                    processData: false,
+                    contentType: false,
+                    success: function (result) {
+                        //console.log("ERR:"+result.paylist instanceof Array);
+                        
+                        if (result.paylist.length > 0 && !result.Payed) {
+                            if (!$("#pay").is(":visible"))
+                                $("#pay").fadeIn(2000);
+                            if (!$("#tallycomment").is(":visible")) {
+                                $("#tallycomment").fadeIn(2000);
+                                $("#labtally").fadeIn(2000);
+                            }
+                        }
+                        else {
+                            if ($("#pay").is(":visible"))
+                                $("#pay").fadeOut();
+                            if ($("#tallycomment").is(":visible")){
+                                $("#tallycomment").fadeOut();
+                                $("#labtally").fadeOut();
+                            }
+                        }
+                        if (result.paylist.length > 0) {
+                            $("#paymentlist > table").append("<thead><tr><th>Sno.</th><th>Amount Payable</th><th>Bank Name</th></tr></thead><tbody>" + result.paylist.map((x, idx) => "<tr><td>" + (idx + 1) + ".</td><td>" + x.Amount + "</td><td>" + x.BankName + "</td></tr>") + "</tbody>");
+                            $("#paymentlist").slideDown();
+                        }
+                        else {
+                            $("#paymentlist > table").append("<thead><tr><th>*************NO DATA**************</th></tr></thead>");
+                            $("#paymentlist").slideDown();
+                        }
+                        
+
+                    },
+                    error: function (er) { }
+                });
+
+
+            });
+
+        });
+        $("#tallycomment").on("input propertychange paste", function () {
+            
+            if ($("#tallycomment").val() == "") {
+                $("#tallycomment + span").show();
+            }
+            else {
+                $("#tallycomment + span").hide();
+            }
+
+
+        });
+        $("#pay").on("click", function () {
+            
+            if ($("#tallycomment").val() == "") {
+                $("#tallycomment + span").show();
+                return;
+            }
+            else {
+                if ($("#tallycomment + span").is(":visible")) {
+                    $("#tallycomment + span").hide();
+                }
+            }
+            var form = new FormData($("#Excelupload")[0]);
+            $.ajax({
+                url: "SendPayment",
+                method: "POST",
+                dataType: 'json',
+                data: form,
+                async: true,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    
+                    
+                    if (!(result.paylist instanceof Array)) {
+                        swal({ title: "OOOPS !", text: result.paylist, type: "error" });
+                    }
+                    else {
+                        swal({ title: "Upload Successs", text: "Successfully Uplaoded to Tally", type: "success" });
+                    }
+                },
+                error: function (er) { }
+            });
+
+        });
+    });
+
+
+
+
+
+
+</script>
+

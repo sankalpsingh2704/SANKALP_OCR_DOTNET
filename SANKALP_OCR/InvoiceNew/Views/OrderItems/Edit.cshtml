@@ -1,0 +1,268 @@
+﻿@model InvoiceNew.Models.OrderItems
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+@*<!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Edit</title>
+    </head>
+    <body>*@
+<div id="editsection">
+    @using (Html.BeginForm("submit", "OrderItems", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "EditForm", style="margin-top:-10px" }))
+    {
+        @Html.AntiForgeryToken()
+
+
+        <div class="form-horizontal" style="margin-left:10px;">
+            <h4 style="position: relative;top: 20px;left: 10px;">OrderItems</h4>
+            <hr />
+            <div class="row" style="margin-left:10px;">
+                <div class="ui-widget tags">
+                    <label for="tags">Tags: </label>
+                    <input id="tags">
+                </div>
+                <style>
+                    #container_table {
+                        width: 1000px;
+                    }
+
+                        #container_table > tr > td:last-child {
+                            position: relative;
+                            left: 60px;
+                        }
+
+                    .tags {
+                        margin-bottom: 20px;
+                    }
+                </style>
+                <table id="container_table">
+                    <tr>
+                        <td width="50%">
+                            <object data='@Url.Action("GetFile", "OrderItems",new { @filepath = Model.ImageFilePath})' width="500" height="600"></object>
+
+                        </td>
+                        <td width="50%" valign="top">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.ID)
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Vendor, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.Vendor, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Vendor, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.InvoiceNo, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.InvoiceNo, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.InvoiceNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.InvoiceDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.InvoiceDate, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.InvoiceDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PO, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.PO, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.PO, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PODate, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.PODate, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.PODate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PAN, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.PAN, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.PAN, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.COMPANYVATTIN, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.COMPANYVATTIN, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.COMPANYVATTIN, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.COMPANYCSTNO, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.COMPANYCSTNO, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.COMPANYCSTNO, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.BUYERVATTIN, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.BUYERVATTIN, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.BUYERVATTIN, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.BUYERCSTNO, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.BUYERCSTNO, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.BUYERCSTNO, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <!--<object data='@Url.Action("GetFile", "OrderItems",new { @filepath = Model.ImageFilePath})' width="600px" height="600px"></object>-->
+
+
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <table class="table table-bordered table-striped table-condensed" style="margin-top:20px;margin-left:40px;">
+                        <thead>
+                            <tr>
+                                <th class="col-sm-2">Item Name</th>
+                                <th class="col-sm-2">Price</th>
+                                <th class="col-sm-1">Quantity</th>
+                                <th class="col-sm-1">Tax%</th>
+                                <th class="col-sm-1">Total</th>
+                                <th class="col-sm-1">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @*<td colspan="2" align="right"> Select All <input type="checkbox" id="ckbCheckAll" /></td>
+                                <td>@Html.ActionLink("Add New Item", "AddNewItem", "OrderItems", new { orderItemID = Model.ID }, new { @class = "btn btn-primary" })</td></tr>*@
+                            <tr><td colspan="5"></td><td colspan="1">@Html.ActionLink("Add", "AddNewItem", "OrderItems", new { orderItemID = Model.ID }, new { @class = "btn btn-primary" })</td></tr>
+                            @for (int i = 0; i < Model.ProductDetails.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.EditorFor(model => Model.ProductDetails[i].ItemName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(mode => Model.ProductDetails[i].ItemName, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => Model.ProductDetails[i].Price, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(mode => Model.ProductDetails[i].Price, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => Model.ProductDetails[i].Qty, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(mode => Model.ProductDetails[i].Qty, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => Model.ProductDetails[i].Tax, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(mode => Model.ProductDetails[i].Tax, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => Model.ProductDetails[i].TOTAL, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(mode => Model.ProductDetails[i].TOTAL, "", new { @class = "text-danger" })
+                                    </td>
+
+                                    <td>
+                                        <button type="button" class="delete btn btn-sm" id="delete_@i" value="@Model.ProductDetails[i].ID">Delete</button>
+                                        @*@Html.ActionLink("Delete", "DeleteRow", "OrderItems", new { id = Model.ProductDetails[i].ID }, new { @class = "btn btn-sm btn-danger" })*@
+
+                                    </td>
+                                    @Html.HiddenFor(model => Model.ProductDetails[i].ID)
+
+                                </tr>
+                            }
+                            <tr><td colspan="5"></td><td colspan="1">@Html.ActionLink("Add", "AddNewItem", "OrderItems", new { orderItemID = Model.ID }, new { @class = "btn btn-primary" })</td></tr>
+                            @*<tr><td colspan="6"></td><td><button type="button" class="btnAddNew btn btn-primary" id="btnAdd">Add New Item</button></td></tr>*@
+                            <tr><td colspan="7"> <input type="submit" id="submit" value="Save" class="btn btn-primary" /></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="col-md-offset-2 col-md-10">
+
+            </div>
+        </div>
+    }
+
+    <div>
+
+        @Html.ActionLink("Back to List", "Index", "OrderItems",new {style="margin-left:30px" })
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        $("#ckbCheckAll").click(function () {
+            $(".checkbox").prop('checked', $(this).prop('checked'));
+        });
+
+        $(".delete").on("click", function () {
+            var tr = $(this).closest('tr');
+            var Id = $(this).val();
+            tr.remove();
+            $.ajax({
+                type: "GET",
+                url: '/OrderItems/Delete/',
+                contentType: 'application/json; charset=utf-8',
+                data: { Id: Id },
+                datatype: 'json',
+                global: false,
+                //aysnc: false,
+                success: function (data) {
+                    alert("Item Deleted");
+                }
+            });
+        });
+        validate();
+
+        function validate() {
+            //valid() not only tells us whether the form is valid but
+            //also ensures that errors are shown !!!
+            if ($("form").valid()) {
+                //if the form is valid we may need to hide previously displayed messages
+                $(".validation-summary-errors").css("display", "none");
+                $(".input-validation-error").removeClass("input-validation-error");
+                return true;
+            }
+            else {
+                //the form is not valide and because we are doing this all manually we also have to
+                //show the validation summary manually
+                $(".validation-summary-errors").css("display", "block");
+                return false;
+            }
+        }
+    });
+
+
+
+
+</script>
+
+
+

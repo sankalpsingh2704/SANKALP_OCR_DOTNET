@@ -1,0 +1,118 @@
+﻿@model  IList<InvoiceNew.Models.InvoiceModel>
+@{
+    ViewBag.Title = "MyInvoices";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="text-center">Invoice Items</h4>
+                </div>
+                @*<div class="col-md-2 col-md-offset-10 pull-right">
+
+                    </div>*@
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+
+                    <div class="table-responsive">
+                        <table id="AllInvoices" class="display table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th> Vendor </th>
+                                    <th> Invoice No </th>
+                                    <th> Amount</th>
+                                    <th> PO</th>
+                                    <th> PAN</th>
+                                    <th> Invoice Date</th>
+                                    <th> Invoice Due Date</th>
+                                    <th> Invoice Received date</th>
+                                    <th> Date of payment </th>
+                                    <th>Currently With</th>
+
+                                    <th>Status</th>
+                                    @*
+                                        <th class="nosort">&nbsp;</th>*@
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var m in Model)
+                            {
+                            <tr class="invoiceinfo">
+                                <td></td>
+                                <td>@Html.HiddenFor(model => @m.InvoiceID)@Html.DisplayFor(model => @m.VendorName)</td>
+                                <td>@Html.DisplayFor(model => @m.InvoiceNumber) </td>
+                                <td>@Html.DisplayFor(model => @m.InvoiceAmount)</td>
+                                <td>@Html.DisplayFor(model => @m.PONumber)</td>
+                                <td>@Html.DisplayFor(model => @m.PANNumber)</td>
+                                <td>@Html.DisplayFor(model => @m.InvoiceDate)</td>
+                                <td>@Html.DisplayFor(model => @m.InvoiceDueDate)</td>
+                                <td>@Html.DisplayFor(model => @m.InvoiceReceiveddate)</td>
+                                <td>@Html.DisplayFor(model => @m.DateOfPayment)</td>
+                                <td>@Html.DisplayFor(model => @m.CurrentUserName)</td>
+                                <td>@Html.DisplayFor(model => @m.CurrentStatus)</td>
+                                @*
+                                    <td>@Html.ActionLink("Edit", "Edit", new { id = @m.ID })</td>*@
+                            </tr>
+                            }
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                    @*<div class=" col-md-2 col-md-offset-10 pull-right">
+                        <h3><a class="text-right" href="@Url.Action("Index", "Dashboard" )"><i class="fa fa-backward"></i> Hide </a></h3>
+                    </div>*@
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    </section>
+    <script>
+    $(document).ready(function () {
+        //// $("#AllInvoices").DataTable();
+        // //$("#InvoiceInfo").DataTable();  "sPaginationType": "full_numbers",
+        // $('#AllInvoices').DataTable({
+        //     "columnDefs": [{
+        //         "searchable": false,
+        //         "orderable": false,
+        //         "targets": 0
+        //     }],
+        //     "order": [[1, 'asc']]
+        // });
+        var t = $('#AllInvoices').DataTable({
+            "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": 0
+            }]
+        });
+
+        t.on('order.dt search.dt', function () {
+            t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        }).draw();
+
+
+
+
+        $('#AllInvoices tbody').on('click', 'tr', function () {
+            //var rowIndex = $(this).find('td').first().val();
+            var rowId = $(this).find('input[id$=_InvoiceID]').val();
+
+            var url = "/MyInvoice/MyInvoiceView?id=" + rowId;
+            window.location.href = url;
+        });
+    });
+
+    </script>
+
+

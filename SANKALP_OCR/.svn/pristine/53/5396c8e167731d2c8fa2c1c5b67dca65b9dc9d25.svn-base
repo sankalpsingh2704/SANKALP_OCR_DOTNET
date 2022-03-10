@@ -1,0 +1,139 @@
+﻿
+@{
+    ViewBag.Title = "Ledger";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .jumbotron {
+        background: white;
+        color: black;
+    }
+
+        .jumbotron h2 {
+            width: 400px;
+            margin: 0 auto;
+        }
+
+    tbody {
+        background: white;
+    }
+
+    .wrapper-two {
+        margin: 20px;
+    }
+
+    table {
+        width: 900px !important;
+    }
+
+    .category-ref td {
+        width: 200px;
+    }
+
+    input[type=text] {
+        height: 30px;
+    }
+</style>
+<div class="container-fluid">
+    <header class="jumbotron">
+        <h2>Ledger Management</h2>
+    </header>
+</div>
+<div class="wrapper-one">
+    <div class="wrapper-two">
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Ledger Name</th>
+                    <th>Is Active</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody class="category-ref"></tbody>
+        </table>
+        <input style="margin-left: 40px;" type="button" id="addItem" value="Add" class="btn btn-primary" />
+        
+    </div>
+    <script>
+        $(function () {
+            function refresh() {
+                $.get("getAllLedger", function (data, status) {
+                    console.log(data);
+                    data.forEach(function (data, idx) {
+                        
+                        $(".category-ref").append("<tr id='" + idx + "'><td>" + data.LedgerName + "</td><td>"+data.IsActive+"</td><td><input id='btn" + idx + "' type='button' value='Edit' rel='" + data.LedgerID + "' class='btn btn-primary upd'  /></td></tr>");
+                    });
+                });
+
+            }
+            refresh();
+            $("#addItem").click(function () {
+                var id = parseInt($(".category-ref").children().last().attr("id"));
+
+
+                if (isNaN(id)) {
+                    id = -1;
+                }
+                var id = id + 1;
+                $(".category-ref").append("<tr class='create' id='" + id + "'><td><input class='form-control' id='ledgername" + id + "' type='text'  /></td><td><select class='form-control' id='isactive" + id + "' type='text'  ><option value='true'>True</option><option value='false'>False</option></select></td><td><input id='btn" + id + "' type='button' value='Save' class='btn btn-primary save'  /></td></tr>");
+            });
+            $(".category-ref").on("click", ".upd", function () {
+                var ledgerid = $(this).attr("rel");
+                var id = $(this).attr("id").replace(/^\D+/g, '');
+                console.log(id);
+                var ledgerName = $(".category-ref #" + id + " td:nth-child(1)").html();
+                var isActive = $(".category-ref #" + id + " td:nth-child(3)").html();
+                var optionarr = ["true", "false"];
+                var options = optionarr.map(function (x,i) {
+                    if(isActive == x)
+                        return "<option val='"+x+"' selected='selected' >"+x+"</option>";
+                    else {
+                        return "<option val='" + x + "'>"+x+"</option>";
+                    }
+
+                }).join("");
+
+
+                $(".category-ref #" + id).empty();
+                $(".category-ref #" + id).attr("class", "edit");
+                $(".category-ref #" + id).append("<td><input class='form-control' id='taxname" + id + "' type='text' value='" + ledgerName + "' /></td><td><select class='form-control' id='isactive" + id + "' type='text'  >" + options + "</select></td><td><input id='btn" + id + "' type='button' value='Save' rel='" + ledgerid + "' class='btn btn-primary saveup'  /></td>");
+            });
+
+            $(".category-ref").on("click", ".saveup", function () {
+
+                var id = $(this).attr("id").replace(/^\D+/g, '');
+                var rel = $(this).attr("rel");
+
+                var Ledger = { "LedgerName": $(".category-ref #" + id + " td:nth-child(1) #taxname" + id).val(), "IsActive": $(".category-ref #" + id + " td:nth-child(2) #isactive" + id + " :selected").val(), "UpdateID": rel };
+                $.post("updateLedger", { Ledger }, function (data, status) {
+
+                    $(".category-ref").empty();
+                    refresh();
+
+                });
+                
+            });
+
+            
+            $(".category-ref").on("click",".save",function () {
+                var Ledger = {};
+                $(".category-ref .create").each(function (index, item) {
+                    var id = $(item).attr("id");
+                    Ledger = { "LedgerName": $(".category-ref #" + id + " td:nth-child(1) #ledgername" + id).val(), "IsActive": $(".category-ref #" + id + " td:nth-child(2) #isactive" + id + " :selected").val() };
+                    
+                });
+                $.post("AddLedger", { Ledger }, function (data, status) {
+                    
+                    $(".category-ref").empty();
+                    refresh();
+
+                });
+            });
+           
+
+        });
+    </script>
+</div>
+

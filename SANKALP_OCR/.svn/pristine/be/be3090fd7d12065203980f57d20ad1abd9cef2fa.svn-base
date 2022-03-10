@@ -1,0 +1,105 @@
+﻿@model InvoiceNew.Models.BranchDrpModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="content">
+
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 panel panel-info">
+            <!-- col -->
+            <div class="panel-heading">
+                <h3 class="page-title txt-color-blueDark">
+                    <!-- PAGE HEADER --><i class="fa-fw fa fa-pie-chart"></i> IQ Invoice <span>- Reports
+                    </span>
+                </h3>
+            </div>
+
+
+            <div id="widget-grid" class="panel-body">
+                <!-- row -->
+                <div class="row" id="symaindiv">
+                    <!-- NEW WIDGET START -->
+                    <div class="col-lg-12" style="margin-left:20px;">
+                        <p>
+                             This report provides item wise details of invoices for the duration selected to generate the report.
+                        </p>
+                    </div>
+                    <!-- WIDGET END -->
+                </div>
+                <!-- end row -->
+            </div>
+
+            <div class="col-sm-12 col-md-12" style="background-color:white">
+                <div class="panel panel-info" style="margin-left:10px;margin-right:10px;">
+                    <div class="panel-heading">
+                        <span class="widget-icon"> <i class="fa-lg fa fa-pie-chart"></i></span>
+                        <b>ITEM WISE REPORT</b>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-inline" role="form">
+                            <div align="center" id="cmnt">
+                                @using (Html.BeginForm("ExportToExcel", "Report", FormMethod.Post))
+                                {
+                                <table id="divReport" border="0" width="100%">
+                                    <tr>
+                                        @if (ViewBag.DropDown == "Enabled")
+                                        {
+                                            <td width="10%" align="right"><b>Branch :&nbsp;</b></td>
+                                        }
+                                        <td width="20%">
+                                            @if (ViewBag.DropDown == "Enabled")
+                                            {
+                                                @Html.DropDownListFor(model => Model.BranchID, new SelectList(Model.BranchDropDown, "Value", "Text", Model.BranchID), new { @class = "ddlUsers form-control" })
+                                            }
+                                            else
+                                            {
+                                                @Html.HiddenFor(model => Model.BranchDropDown[1].Value, new { id = "BranchID", Name = "BranchID" });
+                                            }
+                                        </td>
+                                        <td width="10%" align="right"><b>Start Date :&nbsp;</b></td>
+                                        <td width="10%">
+                                            @Html.TextBox("StartDate", null, new { @class = "date", @readonly = "readonly", @data_val = "true", @data_val_required = "Start Date is required" })
+                                        </td>
+                                        <td width="10%" align="right"><b>End Date :&nbsp;</b></td>
+                                        <td width="15%">
+                                            @Html.TextBox("EndDate", null, new { @class = "date", @readonly = "readonly", @data_val = "true", @data_val_required = "EndDate is required" })
+                                        </td>
+                                        <td width="30%">
+                                            <input type="submit" class="btn btn-primary cmd "value="EXPORT TO EXCEL" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6">@Html.ValidationSummary()</td>
+                                    </tr>
+                                </table>                                
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ <script type="text/javascript">
+
+     $(document).ready(function () {
+      
+         $('.date').datepicker({
+             //changeMonth: true,
+             //changeYear: true,
+             dateFormat: "dd/mm/yy",
+             autoclose: true,
+             yearRange: "2000:+1000"
+         });
+
+         $.validator.methods.date = function (value, element) {
+             return this.optional(element) || $.datepicker.parseDate('dd/mm/yy', value);
+         }
+     });
+</script>  

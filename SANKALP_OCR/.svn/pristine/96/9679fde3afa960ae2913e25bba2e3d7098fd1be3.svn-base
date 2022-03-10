@@ -1,0 +1,28 @@
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-03-16 12:27:21
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-03-16 12:27:21 ::1 GET / - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 - 200 0 0 15052
+2017-03-16 12:27:21 ::1 GET /Content/css/font-awesome.min.css - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 50
+2017-03-16 12:27:21 ::1 GET /Content/css/smartadmin-rtl.min.css - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 50
+2017-03-16 12:27:21 ::1 GET /Content/css/demo.min.css - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 39
+2017-03-16 12:27:21 ::1 GET /Content/css/custommessage.css - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 46
+2017-03-16 12:27:21 ::1 GET /Content/css/smartadmin-skins.min.css - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 188
+2017-03-16 12:27:21 ::1 GET /Content/css/bootstrap.min.css - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 194
+2017-03-16 12:27:21 ::1 GET /Content/css/smartadmin-production-plugins.min.css - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 197
+2017-03-16 12:27:21 ::1 GET /Scripts/custommessage.js - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 21
+2017-03-16 12:27:21 ::1 GET /Content/css/smartadmin-production.min.css - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 263
+2017-03-16 12:27:21 ::1 GET /Scripts/libs/jquery-2.1.1.min.js - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 14
+2017-03-16 12:27:21 ::1 GET /Scripts/jquery-1.10.2.min.js - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 203
+2017-03-16 12:27:21 ::1 GET /Scripts/app.config.js - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 20
+2017-03-16 12:27:21 ::1 GET /Scripts/bootstrap/bootstrap.min.js - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 7
+2017-03-16 12:27:21 ::1 GET /Scripts/notification/SmartNotification.min.js - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 10
+2017-03-16 12:27:21 ::1 GET /Scripts/plugin/jquery-validate/jquery.validate.min.js - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 13
+2017-03-16 12:27:21 ::1 GET /Scripts/plugin/masked-input/jquery.maskedinput.min.js - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 21
+2017-03-16 12:27:21 ::1 GET /Scripts/app.min.js - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 7
+2017-03-16 12:27:21 ::1 GET /Content/images/IQinvoice_logo.png - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 12
+2017-03-16 12:27:21 ::1 GET /Files/loginpic.jpg - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 9
+2017-03-16 12:27:21 ::1 GET /content/fonts/fontawesome-webfont.woff v=4.2.0 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/Content/css/font-awesome.min.css 200 0 0 31
+2017-03-16 12:27:21 ::1 GET /content/img/mybg.png - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/Content/css/smartadmin-production.min.css 200 0 0 45
+2017-03-16 12:27:22 ::1 GET /Content/img/favicon/favicon.ico - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 41
+2017-03-16 12:27:24 ::1 GET /__browserLink/requestData/1a62e3749f914cbf9bf730c4b129948e version=2 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 62

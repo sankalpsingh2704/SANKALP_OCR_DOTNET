@@ -1,0 +1,82 @@
+body {
+  font: 11px sans-serif;
+}
+.wrapper{
+   #height: 300px;
+   #width: 840px;
+}
+.xaxis{
+    #margin-top: 258px;
+	margin-left: 100px;
+    height: 30px;
+	border-top:1px solid gray;
+	    margin-top: -5px;
+}
+.tick{
+border-right:1px solid gray;
+float: left;
+    height: 5px;
+    #width: 90px;
+}
+.tick p{
+  float: right;
+  margin-top:4px;
+  #height: 30px;
+  #width: 100px;
+}
+.b{
+border :1px solid gray;
+}
+.bar{
+      margin-top: 20px;
+    #width: 690px;
+    height: 38px;
+}
+.yaxis{
+    # height: 250px;
+    width: 100px;
+	border-right:1px solid gray;
+}
+.ytick{
+    height: 63px;
+	
+}
+.ytick p{
+    margin-right: 10px;
+    margin-top: 25px;
+	float: right;
+}
+.bar-container{
+	margin-top:15px;
+    display: inline-flex;
+}
+.subBars{
+	height: 38px;
+	#border :1px solid gray;
+}
+.legends{
+ margin-top: 5px;
+ height:35px;
+ #display:inline;
+ 
+}
+.leg{
+	float:left;
+	display: inline-flex;
+	margin:2px
+}
+.l-box{
+	width:10px;
+	height:10px;	
+ margin: 5px 4px 1px 6px;
+}
+.bar-lable{
+	float:right;
+	color:white;
+	margin-right: 4px;
+	font-size:10px;
+}
+.title{
+font-size:15px;
+padding: 10px;
+}

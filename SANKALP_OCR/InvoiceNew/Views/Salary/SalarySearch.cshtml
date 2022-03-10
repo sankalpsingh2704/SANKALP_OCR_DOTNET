@@ -1,0 +1,649 @@
+﻿@model InvoiceNew.Models.SalarySearchModel
+@{
+    ViewBag.Title = "SalarySearch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/dist/css/datepicker.min.css" rel="stylesheet" />
+<script src="~/Content/dist/js/bootstrap-datepicker.min.js"></script>
+<style>
+    .content-wrapper {
+        height: 100%;
+    }
+
+    #searchCategory {
+    }
+    /*
+    #searchResult th,#searchResult td {
+        width:100px;
+    }*/
+    .dataTables_info {
+        width: 200px;
+        margin-left: 40px;
+    }
+
+    #searchResult_info {
+        margin-left: 0;
+    }
+
+    #searchResult_paginate {
+        float: left;
+    }
+
+    #searchResult_length {
+       /* margin-top: 30px;*/
+    }
+
+    #searchResult_filter {
+        float: left;
+    }
+
+    #searchCategory thead th:nth-child(3) {
+        cursor: pointer;
+    }
+
+    #searchResult th, #searchResult td {
+        width: 120px;
+    }
+
+    .search {
+        float: left;
+        width: 290px;
+        margin-left: 40px;
+    }
+</style>
+<div id="content">
+
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 panel panel-info">
+            <!-- col -->
+            <div class="panel-heading">
+                <h3 class="page-title txt-color-blueDark">
+                    <!-- PAGE HEADER --><i class="fa-fw fa fa-pie-chart"></i> IQ Invoice Salary Search <span>
+
+                    </span>
+                </h3>
+            </div>
+
+
+            <div id="widget-grid" class="panel-body">
+                <!-- row -->
+                <div class="row" id="symaindiv">
+                    <!-- NEW WIDGET START -->
+                    <div class="col-lg-12" style="margin-left:20px;">
+                        <p>
+                            This report provides salary search options of invoices for the duration selected to generate the report.
+                        </p>
+                    </div>
+                    <!-- WIDGET END -->
+                </div>
+                <!-- end row -->
+            </div>
+
+            <div class="col-sm-12 col-md-12" style="background-color:white">
+                <div class="panel panel-info" style="margin-left:10px;margin-right:10px;">
+                    <div class="panel-heading">
+                        <span class="widget-icon"> <i class="fa-lg fa fa-pie-chart"></i></span>
+                        <b>LOCATION WISE SEARCH</b>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-inline" role="form">
+                            <div align="center" id="cmnt">
+                                @using (Html.BeginForm("ExportToExcel", "Report", FormMethod.Post))
+                                {
+                                    <table id="divReport" border="0" width="100%">
+                                        <tr>
+
+                                            <td width="10%" align="right"><b>Location :&nbsp;</b></td>
+
+                                            <td width="20%">
+                                                @Html.DropDownListFor(model => Model.LocationId, new SelectList(Model.LocationList, "Value", "Text", Model.LocationId), new { @class = "ddlUsers form-control" })
+                                                <span style="color:red;display:none;">Can't be empty</span>
+                                            </td>
+                                            <td width="10%" align="right"><b>Month :&nbsp;</b></td>
+                                            <td width="10%">
+                                                @Html.TextBoxFor(m => Model.Month, new { @class = "form-control month", @autocomplete = "off", @data_val = "true", @data_val_required = "Month is required" })
+                                                <span style="color:red;display:none;">Can't be empty</span>
+                                            </td>
+                                            <td width="10%" align="right"><b>Year :&nbsp;</b></td>
+                                            <td width="15%">
+                                                @Html.TextBoxFor(m => Model.Year, new { @class = "form-control year", @autocomplete = "off", @data_val = "true", @data_val_required = "Month is required" })
+                                                <span style="color:red;display:none;">Can't be empty</span>
+                                            </td>
+                                            <td width="30%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6">@Html.ValidationSummary()</td>
+                                        </tr>
+                                    </table>
+
+                                }
+                            </div>
+                            <div class="row">
+                                <table border="0" width="100%" align="center">
+                                    <tr>
+                                        <td align="right" width="10%"><b style="margin-right: 3px;">Search:</b></td>
+                                        <td width="16.8%">
+                                            @Html.DropDownListFor(model => Model.SelectedCategory, new SelectList(Model.SearchList, "Value", "Text"), new { @class = "ddlUsers form-control" })
+                                        </td>
+                                        <td align="right" width="11%"><b style="margin-right: 3px;">Search Value:</b></td>
+                                        <td align="left" style="float:left">
+                                            @Html.TextBoxFor(m => Model.SearchValue, new { @class = "form-control", @data_val = "true", @data_val_required = "Value is required" })
+                                            <span style="color:red;display:none;">Can't be empty</span>
+                                        </td>
+                                        <td align="right" width="11%"><b style="margin-right: 3px;position:relative;right:155px;">TallyComment:</b></td>
+                                        <td align="left" style="float:left;position:relative;right:155px;">
+                                            <input type="text" id="tallycomment" class="form-control" />
+                                            <div style="color:red;display:none;">Can't be empty</div>
+                                        </td>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <table id="searchCategory1" class="search display table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Column</th>
+                    <th><input type="checkbox" id="selectall" class="selectall" />Select All</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < 10; i++)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(x => Model.SearchColumn[i].Sno)</td>
+                        <td>@Html.DisplayFor(x => Model.SearchColumn[i].Search)</td>
+                        <td>@Html.CheckBoxFor(x => Model.SearchColumn[i].CheckBox)</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+        <table id="searchCategory2" class="search display table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Column</th>
+                    <th><input type="checkbox" id="selectall" class="selectall" />Select All</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 10; i < 20; i++)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(x => Model.SearchColumn[i].Sno)</td>
+                        <td>@Html.DisplayFor(x => Model.SearchColumn[i].Search)</td>
+                        <td>@Html.CheckBoxFor(x => Model.SearchColumn[i].CheckBox)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <table id="searchCategory3" class="search display table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Column</th>
+                    <th><input type="checkbox" id="selectall" class="selectall" />Select All</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 20; i < 30; i++)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(x => Model.SearchColumn[i].Sno)</td>
+                        <td>@Html.DisplayFor(x => Model.SearchColumn[i].Search)</td>
+                        <td>@Html.CheckBoxFor(x => Model.SearchColumn[i].CheckBox)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <table id="searchCategory4" class="search display table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Column</th>
+                    <th><input type="checkbox" id="selectall" class="selectall" />Select All</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 30; i < Model.SearchColumn.Count; i++)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(x => Model.SearchColumn[i].Sno)</td>
+                        <td>@Html.DisplayFor(x => Model.SearchColumn[i].Search)</td>
+                        <td>@Html.CheckBoxFor(x => Model.SearchColumn[i].CheckBox)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="row" style="margin-left:30px;">
+        <input type="submit" class="btn btn-primary cmd " id="search" value="Search" />
+        <input type="button" class="btn btn-primary cmd " id="tally" value="Verify And Update" />
+        <input type="button" style="float:right;margin-right: 30px;margin-bottom:20px;" class="btn btn-primary cmd " id="exptoexcel" value="Export Excel" />
+    </div>
+    <div class="row result" style="margin-left:30px;overflow-x:auto;">
+        <table id="searchResult" style="float:left;" class="display table table-bordered table-hover table-striped">
+            <thead>
+                <tr></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //checktally();
+        /*
+        $(window).scroll(function () {
+            var hT = $('#tally').offset().top,
+                hH = $('#tally').outerHeight(),
+                wH = $(window).height(),
+                wS = $(this).scrollTop();
+           
+            if (wS > (hT + hH - wH) && (hT > wS) && (wS + wH > hT + hH)) {
+                //$('h1').addClass('view')
+               
+            } else {
+                
+            }
+        });*/
+        var startDate = new Date();
+        var fechaFin = new Date();
+        var FromEndDate = new Date();
+        var ToEndDate = new Date();
+        if ($("#LocationId").val() == 0) {
+            //console.log("here");
+            $("#tally").prop("disabled", true);
+        }
+        else
+            checktally();
+
+
+
+        $('.month').datepicker({
+            autoclose: true,
+            minViewMode: 1,
+            format: 'mm'
+        }).on('changeDate', function (selected) {
+            startDate = new Date(selected.date.valueOf());
+            startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+            //$('.year').datepicker('setStartDate', startDate);
+            $('.year').val(startDate.getFullYear());
+        });
+
+        $('.year').datepicker({
+            autoclose: true,
+            minViewMode: 2,
+            format: 'yyyy'
+        }).on('changeDate', function (selected) {
+            FromEndDate = new Date(selected.date.valueOf());
+            // FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf()).setMonth(12)));
+            FromEndDate.setMonth(new Date(selected.date.valueOf()).getMonth() + 11)
+            $('.month').datepicker('setEndDate', FromEndDate);
+        });
+
+        $("#searchCategory").find("checkbox").each(function () {
+            if ($(this).prop('checked') == true) {
+                //do something
+                console.log($(this).attr("id"));
+            }
+        });
+        $("#LocationId").on("change", () => {
+
+            
+            if ($("#LocationId").val() == 0) {
+
+                $("#tally").prop("disabled", true);
+            }
+            else
+                checktally();
+
+           
+
+        });
+
+        function checktally() {
+            var LocationId = $("#LocationId").val();
+            var Month = $("#Month").val();
+            var Year = $("#Year").val();
+
+            $.post("CheckTallyExist", {
+
+
+                LocationId,
+                Month,
+                Year
+            }, (data, status) => {
+
+
+                //console.log(data);
+                $("#tally").prop("disabled", data.exist);
+
+            });
+        }
+
+
+    });
+</script>
+<script>
+    /*
+    var t = $('#searchCategory').DataTable({
+        "columnDefs": [{
+            "searchable": false,
+            "orderable": false,
+            "targets": 0,
+            "bLengthChange": false,
+            "bFilter": false,
+
+        },
+        { orderable: false, targets: -1 }
+       ]
+
+    });
+
+    t.on('order.dt search.dt', function () {
+        t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+            cell.innerHTML = i + 1;
+        });
+    }).draw();
+    // thead th:nth-child(3) input
+
+    $("#searchCategory").on("click", "thead th:nth-child(3) input", function () {
+        if ($(this).prop("checked")) {
+            $("#searchCategory input[type=checkbox]").prop("checked", true);
+
+            $('#SearchCategory_CheckBox').prop('checked', true);
+        }
+        else {
+            $('#SearchCategory_CheckBox').prop('checked', false);
+            //$("#searchCategory input[type=checkbox]").prop("checked", false);
+        }
+       // $("#searchCategory input[type=checkbox]").prop("checked",true);
+
+
+    });*/
+    $("#searchCategory1 thead th:nth-child(3) input").click(function () {
+
+        if ($(this).prop("checked")) {
+            $("#searchCategory1 input[type=checkbox]").prop("checked", true);
+
+            //$('#SearchCategory_CheckBox').prop('checked', true);
+        }
+        else {
+            //$('#SearchCategory_CheckBox').prop('checked', false);
+            $("#searchCategory1 input[type=checkbox]").prop("checked", false);
+        }
+
+    });
+    $("#searchCategory2 thead th:nth-child(3) input").click(function () {
+
+        if ($(this).prop("checked")) {
+            $("#searchCategory2 input[type=checkbox]").prop("checked", true);
+
+            //$('#SearchCategory_CheckBox').prop('checked', true);
+        }
+        else {
+            //$('#SearchCategory_CheckBox').prop('checked', false);
+            $("#searchCategory2 input[type=checkbox]").prop("checked", false);
+        }
+
+    });
+    $("#searchCategory3 thead th:nth-child(3) input").click(function () {
+
+        if ($(this).prop("checked")) {
+            $("#searchCategory3 input[type=checkbox]").prop("checked", true);
+
+            //$('#SearchCategory_CheckBox').prop('checked', true);
+        }
+        else {
+            //$('#SearchCategory_CheckBox').prop('checked', false);
+            $("#searchCategory3 input[type=checkbox]").prop("checked", false);
+        }
+
+    });
+    $("#searchCategory4 thead th:nth-child(3) input").click(function () {
+
+        if ($(this).prop("checked")) {
+            $("#searchCategory4 input[type=checkbox]").prop("checked", true);
+
+            //$('#SearchCategory_CheckBox').prop('checked', true);
+        }
+        else {
+            //$('#SearchCategory_CheckBox').prop('checked', false);
+            $("#searchCategory4 input[type=checkbox]").prop("checked", false);
+        }
+
+    });
+
+    $("#search").click(function () {
+        $("#searchResult").hide();
+        var LocationId = $("#LocationId").val();
+        var Month = $("#Month").val();
+        var Year = $("#Year").val();
+        if (LocationId == "") {
+            $("#LocationId + span").css("display", "block");
+            return;
+        }
+        else
+            $("#LocationId + span").css("display", "none");
+        if (Month == "") {
+            $("#Month + span").css("display", "block");
+            return;
+        }
+        else
+            $("#Month + span").css("display", "none");
+        if (Year == "") {
+            $("#Year + span").css("display", "block");
+            return;
+        }
+        else
+            $("#Year + span").css("display", "none");
+        var SelectedCategory = $("#SelectedCategory").val();
+        var SearchValue = $("#SearchValue").val();
+        if (SelectedCategory == "Select Search") {
+            SearchValue = "Select Search";
+
+        }
+        else {
+            if ($("#SearchValue").val() == "") {
+                $("#SearchValue + span").css("display", "block");
+                return;
+            }
+            else {
+                $("#SearchValue + span").css("display", "none");
+            }
+
+        }
+
+        var SearchList = [];
+        $(".search input[type=checkbox]:not('.selectall')").each(function (idx, item) {
+            if ($(item).prop("checked"))
+                SearchList.push($(item).parent().prev().html());
+        });
+        console.log(SearchList.length);
+        if (SearchList.length == 0) {
+            $(".search input[type=checkbox]:not('.selectall')").each(function (idx, item) {
+                SearchList.push($(item).parent().prev().html());
+            });
+        }
+        $.post("ExcelQuery", {
+            Model: {
+                LocationId,
+                Month,
+                Year,
+                SearchList,
+                SelectedCategory,
+                SearchValue
+            }
+        }, function (data, status) {
+
+            if ($.fn.DataTable.isDataTable("#searchResult")) {
+                $('#searchResult').DataTable().clear().destroy();
+            }
+            $("#searchResult > thead > tr").empty();
+            $("#searchResult > tbody").empty();
+            console.log(data);
+
+
+
+            if (data.rowList.length == 0) {
+                var nodata = "<th>No Data</th>";
+                $("#searchResult > thead > tr").append(nodata);
+                swal({ title: "OOOPS !", text: "No Data Found !", type: "error" });
+            }
+            else {
+                
+              
+
+
+                    var th = data.rowList[0].map((x, idx) => "<th>" + x + "</th>");
+                    var width = th.length * 120;
+                    $("#searchResult").css({ width });
+                    //var filter = width - 140;
+                    //console.log(filter);
+                    var tbody = data.rowList.map((x, idx) => {
+                        var row = "<tr>";
+
+                        if (idx != 0) {
+                            row += x.map((y, id) => "<td>" + y + "</td>").join("");
+                        }
+                        else {
+                            return "";
+                        }
+                        row += "</tr>";
+                        return row;
+
+                    });
+                    tbody.shift();
+
+                    $("#searchResult > thead > tr").append(th.join(""));
+                    $("#searchResult > tbody").append(tbody.join(""));
+                    var t = $('#searchResult').DataTable({
+                        "columnDefs": [{
+                            "searchable": false,
+                            "orderable": false,
+                            "targets": 0,
+                            "bLengthChange": false,
+                            "bFilter": false,
+
+                        }
+                        ]
+
+                    }).draw();
+                    $("#searchResult_filter").css({ width: width - 140 });
+                    $("#searchResult_paginate").css({ width: width - 180 });
+
+                    $("#searchResult").fadeIn(2000);
+                
+             
+            }
+            /*
+            t.on('order.dt search.dt', function () {
+                t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+            */
+
+        });
+
+
+    
+
+    });
+    $("#tally").on("click", ()=> {
+        var LocationId = $("#LocationId").val();
+        var Month = $("#Month").val();
+        var Year = $("#Year").val();
+        var TallyComment = $("#tallycomment").val();
+        console.log(TallyComment);
+        if (TallyComment == "")
+        {
+            $("#tallycomment + div").show();
+            return;
+        }
+        else {
+            $("#tallycomment + div").hide();
+        }
+        $.post("TallySalUpdate", {
+
+                LocationId,
+                Month,
+                Year,
+                TallyComment
+            
+
+        }, (data, status) => {
+            console.log(data.res);
+            if (data.res == true)
+                swal({ title: "Success !", text: " Successfully Uploaded to ERP !", type: "success" });
+            else
+                swal({ title: "OOOPS !", text: data.res , type: "error" });
+
+
+        });
+
+
+    });
+    $("#exptoexcel").click(function () {
+
+        var LocationId = $("#LocationId").val();
+        var Month = $("#Month").val();
+        var Year = $("#Year").val();
+        var SelectedCategory = $("#SelectedCategory").val();
+        var SearchValue = $("#SearchValue").val();
+        if (SelectedCategory == "Select Search") {
+            SearchValue = "Select Search";
+
+        }
+        var SearchList = [];
+        $(".search input[type=checkbox]:not('.selectall')").each(function (idx, item) {
+            if ($(item).prop("checked"))
+                SearchList.push($(item).parent().prev().html());
+        });
+
+        if (SearchList.length == 0) {
+            $(".search input[type=checkbox]:not('.selectall')").each(function (idx, item) {
+                SearchList.push($(item).parent().prev().html());
+            });
+        }
+
+        var Model = {
+            LocationId,
+            Month,
+            Year,
+            SearchList,
+            SelectedCategory,
+            SearchValue
+        }
+        window.location.href = "ExportExcel?Model=" + JSON.stringify(Model);
+        /*
+        $.get("ExportExcel?Model="+JSON.stringify(Model), {
+
+        }, function (data, status) {
+
+            //console.log(data);
+
+        });*/
+
+
+
+    });
+
+
+
+</script>
+

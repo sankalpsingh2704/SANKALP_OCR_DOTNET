@@ -1,0 +1,131 @@
+--------------------------------------
+Timestamp: 17-05-2017 14:32:40 Message: Cannot redirect after HTTP headers have been sent. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:19:46 Message: Cannot redirect after HTTP headers have been sent. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:20:09 Message: InvoiceController/GetFile 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:20:09 Message: Could not find file 'D:\IQInvoiceSvn\trunk\InvoiceNew\Invoice'. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:21:25 Message: InvoiceController/GetFile 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:21:25 Message: Could not find file 'D:\IQInvoiceSvn\trunk\InvoiceNew\Invoice'. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:21:28 Message: InvoiceController/GetFile 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:21:28 Message: Could not find file 'D:\IQInvoiceSvn\trunk\InvoiceNew\Invoice'. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:21:31 Message: InvoiceController/GetFile 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:21:31 Message: Could not find file 'D:\IQInvoiceSvn\trunk\InvoiceNew\Invoice'. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:21:35 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:21:47 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:21:47 Message: <INVOICE>
+<VENDOR></VENDOR>
+<INVOICENO></INVOICENO>
+<INVOICEDATE></INVOICEDATE>
+<PAN></PAN>
+<PO></PO>
+<AMOUNT></AMOUNT>
+<COMPANYVATTIN></COMPANYVATTIN>
+<COMPANYCSTNO></COMPANYCSTNO>
+<BUYERVATTIN></BUYERVATTIN>
+<BUYERCSTNO></BUYERCSTNO>
+<ADDRESS></ADDRESS>
+<PO_DATE></PO_DATE>
+<VAT></VAT>
+<CST></CST>
+<SERVICE_TAX></SERVICE_TAX>
+<SOURCEFILE>D:\IQInvoiceSvn\trunk\InvoiceNew\Files\Temp\1df7b3b6-ab89-4aea-95cb-573c51767682\Invoice_Bizerba.pdf</SOURCEFILE>
+<ERRORMSG></ERRORMSG>
+<ITEMS> 
+</ITEMS>
+ </INVOICE> 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:21:47 Message: InvoiceController/ReadXMLInvoice 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:21:47 Message: 'D:/IQInvoiceSvn/trunk/InvoiceNew/Files/Temp/1df7b3b6-ab89-4aea-95cb-573c51767682/Invoice_Bizerba.pdf' is a physical path, but a virtual path was expected. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:24:06 Message: InvoiceController/UpdateDebitData 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:24:06 Message: Input string was not in a correct format. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:37:21 Message: InvoiceController/GetFile 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 15:37:21 Message: Could not find file 'D:\IQInvoiceSvn\trunk\InvoiceNew\Invoice'. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 16:41:06 Message: MyInvoiceController/GetFile 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 16:41:06 Message: Could not find a part of the path 'C:\Program Files (x86)\IIS Express\~\Files\Temp\1df7b3b6-ab89-4aea-95cb-573c51767682\Invoice_Bizerba.pdf'. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 17:44:56 Message: Cannot redirect after HTTP headers have been sent. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 17:47:29 Message: InvoiceController/PopulateUsers 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 17:47:29 Message: 'D:/InvoiceNew/InvoiceNew/Files/Temp/548071f1-f8c1-47af-9ca8-eabfffc02f19/invoice_copy.pdf' is a physical path, but a virtual path was expected. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 17:50:19 Message: InvoiceController/PopulateUsers 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 17:50:19 Message: 'D:/InvoiceNew/InvoiceNew/Files/Temp/548071f1-f8c1-47af-9ca8-eabfffc02f19/invoice_copy.pdf' is a physical path, but a virtual path was expected. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 17:50:34 Message: MyInvoiceController/GetFile 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 17:50:34 Message: Could not find a part of the path 'C:\Program Files (x86)\IIS Express\~\Files\Temp\1df7b3b6-ab89-4aea-95cb-573c51767682\Invoice_Bizerba.pdf'. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 17:51:17 Message: MyInvoiceController/GetFile 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 17:51:17 Message: Could not find a part of the path 'C:\Program Files (x86)\IIS Express\~\Files\Temp\1df7b3b6-ab89-4aea-95cb-573c51767682\Invoice_Bizerba.pdf'. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 17:51:20 Message: MyInvoiceController/GetFile 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 17:51:20 Message: Could not find a part of the path 'C:\Program Files (x86)\IIS Express\~\Files\Temp\1df7b3b6-ab89-4aea-95cb-573c51767682\Invoice_Bizerba.pdf'. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 17:51:37 Message: InvoiceController/PopulateUsers 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 17:51:37 Message: 'D:/InvoiceNew/InvoiceNew/Files/Temp/548071f1-f8c1-47af-9ca8-eabfffc02f19/invoice_copy.pdf' is a physical path, but a virtual path was expected. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 17:51:58 Message: MyInvoiceController/GetFile 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 17:51:58 Message: Could not find a part of the path 'C:\Program Files (x86)\IIS Express\~\Files\Temp\1df7b3b6-ab89-4aea-95cb-573c51767682\Invoice_Bizerba.pdf'. 
+--------------------------------------
+--------------------------------------
+Timestamp: 17-05-2017 17:54:57 Message: Cannot redirect after HTTP headers have been sent. 
+--------------------------------------

@@ -1,0 +1,432 @@
+﻿@model  InvoiceNew.Models.PurchaseOrderModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+ 
+
+<div id="content">
+    <!-- PAGE HEADER -->
+    <div class="panel-heading">
+    <h4><b>PURCHASE ORDER</b></h4>
+    </div>
+
+    <div class="panel-body">
+
+
+        @using (Html.BeginForm("Submit", "PurchaseOrder", FormMethod.Post, new { @class = "smart-form client-form", enctype = "multipart/form-data" }))
+        {
+                <!-- /.col-lg-4 -->
+            <div class="col-lg-8">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h5><b>&nbsp;ADD PURCHASE ORDER</b></h5>
+                    </div>
+                    <div class="panel-body">
+                        <fieldset>
+                            <div class="row">
+                                <section class="col col-lg-4">
+                                    <b>PO Number</b>
+                                </section>
+                                <section class="col col-lg-4">
+                                    <b>PO Amount</b>
+                                </section>
+                            </div>
+                            <div class="row">
+                                <section class="col col-lg-4">
+                                    <label class="input">
+                                        @Html.TextBoxFor(e => e.PONumber, new { placeholder = "PO Order" })
+                                        @Html.ValidationMessageFor(e => e.PONumber)
+                                    </label>
+                                </section>
+                                <section class="col col-lg-4">
+                                    <label class="input">
+                                        @Html.TextBoxFor(e => e.POAmount, new { placeholder = "PO Amount" })
+                                        @Html.ValidationMessageFor(e => e.POAmount)
+                                    </label>
+                                </section>
+
+                            </div>
+
+                            <div class="row">
+                                <section class="col col-lg-4">
+                                    <b>PO Date</b>
+                                </section>
+                                <section class="col col-lg-4">
+                                    <b>PO File</b>
+                                </section>
+                            </div>
+                            <div class="row">
+                                <section class="col col-lg-4">
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.PODate, new { placeholder = "PO Date", @class = "input form-control date" })
+                                        @Html.ValidationMessageFor(m => m.PODate)
+                                    </label>
+                                </section>
+                                <section class="col col-lg-4">
+                                    <label class="input">
+                                        <i class="icon-prepend fa fa-file"></i>
+                                        <input type="file" name="file" id="file" />
+                                    </label>
+                                </section>
+                            </div>
+                            <div class="row">
+                                <section class="col col-lg-4">
+                                    <input type="submit" value="SUBMIT" class="btn btn-primary pull-left" />
+                                </section>
+                                <section class="col col-lg-4"></section>
+                            </div>
+                        </fieldset>
+                        @Html.HiddenFor(e => e.POID)
+                    </div>
+                </div>
+            </div>
+                <!-- /.col-lg-4 -->
+
+        }
+    </div>
+
+
+        <div class="panel-body">
+            <section id="widget-grid" class="">
+                <!-- row -->
+                <div class="row" id="symaindiv">
+
+                    <!-- NEW WIDGET START -->
+                        <div id="tblPurchaseDetails">
+                            <div class="table-responsive">
+                                <table class="display table table-bordered table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <td><b>PO Number</b></td>
+                                            <td><b> PO Date</b></td>
+                                            <td><b>PO File</b></td>
+                                            <td><b>PO Amount</b></td>
+                                            <td><b>Action</b></td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="divPurchaseOrder"></tbody>
+                                </table>
+                                </div>
+                            </div>
+                        <br>
+                        @*<a href="javascript:void(0)" id="m1">Get Selected id's</a>
+                            <br>
+                            <a href="javascript:void(0)" id="m1s">Select(Unselect) row 13</a>*@
+                    <!-- WIDGET END -->
+                </div>
+                <!-- end row -->
+            </section>
+        </div>
+    </div>
+<style type="text/css">
+    .ui-jqgrid tr.jqgrow td.wrap {
+        white-space: normal !important;
+        height: auto;
+        padding-top: 2px;
+        word-wrap: break-word;
+    }
+
+    .ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+        height: auto;
+        vertical-align: text-top;
+        padding-top: 2px;
+        word-wrap: break-word;
+    }
+</style>
+
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+
+    <script src="~/Scripts/plugin/jquery-validate/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/plugin/jquery-validate/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jQuery.print.js"></script>
+    @*<script data-pace-options='{ "restartOnRequestAfter": true }' src="~/Scripts/plugin/pace/pace.min.js"></script>*@
+
+    <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
+    @*<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>*@
+    <script>
+        if (!window.jQuery) {
+            document.write('<script src="js/libs/jquery-2.1.1.min.js"><\/script>');
+        }
+    </script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script>
+        if (!window.jQuery.ui) {
+            document.write('<script src="js/libs/jquery-ui-1.10.3.min.js"><\/script>');
+        }
+    </script>
+
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
+    <!-- Basic Styles -->
+    <link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/dist/css/font-awesome.min.css" rel="stylesheet" />
+
+
+    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link href="~/Content/dist/css/smartadmin-production-plugins.min.css" rel="stylesheet" />
+
+    <link href="~/Content/dist/css/smartadmin-production.min.css" rel="stylesheet" />
+
+    <link href="~/Content/dist/css/smartadmin-skins.min.css" rel="stylesheet" />
+    <link href="~/Content/dist/css/smartadmin-rtl.min.css" rel="stylesheet" />
+
+
+    <link href="~/Content/css/demo.min.css" rel="stylesheet" />
+
+
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
+
+    <!-- GOOGLE FONT -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+
+    <!-- Specifying a Webpage Icon for Web Clip
+         Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
+    <!-- IMPORTANT: APP CONFIG -->
+    <script src="~/Scripts/app.config.js"></script>
+
+
+    <!-- JS TOUCH : include this plugin for mobile drag / drop touch events-->
+    <script src="~/Scripts/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script>
+
+    <!-- BOOTSTRAP JS -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+
+    <!-- CUSTOM NOTIFICATION -->
+    <script src="~/Scripts/notification/SmartNotification.min.js"></script>
+
+    <!-- JARVIS WIDGETS -->
+    <script src="~/Scripts/smartwidgets/jarvis.widget.min.js"></script>
+
+
+    <!-- EASY PIE CHARTS -->
+    <script src="~/Scripts/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js"></script>
+
+
+    <!-- SPARKLINES -->
+    <script src="~/Scripts/plugin/sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- JQUERY VALIDATE -->
+    <script src="~/Scripts/plugin/jquery-validate/jquery.validate.min.js"></script>
+
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <!-- JQUERY MASKED INPUT -->
+    <script src="~/Scripts/plugin/masked-input/jquery.maskedinput.min.js"></script>
+
+    <!-- JQUERY SELECT2 INPUT -->
+    <script src="~/Scripts/plugin/select2/select2.min.js"></script>
+
+    <!-- JQUERY UI + Bootstrap Slider -->
+    <script src="~/Scripts/plugin/bootstrap-slider/bootstrap-slider.min.js"></script>
+
+    <!-- browser msie issue fix -->
+    <script src="~/Scripts/plugin/msie-fix/jquery.mb.browser.min.js"></script>
+
+    <!-- FastClick: For mobile devices -->
+    <script src="~/Scripts/plugin/fastclick/fastclick.min.js"></script>
+
+
+    @*<script src="~/Scripts/demo.min.js"></script>*@
+
+    <!-- MAIN APP JS FILE -->
+    <script src="~/Scripts/app.min.js"></script>
+    <script>
+        var FromEndDate = new Date();
+        $(".date").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "mm/dd/yy",
+            endDate: FromEndDate
+
+        });
+
+        $(document).ready(function () {
+
+
+            //$(".breadcrumb li:contains('Home')").remove();
+            //$(".breadcrumb li:contains('Reports')").remove();
+            //$(".breadcrumb li:contains('Administration')").remove();
+
+            //$('.breadcrumb').prepend('<li>Vendors</li>');
+            //$('.breadcrumb').prepend('<li>Home</li>');
+            $("#divPurchaseOrder").empty();
+            $.ajax({
+                type: "GET",
+                url: '/PurchaseOrder/GetPurchaseDetails/',
+                global:false,
+                success: function (jsondata) {
+
+                    $.each(jsondata, function (k, v) {
+                        var elements = "<tr><td><label id='POID" + v.POID + "' class='edit-mode'>" + v.PONumber + "</label></td><td >" + ToJavaScriptDate(v.PODate) + " </td><td><span class='display-mode'>";
+                        if (v.POFileName != null)
+                        {
+                            var id = v.POID;
+                            elements += "<a href='/PurchaseOrder/DownloadFile/" + id + "'>" + v.POFileName + "</a>";
+                          
+                            @*<a href="@Url.Action("Details", "Mycontr", new {id =16}, Request.Url.Scheme)">*@
+                        }
+                        elements += "    </span></td><td id=labeltd" + v.POID + ">" + v.POAmount + " </td><td style='display:none' id='editTd" + v.POID + "'><input type='text' style='display:none' value='" + v.POAmount + "' id='inputamount" + v.POID + "'/></td><td><a href='#' id='addcontractbtn" + v.POID + "' onclick='editDetails(" + v.POID + ")' class='btn btn-primary button2'>EDIT</a><a href='#' id='updatecontractbtn" + v.POID + "' style='display:none' onclick='UpdateDetails(" + v.POID + ")' class='btn btn-primary button2'>UPDATE</a>&nbsp;<a href='#' id='Cancel" + v.POID + "' style='display:none' onclick='Cancel(" + v.POID + ")' class='btn btn-default button2'>CANCEL</a>&nbsp;<a href='#' id='DeletePO' onclick='DeletePO(" + v.POID + ")' class='btn btn-default button2'>DELETE</a></td></tr>"
+                        $("#divPurchaseOrder").append(elements);
+
+                            });
+
+
+
+                        },
+                        error: function (xhr, st, et) { alert(xhr.responseText); }
+                    });
+                });
+
+            function ToJavaScriptDate(value) {
+                var pattern = /Date\(([^)]+)\)/;
+                var results = pattern.exec(value);
+                var dt = new Date(parseFloat(results[1]));
+                return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
+            }
+
+
+            function DeletePO(id) {
+
+                $.ajax({
+                    type: "post",
+                    async: false,
+                    url: '/PurchaseOrder/DeletePO/',
+                    data: { "poid": id },
+                    success: function (jsondata) {
+
+
+                        $("#divPurchaseOrder").empty();
+                        $.ajax({
+                            type: "post",
+                            url: '/PurchaseOrder/GetPurchaseDetails/',
+
+                            success: function (jsondata) {
+
+
+                                $.each(jsondata, function (k, v) {
+                                    var elements = "<tr><td><label id='POID" + v.POID + "' class='edit-mode'>" + v.PONumber + "</label></td><td >" + ToJavaScriptDate(v.PODate) + " </td><td><span class='display-mode'>";
+                                    if (v.POFileName != null) {
+                                        elements += "<a href='/PurchaseOrder/DownloadFile/" + v.POID + "'>" + v.POFileName + "</a>";
+                                    }
+                                    elements += "    </span></td><td id=labeltd" + v.POID + ">" + v.POAmount + " </td><td style='display:none' id='editTd" + v.POID + "'><input type='text' style='display:none' value='" + v.POAmount + "' id='inputamount" + v.POID + "'/></td><td><a href='#' id='addcontractbtn" + v.POID + "' onclick='editDetails(" + v.POID + ")' class='btn btn-primary button2'>EDIT</a><a href='#' id='updatecontractbtn" + v.POID + "' style='display:none' onclick='UpdateDetails(" + v.POID + ")' class='btn btn-primary button2'>UPDATE</a>&nbsp;<a href='#' id='Cancel" + v.POID + "' style='display:none' onclick='Cancel(" + v.POID + ")' class='btn btn-default button2'>CANCEL</a>&nbsp;<a href='#' id='DeletePO' onclick='DeletePO(" + v.POID + ")' class='btn btn-default button2'>DELETE</a></td></tr>"
+                                    $("#divPurchaseOrder").append(elements);
+                                });
+
+
+
+
+                            },
+                            error: function (xhr, st, et) { alert(xhr.responseText); }
+                        });
+                    },
+                    error: function (xhr, st, et) { alert(xhr.responseText); }
+                });
+            }
+
+            function Cancel(id) {
+                prvamt = $("#labeltd" + id + "").text();
+
+                $("#labeltd" + id + "").show();
+                $("#inputamount" + id + "").hide();
+                $("#editTd" + id + "").hide();
+                $("#addcontractbtn" + id + "").show();
+                $("#Cancel" + id + "").hide();
+                $("#updatecontractbtn" + id + "").hide();
+            }
+
+            function editDetails(id) {
+
+                prvamt = $("#labeltd" + id + "").text();
+                $("#Cancel" + id + "").show();
+                $("#labeltd" + id + "").hide();
+                $("#inputamount" + id + "").show();
+                $("#editTd" + id + "").show();
+                $("#addcontractbtn" + id + "").hide();
+
+                $("#updatecontractbtn" + id + "").show();
+            }
+
+
+            function UpdateDetails(id) {
+                var stramt = 0;
+                stramt = $("#inputamount" + id + "").val()
+                if (stramt == "") {
+                    stramt = "null";
+                }
+
+                if (stramt == "null" || stramt == "0") {
+                    alert('Enter Correct Amount');
+                    return false;
+                }
+                else {
+
+
+                    $("#btnAdd").hide();
+                    if (isNaN(stramt)) {
+                        alert("Enter Number");
+                        return false;
+                    }
+                    else {
+
+                        $("#btnAdd").show();
+                        if (isNaN(stramt)) {
+                            alert("Enter Number");
+                            return false;
+                        }
+                        else {
+                            $.ajax({
+                                type: "post",
+                                url: '/PurchaseOrder/UpdatePO/',
+                                data: { "poid": id, "amount": stramt },
+                                success: function (jsondata) {
+
+                                    var rowKey = $('#hdnId').val();
+
+                                    $("#divPurchaseOrder").empty();
+                                    $.ajax({
+                                        type: "post", async: false,
+                                        url: '/PurchaseOrder/GetPurchaseDetails/',
+                                        data: { invoiceno: rowKey },
+                                        success: function (jsondata) {
+                                            if (jsondata.success < 1) {
+                                                return;
+                                            }
+
+                                            $.each(jsondata, function (k, v) {
+
+                                                var elements = "<tr><td><label id='POID" + v.POID + "' class='edit-mode'>" + v.PONumber + "</label></td><td >" + ToJavaScriptDate(v.PODate) + " </td><td><span class='display-mode'>";
+                                                if (v.POFileName != null) {
+                                                    elements += "<a href='/PurchaseOrder/DownloadFile/" + v.POID + "'>" + v.POFileName + "</a>";
+                                                }
+                                                elements += "    </span></td><td id=labeltd" + v.POID + ">" + v.POAmount + " </td><td style='display:none' id='editTd" + v.POID + "'><input type='text' style='display:none' value='" + v.POAmount + "' id='inputamount" + v.POID + "'/></td><td><a href='#' id='addcontractbtn" + v.POID + "' onclick='editDetails(" + v.POID + ")' class='btn btn-primary button2'>EDIT</a><a href='#' id='updatecontractbtn" + v.POID + "' style='display:none' onclick='UpdateDetails(" + v.POID + ")' class='btn btn-primary button2'>UPDATE</a>&nbsp<a href='#' id='DeletePO' onclick='DeletePO(" + v.POID + ")' class='btn btn-default button2'>DELETE</a></td></tr>"
+                                                $("#divPurchaseOrder").append(elements);
+                                            });
+
+
+                                        },
+                                        error: function (xhr, st, et) { alert("Some error Occurred"); }
+                                    });
+                                },
+                                error: function (xhr, st, et) { alert("Some error Occurred"); }
+                            });
+                        }
+                    }
+                }
+
+
+            }
+
+
+    </script>
+
+
+

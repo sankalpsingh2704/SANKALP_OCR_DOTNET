@@ -1,0 +1,5 @@
+    height: 600px;
+    width: 125px;
+    float: left;
+    display: block;
+    overflow-y: scroll;

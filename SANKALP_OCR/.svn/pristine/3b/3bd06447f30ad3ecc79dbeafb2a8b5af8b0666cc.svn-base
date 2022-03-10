@@ -1,0 +1,257 @@
+﻿@model  IList<InvoiceNew.Models.InvoiceModel>
+@{
+    ViewBag.Title = "MyInvoices";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>*@
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4><b>MY INVOICES</b></h4>
+                </div>
+                <div class="panel-body">
+                    <input type="button" id="btnExport" value="EXPORT TO EXCEL" class="btn btn-primary pull-right" />
+                </div>
+                @*<div class="col-md-2 col-md-offset-10 pull-right">
+
+                    </div>*@
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                   @* <div><input type="button" id="btnExport" value="Export To Excel" class="btn btn-primary" /></div>*@
+
+                    <div class="table-responsive">
+                        <table id="myInvoices" class="display table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Document Type</th>
+                                    @if (ViewBag.GRN == "Enabled")
+                                    {
+                                        <th>GRN NO</th>
+                                    }
+                                    <th>Gate Entry Number</th>
+                                    <th> Vendor </th>
+                                    <th> Invoice No </th>
+                                    <th> Amount</th>
+                                    <th> PO</th>
+                                    <th> PAN</th>
+                                    <th> Invoice Date</th>
+                                    <th> Invoice Due Date</th>
+                                    <th> Invoice Received Date</th>
+                                    <th> Currently With</th>
+                                    <th> Status</th>
+                                    
+                                    @if (true)
+                                    {
+                                        <th class="nosort">Date Of Payment</th>
+                                    }
+                                                                       
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var m in Model)
+                                {
+                                    <tr class="invoiceinfo">
+                                        <td></td>
+                                        <td>@Html.DisplayFor(model => @m.SelectedType)</td>
+                                        @if(ViewBag.GRN == "Enabled")
+                                        {
+                                            if (@m.GRNNO.ToString() != "0")
+                                            {
+                                                <td>@Html.DisplayFor(model=> @m.GRNNO)</td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+                                        }
+                                        
+                                        <td>@Html.DisplayFor(model => @m.GateEntryNumber) </td>
+                                        <td class="InvoiceID">
+                                            @Html.HiddenFor(model => @m.InvoiceID)
+                                            @Html.DisplayFor(model => @m.VendorName)
+                                        </td>
+                                        <td>@Html.DisplayFor(model => @m.InvoiceNumber) </td>
+                                        <td>@Html.DisplayFor(model => @m.InvoiceAmount)</td>
+                                        <td>@Html.DisplayFor(model => @m.PONumber)</td>
+                                        <td>@Html.DisplayFor(model => @m.PANNumber)</td>
+                                        <td>@Html.DisplayFor(model => @m.InvoiceDate)</td>
+                                        <td>@Html.DisplayFor(model => @m.InvoiceDueDate)</td>
+                                        <td>@Html.DisplayFor(model => @m.InvoiceReceiveddate)</td>
+
+                                        <td>@Html.DisplayFor(model => @m.CurrentUserName)</td>
+                                        <td>@Html.DisplayFor(model => @m.CurrentStatus)</td>
+                                        <!--<td>some</td>-->
+                                        @if (true)
+                                        {
+                                            if (@m.CurrentStatus.ToString().ToLower() == ("pending for payment").ToLower() && @m.status == "display")
+                                            {
+                                                <td>@Html.TextBoxFor(model => @m.DateOfPayment, new { @class = "date", @id = "DateOfPayment" + @m.InvoiceID })</td>
+                                            }
+                                            else
+                                            {
+                                                <td>@Html.DisplayFor(model => @m.DateOfPayment)</td>
+                                            }
+                                       }
+                                                                               
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="panel-body pull-right">
+                        <h3><button id="update" class="text-right btn btn-success"> UPDATE </button></h3>
+                    </div>
+                    @*<div class=" col-md-2 col-md-offset-10 pull-right">
+                            <h3><a class="text-right" href="@Url.Action("Index", "Dashboard" )"><i class="fa fa-backward"></i> Hide </a></h3>
+                        </div>*@
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+
+<script>
+    $(document).ready(function () {
+
+        jQuery.browser = {};
+        (function () {
+            jQuery.browser.msie = false;
+            jQuery.browser.version = 0;
+            if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+                jQuery.browser.msie = true;
+                jQuery.browser.version = RegExp.$1;
+            }
+        })();
+
+        ///#myInvoices tr td
+
+        $("#update").on("click", function () {
+            var array = [];
+            $("#myInvoices tr > td .hasDatepicker").each(function (index, element) {
+                var id = $(element).attr("id").toString().substr(13);
+                //console.log($(element).attr("id").toString().substr(13));
+                if ($(element).val() !== "")
+                {
+                    var upobj = { Date: $(element).val(), Id: id };
+                    array.push(upobj);
+                }
+                //console.log(array);
+                //array.push($(element).val());
+
+            });
+            if (array.length !== 0) {
+                $.post("/myinvoice/SavePaymentDate/",
+                  { data: array }, function (data, status) {
+                      //console.log(data);
+                      if (data.success == 1) {
+                          window.location.assign("/Dashboard/Index");
+                      }
+                  });
+            }
+
+            });
+
+
+        $(".date").each(function (e) {
+
+   
+        $('.date').datepicker({
+            //changeMonth: true,
+            //changeYear: true,
+            //dateFormat: "mm/dd/yy",
+            dateFormat: "dd/mm/yy",
+            autoclose: true,
+            yearRange: "2000:+1000"
+        });
+        });
+        var t = $('#myInvoices').DataTable({
+
+            "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": 0
+            }],
+
+        });
+
+        /*
+        $('#myInvoices tbody').on('blur', 'tr td input', function () {
+            //  $('#myInvoices input').blur(function () {
+            /// alert("DFdf");
+            var Id = $(this).parents("tr").find('input[id$=_InvoiceID]').val();
+            //var date = $(this).find('input[id$=_DateOfPayment]').val();
+            //  var Id = $(this).parents("tr").find("td .InvoiceID'").val()
+            var date = $(this).val();
+            $.ajax({
+                type: "post",
+                async: false,
+                url: '/myinvoice/SavePaymentDate/',
+                data: { ID: Id, date: date },
+                global: false,
+                success: function (jsondata) {
+                    if (jsondata.success < 1) {
+                        return;
+                    }
+                },
+                error: function (xhr, st, et) { alert(xhr.responseText); }
+            })
+
+        });
+        */
+        t.on('order.dt search.dt', function () {
+            t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        }).draw();
+
+
+        $('#btnExport').click(function () {
+
+            window.location = '/OrderItems/ExportToExcelGST';
+
+        });
+
+        $('#myInvoices tbody').on('dblclick', 'tr', function () {
+            //var rowIndex = $(this).find('td').first().val();
+            var rowId = $(this).find('input[id$=_InvoiceID]').val();
+
+            var url = "/MyInvoice/MyInvoiceView?id=" + rowId;
+            window.location.href = url;
+        });
+    });
+
+</script>
+@*
+          @if (Convert.ToBoolean(Session["IsPaymentApproval"]) == true)
+     {
+         if (@m.CurrentStatus.ToString().ToLower() == ("pending for payment").ToLower())
+         {
+             <td>@Html.TextBoxFor(model => @m.DateOfPayment, new { @class = "date", @id = "DateOfPayment" + @m.InvoiceID })</td>
+         }
+         else
+         {
+             <td>@Html.DisplayFor(model => @m.DateOfPayment)</td>
+         }
+    }
+     @*
+         <td>@Html.ActionLink("Edit", "Edit", new { id = @m.ID })</td>*@
+
+ @*
+         @if (Convert.ToBoolean(Session["IsPaymentApproval"]) == true)
+        {
+            <th class="nosort">Date Of Payment</th>
+        }
+                                                                        *@
+

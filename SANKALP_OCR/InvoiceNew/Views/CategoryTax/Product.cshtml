@@ -1,0 +1,505 @@
+﻿
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .jumbotron {
+        background: white;
+        color: black;
+    }
+
+    .jumbotron h2 {
+        width: 400px;
+        margin: 0 auto;
+    }
+
+    tbody {
+        background: white;
+    }
+
+    .wrapper-two {
+        margin: 20px;
+    }
+    .category-ref td {
+        width: 200px;
+    }
+
+    input[type=text] {
+        height: 30px;
+    }
+    .search-area{
+        margin-left:30px;
+    }
+    .affix{
+       bottom: 2px;
+        right: 125px;
+        opacity: 0.8;
+        height: 50px;
+        background: #FBFBFB;
+        padding-left: 10px;
+        padding-right: 10px;
+        border: 1px solid #e1dada;
+        border-radius: 10px;
+        width: 1150px
+    }
+    .pagedrp{
+        float: left;
+        width: 100px;
+        line-height: 55px;
+    }
+    .pagination{
+                position: relative;
+                bottom: 10px;
+                width: 430px;
+                float: left;
+                left: 250px;
+    }
+    #pre{
+        float: left;
+        position: relative;
+        top: 13px;
+        line-height: 20px;
+    }
+    #next{
+        float: left;
+        position: relative;
+        top: 13px;
+        float:right;
+    }
+    
+</style>
+<script>
+
+    $(function () {
+        $("#search").on("click", function () {
+            var searchtext = $("#searchbox").val();
+            var column = $("#column :selected").val();
+            $.get("getProductSearch?content=" + searchtext + "&col=" + column, function (data, status) {
+                console.log(data);
+                $(".category-ref").empty();
+                data.ProductList.forEach(function (dat, idx) {
+                    //console.log(data);
+                    /*
+                    var option = "";
+                    if (data.IsActive == true)
+                    {
+                        option = "<option selected='selected' value='true'>True</option><option value='false'>False</option>";
+                    }
+                    <select class='form-control' id='isactive"+idx+"'>"+option+"</select>
+                    else {
+                        option = "<option value='true'>True</option><option selected='selected' value='false'>False</option>";
+                    }*/
+
+                    var enabled = "Disabled";
+                    //<select multiple='multiple' class='selectedtax'></select>
+                    if (dat.IsActive == true) {
+                        enabled = "Enabled";
+                    }
+
+                    var index = data.CategoryList.findIndex(x => x.CategoryID == dat.CategoryId);
+                    console.log("Name:" + data.CategoryList[index].Name);
+
+                    $(".category-ref").append("<tr id='" + idx + "'><td>" + dat.HSNCode + "</td><td>" + dat.ItemName + "</td><td>" + dat.ItemDescription + "</td><td>" + dat.UOM + "</td><td>" + dat.Price + "</td><td>" + dat.SGST + "</td><td>" + dat.CGST + "</td><td>" + dat.IGST + "</td><td>" + enabled + "</td><td>" + data.CategoryList[index].Name + "</td><td><input id='btn" + idx + "' type='button' value='Edit' rel='" + dat.ProductId + "' class='btn btn-primary upd'  /></td></tr>");
+                });
+                options = data.CategoryList.map(function (x, i) {
+
+                    return "<option value='" + x.CategoryID + "' >" + x.Name + "</option>";
+                }).join("");
+                CategoryList = data.CategoryList;
+            });
+        });
+        
+
+    });
+
+
+</script>
+<div class="container-fluid">
+    <header class="jumbotron">
+        <h2>Product Management</h2>
+    </header>
+</div>
+<div class="wrapper-one">
+    <div class="search-area">
+        <div style="float:left;" class="form-inline"><label for="searchbox">Search:</label><input style="margin-left:20px;" class="form-control" type="text" id="searchbox" /></div>
+        <div style="float:left;margin-left:40px;">
+            <select id="column" style="height:30px;" class="form-control">
+                <option value="0">SELECT</option>
+                <option value="ItemName">Item Name</option>
+                <option value="ItemDescription">Description</option>
+                <option value="HSNCode">HSN Code</option>
+            </select>
+        </div>
+        <div style="float:left;margin-left:40px;"><input type="button" id="search" class="btn btn-primary" value="Search" /></div>
+    </div>
+    <div class="wrapper-two">
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>       
+                    <th>HSNCode</th>
+                    <th>Item Name</th>
+                    <th>Item Description</th>
+                    <th>UOM</th>
+                    <th>Price</th>
+                    <th>SGST</th>
+                    <th>CGST</th>
+                    <th>IGST</th>
+                    <th>IsActive</th>
+                    <th>Category Name</th>
+                </tr>
+            </thead>
+            <tbody class="category-ref"></tbody>
+        </table>
+        <div class="affix">
+            <div class="pagedrp">Records:<select id="pagesize"><option value="10">10</option><option selected="selected" value="25">25</option><option value="50">50</option><option value="100">100</option></select></div>
+            <div>
+                <button class="btn btn-primary" id="pre" >Prev</button>
+            </div>
+            <ul class="pagination">
+                <!--
+                <li class="active"><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>-->
+            </ul>
+            <div>
+                <button class="btn btn-primary" id="next">Next</button>
+            </div>
+        </div>
+        <input style="margin-left: 40px;" type="button" id="addItem" value="Add" class="btn btn-primary" />
+        <!--<input style="margin-left: 40px;" type="button" id="submit" value="Submit" class="btn btn-primary" />-->
+    </div>
+    <script>
+        $(function () {
+            var options = "";
+            var CategoryList = [];
+            var pagenumber = 1;
+            var pre = 0;
+            var rowscount = 25;
+            var start = 1;
+            var end = 10;
+            function refresh(pagenum,rows) {
+                $.get("getAllProducts?pagenum="+pagenum+"&rows="+rows, function (data, status) {
+                    console.log(data);
+                    console.log(data.pmodel.TotalProducts);
+                    var total = data.pmodel.TotalProducts;
+                    var currentpage = data.pmodel.CurrentPage;
+                    pagenumber = total / rowscount;
+                    
+                 
+                    var childnum = 1;
+                    if (pagenumber / 10 > 0) {
+                        pagenumber++;
+                    }
+                    pagenumber = parseInt(pagenumber);
+                    if (end > pagenumber) {
+                        end = pagenumber;
+                    }
+                    var paginations = [];
+                    
+                    for (var i = 1; i <= pagenumber; i++) {
+                       
+                        paginations[i] = "<li id='" + i + "'><a href='#'>" + i + "</a></li>";
+
+                    }
+                    
+                    var showpages = "";
+                    
+                    if (currentpage > end) {
+                        console.log("greater");
+                        if (currentpage % 10 !== 0)
+                        {
+
+                        
+                        var rem = currentpage.toString().slice(0, -1);
+                        start = parseInt(rem) * 10 +1;
+                        console.log("start:"+start);
+                        end = start + 9;
+                        if (end > paginations.length) {
+                            console.log("greater");
+                            end = paginations.length -1;
+                            console.log("NEND"+end);
+                        }
+                        }
+                       
+                        
+                    }
+                    console.log("currentpage"+currentpage);
+                    childnum = currentpage % 10;
+                    //var div = currentpage / 10;
+                    if (childnum == 0) {
+                        //div = parseInt(div);
+                        //childnum = div.toString() + 0;
+                        childnum = 10;
+                    }
+                    console.log("child"+childnum);
+                    console.log("end:" + end);
+                    for (var i = start; i <= end; i++)
+                    {
+                        //showpages += "<li id='" + i + "'><a href='#'>" + i + "</a></li>";
+                        showpages += paginations[i];
+                    }
+                    console.log(showpages);
+                    var pr = currentpage - 1;
+                    if (pr == 0) {
+                        pr = 1;
+                    }
+                    $("#pre").attr("rel", pr);
+
+                    $("#next").attr("rel", currentpage + 1);
+                    if (currentpage + 1 > pagenumber) {
+                        $("#next").attr("rel", currentpage);
+                    }
+                    /*
+                    var paginations = "<li id='pre'><a href='#'>Pre</a></li>";
+                    for (var i = 1; i <= pagenumber; i++) {
+                        if (i > 23) {
+                            paginations += "<li id='25'><a href='#'>...</a></li>";
+                            break;
+                        }
+                        paginations += "<li id='" + i + "'><a href='#'>" + i + "</a></li>";
+                        
+                    }
+                    paginations += "<li id='next'><a href='#'>Next</a></li>";
+                    currentpage = parseInt(currentpage);
+                    currentpage++;
+                    pre++;
+                    */
+                    $(".pagination").empty();
+                    $(".pagination").append(showpages);
+                    $(".pagination > li:nth-child("+pre+")").removeAttr("class");
+                    $(".pagination > li:nth-child("+childnum+")").attr("class", "active");
+                    pre =  parseInt(currentpage);
+                    $(".category-ref").empty();
+                    data.ProductList.forEach(function (dat, idx) {
+                        //console.log(data);
+                        /*
+                        var option = "";
+                        if (data.IsActive == true)
+                        {
+                            option = "<option selected='selected' value='true'>True</option><option value='false'>False</option>";
+                        }
+                        <select class='form-control' id='isactive"+idx+"'>"+option+"</select>
+                        else {
+                            option = "<option value='true'>True</option><option selected='selected' value='false'>False</option>";
+                        }*/
+
+                        var enabled = "Disabled";
+                        //<select multiple='multiple' class='selectedtax'></select>
+                        if (dat.IsActive == true) {
+                            enabled = "Enabled";
+                        }
+
+                        var index = data.CategoryList.findIndex(x => x.CategoryID == dat.CategoryId);
+                        console.log("Name:"+data.CategoryList[index].Name);
+                       
+                        $(".category-ref").append("<tr id='" + idx + "'><td>" + dat.HSNCode + "</td><td>" + dat.ItemName + "</td><td>" + dat.ItemDescription + "</td><td>" + dat.UOM + "</td><td>" + dat.Price + "</td><td>" + dat.SGST + "</td><td>" + dat.CGST + "</td><td>" + dat.IGST + "</td><td>" + enabled + "</td><td>" + data.CategoryList[index].Name + "</td><td><input id='btn" + idx + "' type='button' value='Edit' rel='" + dat.ProductId + "' class='btn btn-primary upd'  /></td></tr>");
+                    });
+                    options = data.CategoryList.map(function (x, i) {
+
+                        return "<option value='" + x.CategoryID + "' >" + x.Name + "</option>";
+                    }).join("");
+                    CategoryList = data.CategoryList;
+
+                });
+
+            }
+            
+            refresh(1, rowscount);
+            
+            $(".pagination").on("click", "li", function () {
+                
+                var id = $(this).attr("id");
+                rowscount = parseInt($("#pagesize :selected").val());
+                refresh(id, rowscount);
+               // console.log("page:"+$(this).attr("id"));
+            });
+            
+            $("#pre").click("click", function () {
+                //start = 11;
+                //end = 20;
+                
+                console.log("start" + start);
+                if(start != 1){
+                var rem = start % 10;
+                console.log(rem);
+                if (rem == 1) {
+                    start = start - 10;
+                    end = start + 9;
+                }
+                }
+                console.log("start" + start);
+                console.log("end" + end);
+                
+                console.log("previous");
+                var rel = $(this).attr("rel");
+                rowscount = parseInt($("#pagesize :selected").val());
+                refresh(rel, rowscount);
+            });
+            $("#next").click("click", function () {
+
+                console.log("current");
+                var rel = $(this).attr("rel");
+                rowscount = parseInt($("#pagesize :selected").val());
+                refresh(rel, rowscount);
+            });
+            $("#addItem").click(function () {
+                var id = parseInt($(".category-ref").children().last().attr("id"));
+
+
+                if (isNaN(id)) {
+                    id = -1;
+                }
+                var id = id + 1;
+                $(".category-ref").append("<tr class='create' id='" + id + "'><td><input class='form-control' id='hsncode" + id + "' type='text'  /></td><td><input class='form-control' id='itemname" + id + "' type='text'  /></td><td><input class='form-control' id='itemdescription" + id + "' type='text'  /></td><td><input class='form-control' id='uom" + id + "' type='text'  /></td><td><input class='form-control' id='price" + id + "' type='text'  /></td><td><input class='form-control' id='sgst" + id + "' type='text'  /></td><td><input class='form-control' id='cgst" + id + "' type='text'  /></td><td><input class='form-control' id='igst" + id + "' type='text'  /></td><td><input id='isactive" + id + "' type='checkbox' checked='checked' /> IsActive</td><td><select class='form-control' id='categoryid" + id + "' >" + options + "</select></td><td><input type='button' id='btn" + id + "' class='btn btn-primary save' value='Save' /></td></tr>");
+            });
+            $("#submit").click(function () {
+                var catlist = []
+                $(".category-ref .create").each(function (index, item) {
+                    var id = $(item).attr("id");
+                    var obj = { "CategoryID": $(".category-ref #" + id + " td:nth-child(7) #categoryid" + id +" :selected").val(), "HSNCode": $(".category-ref #" + id + " td:nth-child(1) #hsncode" + id).val(), "ItemName": $(".category-ref #" + id + " td:nth-child(2) #itemname" + id).val(), "ItemDescription": $(".category-ref #" + id + " td:nth-child(3) #itemdescription" + id).val(), "UOM": $(".category-ref #" + id + " td:nth-child(4) #uom" + id).val(), "Price": $(".category-ref #" + id + " td:nth-child(5) #price" + id).val(), "IsActive": $(".category-ref #" + id + " td:nth-child(6) #isactive" + id ).val() };
+                    console.log(obj);
+                    //console.log($(".category-ref #" + id + " td:nth-child(2) #name"+id).val());
+
+                    catlist.push(obj);
+
+                });
+                
+                $.post("AddProduct", { catlist }, function (data, status) {
+
+                    $(".category-ref").empty();
+                    refresh(1, rowscount);
+
+                });
+            });
+            $(".category-ref").on("click", ".upd", function () {
+
+
+                //var id = $(this).attr("id").substr(3, 4);
+                var id = $(this).attr("id").replace(/^\D+/g, '');
+                var rel = $(this).attr("rel");
+                var hsn = $(".category-ref #" + id + " td:nth-child(1)").html();
+                var itemname = $(".category-ref #" + id + " td:nth-child(2)").html();
+                var itemdescription = $(".category-ref #" + id + " td:nth-child(3)").html();
+                var uom = $(".category-ref #" + id + " td:nth-child(4)").html();
+                var price = $(".category-ref #" + id + " td:nth-child(5)").html();
+                var sgst = $(".category-ref #" + id + " td:nth-child(6)").html();
+                var cgst = $(".category-ref #" + id + " td:nth-child(7)").html();
+                var igst = $(".category-ref #" + id + " td:nth-child(8)").html();
+                var isactive = $(".category-ref #" + id + " td:nth-child(9)").html();
+                var catname = $(".category-ref #" + id + " td:nth-child(10)").html();
+                var catidx = CategoryList[CategoryList.findIndex(x => x.Name == catname)].CategoryID;
+                var soptions = CategoryList.map(function (x, i) {
+                   
+                    if(catidx == x.CategoryID)
+                        return "<option selected='selected' value='" + x.CategoryID + "'>" + x.Name + "</option>";
+                    else
+                        return "<option value='" + x.CategoryID + "'>" + x.Name + "</option>"
+                }).join("");
+                //console.log(soptions);
+                
+                var checked = "";
+                if (isactive == "Enabled") {
+
+                    checked = "checked";
+                }
+                /*
+                var selectionarr = [];
+                $(".category-ref #" + id + " td:nth-child(4) .selectedtax + .btn-group .multiselect-container .active input").each(function (ind, item) {
+                    selectionarr.push($(item).val());
+                });
+                */
+
+                //console.log(selectionarr);
+                $(".category-ref #" + id).empty();
+                $(".category-ref #" + id).attr("class", "create");
+                $(".category-ref #" + id).append("<td><input class='form-control' id='hsncode" + id + "' type='text' value='" + hsn + "'  /></td><td><input class='form-control' id='itemname" + id + "' type='text' value='" + itemname + "'  /></td><td><input class='form-control' id='itemdescription" + id + "' type='text' value='" + itemdescription + "'  /></td><td><input class='form-control' id='uom" + id + "' type='text' value='" + uom + "'  /></td><td><input class='form-control' id='price" + id + "' type='text' value='" + price + "'  /></td><td><input class='form-control' id='sgst" + id + "' type='text' value='" + sgst + "'  /></td><td><input class='form-control' id='cgst" + id + "' type='text' value='" + cgst + "'  /></td><td><input class='form-control' id='igst" + id + "' type='text' value='" + igst + "'  /></td><td><input " + checked + " id='isactive" + id + "' type='checkbox' value='" + isactive + "'  /> IsActive</td><td><select class='form-control' id='categoryid" + id + "' >" + soptions + " </select></td><td><input type='button' id='btn" + id + "' rel='" + rel + "' value='Save' class='btn btn-primary saveup' /> </td>");
+                $(".category-ref #" + id).attr("class", "insert");
+                //$("#selected" + id).val(selectionarr);
+                //refreshms();
+                
+                /*
+                var categoryid = $(this).attr("rel");
+                $.post("DeleteCategory", { categoryid }, function (data, status) {
+                    $(".category-ref").empty();
+                    refresh();
+
+                });*/
+            });
+            $(".category-ref").on("click", ".saveup", function () {
+                
+                /*
+                if ($(".category-ref #" + id + " input").val() == null && $(".category-ref #" + id + " input").val() == "")
+                {
+                    alert("Inputs can't be empty");
+                }*/
+                //var catlist = []
+                //$(".category-ref .insert").each(function (index, item) {
+                //var id = $(this).attr("id").substr(3, 4);
+                var id = $(this).attr("id").replace(/^\D+/g, '');
+                var rel = $(this).attr("rel");
+                var checked = $(".category-ref #" + id + " td:nth-child(9) #isactive" + id).is(':checked');
+                var catlist = { "CategoryID": $(".category-ref #" + id + " td:nth-child(10) #categoryid" + id + " :selected").val(), "HSNCode": $(".category-ref #" + id + " td:nth-child(1) #hsncode" + id).val(), "ItemName": $(".category-ref #" + id + " td:nth-child(2) #itemname" + id).val(), "ItemDescription": $(".category-ref #" + id + " td:nth-child(3) #itemdescription" + id).val(), "UOM": $(".category-ref #" + id + " td:nth-child(4) #uom" + id).val(), "Price": $(".category-ref #" + id + " td:nth-child(5) #price" + id).val(), "SGST": $(".category-ref #" + id + " td:nth-child(6) #sgst" + id).val(), "CGST": $(".category-ref #" + id + " td:nth-child(7) #cgst" + id).val(), "IGST": $(".category-ref #" + id + " td:nth-child(8) #igst" + id).val(), "IsActive": checked, "UpdateId": rel };
+                console.log(catlist);
+                    //console.log($(".category-ref #" + id + " td:nth-child(2) #name"+id).val());
+
+                    //catlist.push(obj);
+
+                //});
+                //console.log(catlist);
+                $.post("UpdateProduct", { catlist }, function (data, status) {
+
+                    $(".category-ref").empty();
+                    refresh(1, rowscount);
+
+                });
+
+
+            });
+            
+            $(".category-ref").on("click", ".save", function () {
+
+
+                //var catlist = []
+                //$(".category-ref .insert").each(function (index, item) {
+                //var id = $(this).attr("id").substr(3, 4);
+                var id = $(this).attr("id").replace(/^\D+/g, '');
+                //var id = $(this).attr("id")
+                console.log(id);
+                var rel = $(this).attr("rel");
+                var checked = $(".category-ref #" + id + " td:nth-child(9) #isactive" + id).is(':checked');
+                var catlist = { "CategoryID": $(".category-ref #" + id + " td:nth-child(10) #categoryid" + id + " :selected").val(), "HSNCode": $(".category-ref #" + id + " td:nth-child(1) #hsncode" + id).val(), "ItemName": $(".category-ref #" + id + " td:nth-child(2) #itemname" + id).val(), "ItemDescription": $(".category-ref #" + id + " td:nth-child(3) #itemdescription" + id).val(), "UOM": $(".category-ref #" + id + " td:nth-child(4) #uom" + id).val(), "Price": $(".category-ref #" + id + " td:nth-child(5) #price" + id).val(), "SGST": $(".category-ref #" + id + " td:nth-child(6) #sgst" + id).val(), "CGST": $(".category-ref #" + id + " td:nth-child(7) #cgst" + id).val(), "IGST": $(".category-ref #" + id + " td:nth-child(8) #igst" + id).val(), "IsActive": checked };
+                console.log(catlist);
+                //console.log($(".category-ref #" + id + " td:nth-child(2) #name"+id).val());
+
+                //catlist.push(obj);
+
+                //});
+                //console.log(catlist);
+                
+                $.post("AddProduct", { catlist }, function (data, status) {
+
+                    $(".category-ref").empty();
+                    refresh(1, rowscount);
+
+                });
+
+
+            });
+            $(".category-ref").on("click", ".del", function () {
+                var taxid = $(this).attr("rel");
+                $.post("DeleteTax", { taxid }, function (data, status) {
+                    $(".category-ref").empty();
+                    refresh(1,rowscount);
+
+                });
+            });
+
+
+        });
+    </script>
+</div>
+

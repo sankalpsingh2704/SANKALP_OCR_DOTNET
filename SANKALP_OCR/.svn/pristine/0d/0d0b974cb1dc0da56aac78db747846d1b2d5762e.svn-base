@@ -1,0 +1,66 @@
+--------------------------------------
+Timestamp: 11-05-2017 16:26:59 Message: Cannot redirect after HTTP headers have been sent. 
+--------------------------------------
+--------------------------------------
+Timestamp: 11-05-2017 19:24:29 Message: DashBoard/GetSelectedItems 
+--------------------------------------
+--------------------------------------
+Timestamp: 11-05-2017 19:24:29 Message: Input string was not in a correct format. 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 10:26:19 Message: Invoice/UpdateCredit 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 10:26:19 Message: Procedure or function SP_GetDebitDetails has too many arguments specified. 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 10:56:45 Message: Invoice/PopulateUsers 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 10:56:45 Message: ExecuteReader requires an open and available Connection. The connection's current state is closed. 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 10:59:11 Message: Invoice/GetFile 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 10:59:11 Message: Could not find a part of the path 'C:\Program Files (x86)\IIS Express\~\Files\Temp\29cd6aae-d6e7-4a08-a5f4-e95b684ae839\invoice_copy.pdf'. 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 12:05:08 Message: Cannot redirect after HTTP headers have been sent. 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 12:05:08 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 12:05:12 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 12:05:12 Message: Error: Can't load library: D:\IQInvoiceSvn\trunk\InvoiceNew\OCRExtratorApp\dlls\x64\liblept168.dll 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 12:05:14 Message: Invoice/ReadXMLInvoice 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 12:05:14 Message: Data at the root level is invalid. Line 1, position 1. 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 15:27:49 Message: Cannot redirect after HTTP headers have been sent. 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 15:28:40 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 15:28:41 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 15:28:41 Message: Error: [D:\IQInvoiceSvn\trunk\InvoiceNew\Files\Temp\11087a8a-a947-457d-b3c4-4414e9ff823e\Chn] File not found 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 15:28:43 Message: InvoiceController/ReadXMLInvoice 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 15:28:43 Message: Data at the root level is invalid. Line 1, position 1. 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 16:13:05 Message: Cannot redirect after HTTP headers have been sent. 
+--------------------------------------

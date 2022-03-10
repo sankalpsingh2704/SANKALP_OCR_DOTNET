@@ -1,0 +1,305 @@
+﻿@model InvoiceNew.Models.InvoiceModel
+<div id="prdtDeatils">
+    @*@using (Ajax.BeginForm("Submit", "Home", new AjaxOptions { UpdateTargetId = "divinvoice" }, new { @class = "form-horizontal", id = "FormId" }))*@
+    @using (Html.BeginForm("SubmitInvoice", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "myForm" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col-lg-5">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Vendor Details
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <table>
+
+                        <tbody>
+                            <tr>
+                                <td style="font-weight:bold;">Vendor Name</td>
+                                <td>@Html.TextBoxFor(m => m.VendorName)</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold;">Invoice No.</td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.InvoiceNumber)
+                                    @*@Html.ValidationMessageFor(m => m.InvoiceNo)*@
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold;">Invoice Date</td>
+                                <td>@Html.TextBoxFor(m => m.InvoiceDate)</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold;">Amount</td>
+                                <td>@Html.TextBoxFor(m => m.InvoiceAmount)</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold;">PO</td>
+                                <td>@Html.TextBoxFor(m => m.InvoiceReceiveddate)</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold;">PO Date</td>
+                                <td>@Html.TextBoxFor(m => m.PONumber)</td>
+                            </tr>
+
+                           
+                            <tr>
+                                <td style="font-weight:bold;">Pan</td>
+                                <td>@Html.TextBoxFor(m => m.PANNumber)</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold;">COMPANY VAT TIN</td>
+                                <td>@Html.TextBoxFor(m => m.DateOfAccount)</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold;">COMPANY CST NO</td>
+                                <td>@Html.TextBoxFor(m => m.DateOfPayment)</td>
+                            </tr>
+                            @*<tr>
+                                <td style="font-weight:bold;">BUYER VAT TIN</td>
+                                <td>@Html.TextBoxFor(m => m.BUYERVATTIN)</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold;">BUYER CST NO</td>
+                                <td>@Html.TextBoxFor(m => m.BUYERCSTNO)</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold;">Transport Charge</td>
+                                <td>@Html.TextBoxFor(m => m.TransportCharge)</td>
+                            </tr>
+
+                            <tr>
+                                <td style="font-weight:bold;"></td>
+                                <td>@Html.HiddenFor(m => m.ImageFilePath)</td>
+                            </tr>*@
+                        </tbody>
+                    </table>
+                </div>
+                <!-- .panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <div class="col-lg-10">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Product Details
+                </div>
+                <div class="panel-body">
+                    <table id="tblInvoice" class="table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <td style="font-weight:bold;"> Item Name</td>
+                                <td style="font-weight:bold;"> Price</td>
+                                <td style="font-weight:bold;"> Quantity</td>
+                                <td style="font-weight:bold;"> Tax</td>
+                                <td style="font-weight:bold;"> Total</td>
+                                <td style="font-weight:bold;"> Cons / Asset</td>
+                                <td></td>
+                                <td><button type="button" class="btnAddNew btn btn-primary" id="btnAddNew">Add New Item</button></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @*@if (Model.ProductDetails != null)
+                            {
+                                <tr><td colspan="5"></td><td> Select All <input type="checkbox" id="ckbCheckAll" /></td></tr>
+                                for (int i = 0; i < Model.ProductDetails.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.ProductDetails[i].ItemName)<br />
+                                            @Html.ValidationMessageFor(m => m.ProductDetails[i].ItemName)
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.ProductDetails[i].Price, new { Style = "width:85px;" })<br />
+                                            @Html.ValidationMessageFor(m => m.ProductDetails[i].Price)
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.ProductDetails[i].Qty, new { Style = "width:70px;" })<br />
+                                            @Html.ValidationMessageFor(m => m.ProductDetails[i].Qty)
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.ProductDetails[i].Tax, new { Style = "width:50px;" })<br />
+                                            @Html.ValidationMessageFor(m => m.ProductDetails[i].Tax)
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.ProductDetails[i].TOTAL, new { Style = "width:105px;" })<br />
+                                            @Html.ValidationMessageFor(m => m.ProductDetails[i].TOTAL)
+                                        </td>
+                                        <td>
+                                            @Html.CheckBoxFor(m => m.ProductDetails[i].Asset, new { Style = "width:50px;", @class = "checkbox" })
+                                        </td>
+                                        <td>
+                                            @Html.DropDownListFor(m => m.ProductDetails[i].CodeId, Model.ProductDetails[i].ItemCodes, "DEFAULT", new { Style = "width:100px;" ,@class= "dropdown" } )
+                                        </td>
+                                        <td>
+                                           <button type="button" class="delete btn btn-sm btn-danger" id="delete_@i" value="@i">Delete</button>
+
+                                        </td>
+                                    </tr>
+                                }
+                            }*@
+                            <tr><td colspan="6"></td><td><button type="button" class="btnAddNew btn btn-primary" id="btnAdd">Add New Item</button></td></tr>
+                            <tr><td colspan="7"><button type="button" class="btn btn-lg btn-primary" id="btnSave">Save </button></td></tr>
+                        </tbody>
+                        @*<tbody>
+                            <tr>
+                                <td><input type="submit" style="background-color: #428bca;color:navy ;" class="btn btn-lg btn-primary" /></td>
+                            </tr>
+                        </tbody>*@
+                    </table>
+                </div>
+
+            </div>
+            <!-- /.panel -->
+        </div>
+
+    }
+</div>
+<style type="text/css">
+    #divInvoiceHead {
+        position: relative;
+        Width: 100px;
+        border: solid black;
+    }
+
+    #divInside {
+        border: solid black;
+        width: 100%;
+    }
+</style>
+
+<script>
+       $(document).ready(function () {
+           var errMsg = '@ViewBag.ErrMsg';
+           if (errMsg != "") {
+               alert(errMsg);
+               //$("input").each(function () {
+               //    $(this).val("");
+               //});
+               setTimeout(function () {
+                   location.reload();
+               }, 500);
+           }
+
+        
+       });
+
+    $(document).ready(function () {
+
+        $("#ckbCheckAll").click(function () {
+            $(".checkbox").prop('checked', $(this).prop('checked'));
+        });
+
+        $("#btnSave").click(function (e) {
+            
+            var mydata = $("#myForm").serialize();
+            console.log(mydata);
+           alert(mydata);
+            $.ajax({
+               //// url: "Home/Submit",
+                url: "/Home/SubmitInvoice/",
+                data: $("#myForm").serialize(),
+                datatype: "json",
+                type: "POST",
+                cache: false,
+                success: function (data, textStatus, jqXHR) {
+                    var array_data = String(data).split(">");
+                    var cl = array_data[0];
+                    if (cl == "<div id=\"prdtDeatils\""){
+                        $('#prdtDeatils').html(data);
+                    }
+                    else {
+                        setTimeout(function () {
+                            location.reload(); 
+                        }, 500);
+                    }
+                }
+            });
+        });
+
+        $(".btnAddNew").click(function (e) {
+            //var ind = $("#tblInvoice tbody tr:last").find("input.iHidden").val();
+            //var itemIndex = parseInt(ind);
+            //itemIndex++;
+            //console.log(itemIndex);
+            //e.preventDefault();
+            //var newItem = $("<tr>"+
+            //   "<td><input type='text' id='ProductDetails_" + itemIndex + "__ItemName' name='ProductDetails[" + itemIndex + "].ItemName'/></td>" +
+            //    "<td><input type='text' id='ProductDetails_" + itemIndex + "__Amount' name='ProductDetails[" + itemIndex + "].Amount'/></td>" +
+            //    "<td><a onclick='removeRow(this)'>x</a></td>" +
+            //    "</tr>");
+            //$("#tblInvoice tbody").append(newItem);
+            @*var modelDataJSON = '@Html.Raw(Json.Encode(Model))';*@
+            var mydata = $("#myForm").serialize();
+            $.ajax({
+                url: "AddNewItem",
+                data: $("#myForm").serialize(),
+                datatype: "text/plain",
+                type: "POST",
+                cache: false,
+                global: false,
+                success: function (data) {
+                    console.log(data);
+                    $('#prdtDeatils').html(data);
+
+                }
+            });
+        });
+
+    });
+    $(".delete").on("click", function () {
+        var id = $(this).val();
+        $.ajax({
+            type: "GET",
+            url: 'Home/DeleteRow/',
+            data: { id: id },
+            datatype: "text/plain",
+            type: "POST",
+            global: false,
+            // aysnc: false,
+            success: function (data) {
+                 $('#prdtDeatils').html(data);
+            }
+        });
+    });
+    //$(".delete").on("click", function () {
+    //    alert($(this).text);
+    //    var tr = $(this).closest('tr');
+    //    tr.remove();
+
+    //    var itemIndex = 0;
+    //    $('#tblInvoice tbody tr').each(function () {
+    //        var this_row = $(this);
+    //        this_row.find('input[name$=".ProductId"]').attr('name', 'ProductDetails_[' + itemIndex + '].ProductId');
+    //        this_row.find('input[name$=".ProductId"]').attr('id', 'ProductDetails_' + itemIndex + '__ProductId');
+    //        //this_row.find('input[name$=".ItemName"]').attr('name', 'ProductDetails_[' + itemIndex + '].ItemName');
+    //        this_row.find('input[name$=".ItemName"]').attr('name', 'ProductDetails_[' + itemIndex + '].ItemName');
+    //        this_row.find('input[name$=".ItemName"]').attr('id', 'ProductDetails_' + itemIndex + '__ItemName');
+    //        this_row.find('input[name$=".Price"]').attr('name', 'ProductDetails_[' + itemIndex + '].Price');
+    //        this_row.find('input[name$=".Price"]').attr('id', 'ProductDetails_' + itemIndex + '__Price');
+    //        this_row.find('input[name$=".Qty"]').attr('name', 'ProductDetails_[' + itemIndex + '].Qty');
+    //        this_row.find('input[name$=".Qty"]').attr('id', 'ProductDetails_' + itemIndex + '__Qty');
+    //        this_row.find('input[name$=".Tax"]').attr('name', 'ProductDetails_[' + itemIndex + '].Tax');
+    //        this_row.find('input[name$=".Tax"]').attr('id', 'ProductDetails_' + itemIndex + '__Tax');
+    //        this_row.find('input[name$=".TOTAL"]').attr('name', 'ProductDetails_[' + itemIndex + '].TOTAL');
+    //        this_row.find('input[name$=".TOTAL"]').attr('id', 'ProductDetails_' + itemIndex + '__TOTAL');
+    //        this_row.find('input[name$=".Asset"]').attr('name', 'ProductDetails_[' + itemIndex + '].Asset');
+    //        this_row.find('input[name$=".Asset"]').attr('id', 'ProductDetails_' + itemIndex + '__Asset');
+    //        itemIndex++;
+    //    });
+    //});
+
+ 
+</script>
+
+
+
+
+
+
+
+
+
+
+

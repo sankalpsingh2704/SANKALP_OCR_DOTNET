@@ -1,0 +1,417 @@
+﻿@model InvoiceNew.Models.SalaryInputModel
+@{
+    ViewBag.Title = "Salary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!--<link rel="stylesheet" href="~/Content/bootstrap/datepicker.css" />-->
+<link href="~/Content/dist/css/datepicker.min.css" rel="stylesheet" />
+<script src="~/Content/dist/js/bootstrap-datepicker.min.js"></script>
+
+
+<style>
+    .content-wrapper {
+        height: 100%;
+    }
+</style>
+<div id="content">
+
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 panel panel-info">
+            <!-- col -->
+            <div class="panel-heading">
+                <h3 class="page-title txt-color-blueDark">
+                    <!-- PAGE HEADER --><i class="fa-fw fa fa-pie-chart"></i> IQ Invoice <span>
+                        - Salary
+                    </span>
+                </h3>
+            </div>
+
+
+            <div id="widget-grid" class="panel-body">
+                <!-- row -->
+                <div class="row" id="symaindiv">
+                    <!-- NEW WIDGET START -->
+                    <div class="col-lg-12" style="margin-left:20px;">
+                        <p>
+                            This report provides location wise details of invoices for the duration selected to generate the report.
+                        </p>
+                    </div>
+                    <!-- WIDGET END -->
+                </div>
+                <!-- end row -->
+            </div>
+
+            <div class="col-sm-12 col-md-12" style="background-color:white">
+                <div class="panel panel-info" style="margin-left:10px;margin-right:10px;">
+                    <div class="panel-heading">
+                        <span class="widget-icon"> <i class="fa-lg fa fa-pie-chart"></i></span>
+                        <b>LOCATION WISE INPUT</b>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-inline" role="form">
+                            <div align="center" id="cmnt">
+                                @using (Html.BeginForm("Excelupload", "Invoice", FormMethod.Post, new { enctype = "multipart/form-data", id = "Excelupload" }))
+                                {
+                                    <table id="divReport" border="0" width="100%">
+                                        <tr>
+
+                                            <td width="10%" align="right"><b>Location :&nbsp;</b></td>
+
+                                            <td width="15%">
+                                                @Html.DropDownListFor(model => Model.LocationId, new SelectList(Model.LocationList, "Value", "Text", Model.LocationId), new { @class = "ddlUsers form-control" })
+
+
+
+
+                                            </td>
+                                            <td width="10%" align="right"><b>Month :&nbsp;</b></td>
+                                            <td width="10%">
+                                                <!--<input type="text" class="form-control form-control-2 input-sm month" placeholder="Month">-->
+                                                @Html.TextBoxFor(m => Model.Month, new { @class = "form-control month",@autocomplete="off" , @data_val = "true", @data_val_required = "Month is required" })
+                                                <span style="color:red;"></span>
+
+                                            </td>
+                                            <td width="10%" align="right"><b>Year :&nbsp;</b></td>
+                                            <td width="15%">
+                                                @Html.TextBoxFor(m => Model.Year, new { @class = "form-control year", @autocomplete = "off", @data_val = "true", @data_val_required = "Month is required" })
+                                                <span style="color:red;"></span>
+
+                                            </td>
+                                            <td width="30%">
+
+                                                <input type="file" id="fileToUpload" class="btn btn-file" name="file" />
+                                                <span class="field-validation-error" id="spanfile"></span>
+
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.HiddenFor(m => m.Update)
+                                                <input type="hidden" value="0" name="updateid" id="updateid" />
+                                                <input type="submit" class="btn btn-primary cmd " style="margin: 64px 0 43px 46px;" id="btnSubmit" value="Upload" />
+                                            </td>
+                                            <td colspan="6">@Html.ValidationSummary()</td>
+                                        </tr>
+                                    </table>
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    function GetFileSize(fileid) {
+        try {
+            var fileSize = 0;
+            //for IE
+            //$.browser.msie
+            if (false) {
+                //before making an object of ActiveXObject,
+                //please make sure ActiveX is enabled in your IE browser
+                var objFSO = new ActiveXObject("Scripting.FileSystemObject"); var filePath = $("#" + fileid)[0].value;
+                var objFile = objFSO.getFile(filePath);
+                var fileSize = objFile.size; //size in kb
+                fileSize = fileSize / 1048576; //size in mb
+            }
+                //for FF, Safari, Opeara and Others
+            else {
+                fileSize = $("#" + fileid)[0].files[0].size //size in kb
+                fileSize = fileSize / 1048576; //size in mb
+            }
+            return fileSize;
+        }
+        catch (e) {
+            alert("Error is :" + e);
+        }
+    }
+
+    //get file path from client system
+    function getNameFromPath(strFilepath) {
+        var objRE = new RegExp(/([^\/\\]+)$/);
+        var strName = objRE.exec(strFilepath);
+
+        if (strName == null) {
+            return null;
+        }
+        else {
+            return strName[0];
+        }
+    }
+
+    $("#btnSubmit").on("click", function () {
+
+
+        if ($('#fileToUpload').val() == "") {
+            $("#spanfile").html("Please upload file");
+            return false;
+        }
+        else {
+
+            if (checkfile()) {
+
+                $.post("CheckExcelExist", {
+                    "Model": {
+                        "LocationId": $("#LocationId").val(),
+                        "Month": $("#Month").val(),
+                        "Year": $("#Year").val()
+                    }
+
+                }, function (data, status) {
+
+                    if (data.update) {
+                        // console.log(checkfile());
+
+                        updateconfirmation(data.id);
+                        return false;
+                    }
+                    else {
+                        //$("#Excelupload").submit();
+                        var form = new FormData($("#Excelupload")[0]);
+                        $.ajax({
+                            url: "Excelupload",
+                            method: "POST",
+                            dataType: 'json',
+                            data: form,
+                            processData: false,
+                            contentType: false,
+                            success: function (result) {
+                                $("#Update").val(false);
+                                swal({ title: "Upload Successs", text: result.rows+ " Rows Uploaded", type: "success" });
+
+                            },
+                            error: function (er) { }
+                        });
+                    }
+
+                    //return checkfile();
+                });
+
+            }
+            return false;
+        }
+
+    });
+
+    function allowSubmit(id) {
+
+        if ($("#Update").val() == "true") {
+            $("#updateid").val(id);
+            //$("#Excelupload").submit();
+            var form = new FormData($("#Excelupload")[0]);
+            $.ajax({
+                url: "Excelupload",
+                method: "POST",
+                dataType: 'json',
+                data: form,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    $("#Update").val(false);
+                    swal({ title: "Upload Successs", text: result.rows+" Rows Uploaded", type: "success" });
+
+                },
+                error: function (er) { }
+            });
+        }
+        else
+            return false;
+    }
+    $("#Month,#Year").on("change", function () {
+        if ($(this).attr("id") == "Month") {
+            if ($(this).val() === "" || $(this).val() == null) {
+                $("#Month + span").text("Can't be Empty !");
+                return false;
+            }
+            else {
+                $("#Month + span").text("");
+            }
+        }
+        else {
+            if ($(this).val() === "" || $(this).val() == null) {
+                $("#Year + span").text("Can't be Empty !");
+                return false;
+            }
+            else {
+                $("#Year + span").text("");
+            }
+        }
+    });
+    function checkfile() {
+        var month = $("#Month").val();
+        var year = $("#Year").val();
+        console.log(month);
+        if (month === "" || month == null) {
+            $("#Month + span").text("Can't be Empty !");
+            return false;
+        }
+        else {
+            $("#Month + span").text("");
+        }
+
+        if (year === "" || year == null) {
+            $("#Year + span").text("Can't be Empty !");
+            return false;
+        }
+        else {
+            $("#Year + span").text("");
+        }
+
+        var file = getNameFromPath($("#fileToUpload").val());
+        if (file != null) {
+            var extension = file.substr((file.lastIndexOf('.') + 1));
+            console.log(extension);
+            // alert(extension);
+            switch (extension) {
+
+                case 'xlsx':
+                    flag = true;
+                    break;
+                case 'xls':
+                    flag = true;
+                    break;
+                default:
+                    flag = false;
+            }
+        }
+        if (flag == false) {
+            $("#spanfile").text("You can upload only xlxs extension file");
+            return false;
+        }
+        else {
+            var size = GetFileSize('fileToUpload');
+            if (size > 3) {
+                $("#spanfile").text("You can upload file up to 3 MB");
+                return false;
+            }
+            else {
+                $("#spanfile").text("");
+                return true;
+            }
+        }
+    }
+
+    $(function () {
+        $("#fileToUpload").change(function () {
+            checkfile();
+        });
+    });
+
+    var startDate = new Date();
+    var fechaFin = new Date();
+    var FromEndDate = new Date();
+    var ToEndDate = new Date();
+
+
+
+
+    $('.month').datepicker({
+        autoclose: true,
+        minViewMode: 1,
+        format: 'mm'
+    }).on('changeDate', function (selected) {
+        startDate = new Date(selected.date.valueOf());
+        startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+        //$('.year').datepicker('setStartDate', startDate);
+        $('.year').val(startDate.getFullYear());
+    });
+
+    $('.year').datepicker({
+        autoclose: true,
+        minViewMode: 2,
+        format: 'yyyy'
+    }).on('changeDate', function (selected) {
+        FromEndDate = new Date(selected.date.valueOf());
+        // FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf()).setMonth(12)));
+        FromEndDate.setMonth(new Date(selected.date.valueOf()).getMonth() + 11)
+        $('.month').datepicker('setEndDate', FromEndDate);
+    });
+    function updateconfirmation(id) {
+        swal({
+            title: "Are you sure?",
+            text: "Data for this Date Already Exist. Are you sure want to replace ?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3C8DBC",
+            confirmButtonText: "Yes, Replace it!",
+            cancelButtonText: "No, cancel plz!",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    //console.log();
+
+                    $("#Update").val("true");
+                    allowSubmit(id);
+
+                } else {
+                    return false;
+                }
+            });
+        return true;
+    }
+
+
+    /*
+
+    var startDate = new Date();
+var fechaFin = new Date();
+var FromEndDate = new Date();
+var ToEndDate = new Date();
+
+
+
+
+$('.from').datepicker({
+autoclose: true,
+minViewMode: 2,
+format: 'yyyy'
+}).on('changeDate', function(selected){
+    startDate = new Date(selected.date.valueOf());
+    startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+    $('.to').datepicker('setStartDate', startDate);
+});
+
+$('.to').datepicker({
+autoclose: true,
+minViewMode: 1,
+format: 'yyyy'
+}).on('changeDate', function(selected){
+    FromEndDate = new Date(selected.date.valueOf());
+    FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
+    $('.from').datepicker('setEndDate', FromEndDate);
+});
+
+    */
+
+
+
+
+</script>
+
+@if (ViewBag.AskUpdate == true)
+{
+    <script>
+        // alert("ask");
+        updateconfirmation();
+    </script>
+}
+
+
+
+
+

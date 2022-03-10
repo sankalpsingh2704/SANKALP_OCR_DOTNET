@@ -1,0 +1,131 @@
+﻿@*@model  InvoiceNew.Models.UserMappingModel*@ 
+        
+
+@*@Html.DropDownList("UserID", new SelectList(ViewBag.UserList, "Value", "Text"), " Users", new { id = "drpUsers", Class = "ddlStyle" })*@
+
+     @*@Html.ListBoxFor(m => m.TeamIds, Model.Teams, new { @class = "form-control" })*@
+<div class="col-sm-4">
+    <input type="button" value="<<ADD" id="Add" class="btn btn-primary" />
+    <input type="button" value="Remove>>" id="Remove" class="btn btn-danger" />
+    <!--
+       <div class="col-sm-4">
+           
+       </div>-->
+
+</div>
+<div class="col-sm-8">
+    @Html.ListBox("UserList", ViewBag.UserList as MultiSelectList, new { @class = "form-control lstBoxHeight", @cols = 80, @rows = 10 })
+</div>
+
+
+    <script>
+        $(function () {
+            console.log("called");
+            var names = [];
+            $("#TeamIds option:selected").each(function (k, v) {
+                console.log($(this).text());
+                names.push($(this).text());
+
+
+            });
+            //console.log(names);
+            $("#multi-platform").empty();
+            for (x in names) {
+                if (window.jsontype == 'False') {
+                    $("#multi-platform").append("<br id='b"+x+"' /><label id='lab"+x+"' style='width:80px'>" + names[x] + ":</label><select id='sel"+x+"' class='selectedBranch'></select>");
+                }
+                else {
+                    $("#multi-platform").append("<br id='b" + x + "' /><label id='lab" + x + "' style='width:80px'>" + names[x] + ":</label><select id='sel" + x + "' multiple='multiple' class='selectedBranch'></select>");
+                }
+            }
+
+            filldropdown();
+           
+            
+            
+            var branchDetails = window.branchDetails;
+            console.log(branchDetails);
+            for (x in names) {
+                
+                var result = branchDetails.filter(b => b.UserName == names[x]).map(function (data, idx) {
+                 
+                    return data.BranchID;
+                });
+                
+                $("#sel"+x).val(result);
+            }
+            
+            //console.log(result);
+            $(".selectedBranch").multiselect('rebuild');
+            //console.log(window.branchDetails);
+
+        });
+        $("#Add").on("click", function () {
+            console.log(name);
+            var usrList = ($('#UserList').val());
+            var name = "";
+            $("#UserList option:selected").each(function (k, v) {
+                var txt = $(this).text();
+                name = txt;
+                var val = $(this).val();
+                $(this).remove(); //
+                $("#TeamIds").append("<option value=" + val + ">" + txt + "</option>")
+            });
+            var usrL = JSON.stringify(usrList);
+            console.log(usrList);
+            $.ajax({
+                type: "post",
+                url: '/UsersMapping/InsertDetails/',
+                dataType: "html",
+                data: { "userList": usrList },
+                success: function (data) {
+                    console.log(data);
+                    console.log("sdr" + name);
+                    var x = $('#multi-platform > span').length;
+                    if(window.jsontype == 'False')
+                        $("#multi-platform").append("<br id='b" + x + "' /><label id='lab" + x + "' style='width:80px' >" + name + ":</label><select id='sel" + x + "' class='selectedBranch'></select>");
+                    else
+                        $("#multi-platform").append("<br id='b" + x + "' /><label id='lab" + x + "' style='width:80px' >" + name + ":</label><select id='sel" + x + "' multiple='multiple' class='selectedBranch'></select>");
+                    filldropdown();
+                    //    $("#EnableUser").html(data);
+                }
+            });
+        })
+        $("#Remove").on("click", function () {
+           // var x = $('#multi-platform span').length / 2;
+            //$("#multi-platform").children().last().remove();
+            var id = ($("#drpUserTypes").val());
+            var usrList = ($('#TeamIds').val());
+            $("#TeamIds option:selected").each(function (idx,el) {
+                var txt = $(this).text();
+                var val = $(this).val();
+                var id = $("#multi-platform label:contains('" + txt + "')").attr("id");
+                id = id.replace(/^\D+/g, '');
+                console.log("con"+id);
+                $("#multi-platform #b" + id + "").remove();
+                $("#multi-platform #lab" + id + "").remove();
+                $("#multi-platform #sel" + id + "").parent().remove();
+                $(this).remove(); //or whatever else
+                $("#UserList").append("<option value=" + val + ">" + txt + "</option>");
+            });
+            console.log("remove");
+
+            
+            //  $("#selectBox option[value='option1']").remove();
+            var usrL = JSON.stringify(usrList);
+            console.log(usrList);
+            $.ajax({
+                type: "post",
+                async: false,
+                url: '/UsersMapping/DeleteDetails/',
+                dataType: "json",
+                data: { "usertypeid": id, "userList": usrList },
+                success: function (data) {
+                   
+                    $("#divUsers").html(data);
+                }
+            });
+        })
+    </script>
+
+

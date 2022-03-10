@@ -1,0 +1,1656 @@
+﻿@model InvoiceNew.Models.InvoiceModel
+@using System.Collections;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    <!-- Custom Fonts -->
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    @*<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    var myid = "";
+}
+
+<div class="wrapper" style="background-color:whitesmoke">
+    @*@using (Html.BeginForm("SubmitInvoice", "Invoice",FormMethod.Post))*@
+    @using (Html.BeginForm("UpdateInvoice", "Invoice", FormMethod.Post))
+    {
+        <div id="Inv">
+
+            <div id="page-wrapper">
+                <div class="">
+                    @*<div class="col-lg-12">
+                            <h1 class="page-header">Invoice Reader</h1>
+                        </div>*@
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Invoice
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <table>
+                                    <tr>
+                                        <td style="color:green">@Html.Raw(ViewBag.ErrMsg)</td>
+                                    </tr>
+                                </table>
+
+                                <table id="tbimglist" class="ec-table-invoice-image-icons table-bordered table-hover .avoid-this" style="border:thin inset;">
+                                    <tr><td>&nbsp;</td></tr>
+                                </table>
+                                <div class="ec-div-invoice-image">
+
+                                      <img id="imgInvoiceImage" src='' style="height:100%;width:100%;overflow:scroll;transform:scale(1); transform-origin:left top; " class="zoom" />
+                                        <iframe id="iframeInvoiceImage" src='' style="width:100%;height:99%;display:none;" allowfullscreen webkitallowfullscreen></iframe>
+
+                                    @*<object data='@Url.Action("GetFile", "Invoice", new { @filepath = Model.filePath })' width="500px" height="600px"></object>*@
+                                </div>
+
+                                <table class="ec-table-invoice-image-commands">
+                                    <tr>
+                                        @*<td style="width:10%;" align="center"><i class="fa fa-caret-left cmdpv" onclick="nextimage(-1);" title="Previous Image"></i></td>*@
+                                        <td id="imgcmnds">
+                                            <div class="photodivcfu">
+                                                <input type="file" class="cfu" id="filetoupload" multiple="multiple" onchange="addToInvoiceImagesList();" />
+                                            </div>
+                                            <span id='spannof' style="float:right;margin-right:10px;" />
+                                        </td>
+                                        <td style="width:80%;vertical-align:middle;" id="imgcmnds1">
+                                            <img src="~/Content/images/zoom_in.png" onclick="zoom(1);" title="Zoom in" style="position:relative;cursor:pointer;margin-right:5px;" class="zoombtn" />
+                                            <img src="~/Content/images/zoom_out.png" onclick="zoom(-1);" title="Zoom out" style="position:relative;cursor:pointer;margin-right:20px;" class="zoombtn" />
+                                            <i class="fa fa-remove" onclick="removeimage();" style="cursor:pointer;font-size:14pt;margin:0;padding:0;top:-6px;position:relative;display:inline-block;"></i>
+
+                                        </td>
+                                        @*<td style="width:10%;" align="center"><i class="fa fa-caret-right cmdpv" onclick="nextimage(1);" title="Next Image"></i></td>*@
+                                    </tr>
+                                </table>
+                            </div>
+                            <!-- .panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+                    <!-- /.col-lg-6 -->
+                    <div id="divInvoice">
+                        <div class="col-sm-6 col-md-6" style="background-color:white">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Vendor Details
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body">
+                                    <table id="InvoiceInfo" class="display table table-bordered table-hover">
+                                        <tbody>
+                                            <tr>
+                                                <td style="font-weight:bold;">Invoice No.</td>
+                                                <td>
+                                                    @Html.HiddenFor(m => m.InvoiceID)
+                                                    @Html.DisplayFor(m => m.InvoiceNumber)
+                                                    @Html.ValidationMessageFor(m => m.InvoiceNumber)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:bold;">Amount</td>
+                                                <td id="lblInvoiceAmount">
+                                                    @Html.DisplayFor(m => m.InvoiceAmount)
+                                                    @Html.Hidden("hdnInvoiceAmount")
+                                                    @Html.Hidden("hdnTotalAmount")
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:bold;">Invoice Date</td>
+                                                <td>
+                                                    @Html.DisplayFor(m => m.InvoiceDate)
+                                                    @Html.ValidationMessageFor(m => m.InvoiceDate)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:bold;">InvoiceReceiveddate</td>
+                                                <td>
+                                                    @Html.DisplayFor(m => m.InvoiceReceiveddate, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.InvoiceReceiveddate)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:bold;">InvoiceDueDate</td>
+                                                <td>
+                                                    @Html.DisplayFor(m => m.InvoiceDueDate, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.InvoiceDueDate)
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="font-weight:bold;">PONumber</td>
+                                                <td>@Html.DisplayFor(m => m.PONumber)</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:bold;">PAN Number</td>
+                                                <td>@Html.DisplayFor(m => m.PANNumber)</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="font-weight:bold;">VendorName</td>
+                                                <td>
+                                                    @Html.HiddenFor(m => m.VendorName)
+                                                    @Html.HiddenFor(m => m.VendorID)
+                                                    @Html.DisplayFor(m => m.VendorName)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:bold;">InvoiceDate</td>
+                                                <td>@Html.DisplayFor(m => m.InvoiceDate)</td>
+                                            </tr>
+
+
+                                            @if (Model.UserTypes != null)
+                                            {
+                                                for (int i = 0; i < Model.UserTypes.Count; i++)
+                                                {
+                                                    <tr class="RowClass">
+                                                        <td style="font-weight:bold;">@Html.DisplayFor(m => m.UserTypes[i].UserTypeName)</td>
+                                                        <td>@Html.DisplayFor(m => m.UserTypes[i].UserName, new { @class = "form-control" })</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- .panel-body -->
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-12 col-md-12" style="background-color:white">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <span class="widget-icon"> <i class=" fa-lg fa fa-table"></i></span>
+                                    <b>Approval History</b>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-inline" role="form">
+                                        <div align="center" id="cmnt" style="border: thin inset;">
+
+                                            <table id="divcomments" class="table-striped table-bordered table-hover table-condensed" style="width:100% ">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                    </tr>
+
+                                                </thead>
+
+                                            </table>
+                                        </div>
+
+                                        <div id="labelfinaladetails" style="display:none;border: thin inset ">
+
+                                            <fieldset>
+                                                <div class="row">
+                                                    <section>
+                                                        <table style="border-collapse:separate; border-spacing:16px; width:88%" align="left" class="table-bordered table-hover ">
+                                                            <tr>
+                                                                <td align="right">
+                                                                    <section class="col col-4">
+                                                                        <label class="input">
+                                                                            Navision Voucher No :
+                                                                        </label>
+
+                                                                    </section>
+                                                                </td>
+                                                                <td align="left">
+                                                                    <section class="col col-4">
+                                                                        <label class="input" id="lblNavisionVoucherno">
+                                                                            @*@Html.TextBoxFor(m => m.Navisionvoucherno, new { placeholder = "Navision Voucher ", @class = "final", id = "txtNavisionVoucherno" })*@
+                                                                            @Html.ValidationMessageFor(m => m.InvoiceAmount)
+                                                                        </label>
+
+                                                                    </section>
+                                                                </td>
+
+                                                            </tr>
+                                                        </table>
+                                                    </section>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        @*@if (int.Parse(HttpContext.Current.Session["UserTypeID"].ToString()) == 2 || int.Parse(HttpContext.Current.Session["UserTypeID"].ToString()) == 3)*@
+                        @if (true)
+                {
+                            <div class="col-sm-12 col-md-12" style="background-color:white">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <span class="widget-icon"> <i class=" fa-lg fa fa-table"></i> </span>
+                                        <b>Vendor Rating</b>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="form-inline" role="form">
+                                            <div class="widget-body">
+                                                <div class="input-group" style="width:100%">
+                                                    <div id="divRating" class="col-sm-12" style="width:100%">
+                                                        <table style="border-collapse:separate; border-spacing:16px; width:80%" align="left" class="table-bordered table-condensed table-hover">
+                                                            <tr>
+                                                                <td>
+                                                                    <label class="checkbox" style="margin-left:10%">
+                                                                        @Html.RadioButtonFor(x => x.Rating, 1, new { id = "radioRating1" })
+                                                                        <i></i>1 (Excellent)
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="checkbox" style="margin-left:10%">
+                                                                        @Html.RadioButtonFor(x => x.Rating, 2, new { id = "radioRating2" })
+                                                                        <i></i>2 (Very Good)
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="checkbox" style="margin-left:10%">
+                                                                        @Html.RadioButtonFor(x => x.Rating, 3, new { id = "radioRating3" })
+                                                                        <i></i>3 (Good)
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="checkbox" style="margin-left:10%">
+                                                                        @Html.RadioButtonFor(x => x.Rating, 4, new { id = "radioRating4" })
+                                                                        <i></i>4 (Average)
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="checkbox" style="margin-left:10%">
+                                                                        @Html.RadioButtonFor(x => x.Rating, 5, new { id = "radioRating5" })
+                                                                        <i></i>5 (Below Average)
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <br />
+
+                                                    <div id="divComment" align="left" class="col-sm-12" style="width:100%">
+                                                        @Html.TextAreaFor(m => m.VendorComment, new { placeholder = "Your comment here...", id = "txtComment", @rows = 4, @class = "form-control", @style = "width:80%" })
+                                                        @Html.ValidationMessageFor(m => m.VendorComment)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @*=========================================================================================*@
+                        <div class="col-sm-12 col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <span class="widget-icon"> <i class="fa-lg fa fa-table"></i> </span>
+                                    <b> Comments </b>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-inline" role="form">
+                                        <div class="widget-body">
+                                            <div class="input-group" style="width:100%">
+                                                <div align="left" class="col-sm-12" style="width:100%" id="curentcoment">
+                                                    @Html.TextAreaFor(m => m.Comment, new { placeholder = "Comment", id = "txtcomment", @cols = 20, @rows = 4, @class = "form-control", @style = "width:80%" })
+                                                    @Html.ValidationMessageFor(m => m.Comment)
+                                                </div>
+                                            </div>
+                                            <div id="invoicepermissions" style="border: thin inset ; margin-top:1%">
+                                                <fieldset>
+                                                    <div>
+                                                        <section>
+                                                            <table style="border-collapse:separate; border-spacing:16px; width:80%" align="left" class="table-bordered table-condensed table-hover">
+                                                                <tr>
+
+
+                                                                    @*@if (int.Parse(HttpContext.Current.Session["UserTypeID"].ToString()) == 1 && Model.WFStatus == 300 )
+                                                                        {*@
+                                                                    @*<td id="rdrecommend">
+                                                                            <label class="checkbox" style="margin-left:10%" id="chkAdmin">
+
+                                                                                @Html.RadioButtonFor(x => x.status, "A", new { @class = "reassign", id = "Recommend" })
+
+                                                                                <i></i>Recommend For payment
+                                                                            </label>
+                                                                        </td>*@
+                                                                    @*}
+                                                                        else
+                                                                        {*@
+                                                                    <td id="rdapprove">
+                                                                        <label class="checkbox" style="margin-left:10%" id="chkAdmin">
+
+                                                                            @Html.RadioButtonFor(x => x.status, "A", new { @class = "reassign", id = "radioApprove" })
+
+                                                                            <i></i>Approve
+
+                                                                        </label>
+
+                                                                    </td>
+                                                                    @*}*@
+                                                                    <td>
+                                                                        <label class="checkbox" style="margin-left:10%" id="chkAdmin">
+                                                                            @Html.RadioButtonFor(x => x.status, "R", new { @class = "reassign", id = "idReject" })
+                                                                            <i></i>Reject
+                                                                        </label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label class="checkbox" style="margin-left:10%" id="chkAdmin">
+                                                                            @Html.RadioButtonFor(x => x.status, "H", new { @class = "reassign", id = "idHold" })
+                                                                            <i></i>Hold
+                                                                        </label>
+                                                                    </td>
+
+                                                                    @*@if ((int.Parse(HttpContext.Current.Session["UserTypeID"].ToString()) == 2) || (int.Parse(HttpContext.Current.Session["UserTypeID"].ToString()) == 3))
+                                                                        {*@
+                                                                    <td id="reassignradio">
+                                                                        <label class="checkbox" style="margin-left:10%" id="chkAdmin">
+                                                                            @Html.RadioButtonFor(x => x.status, "ReAssign", new { @class = "reassign", id = "reassign" })
+                                                                            <i></i>ReAssign
+                                                                        </label>
+                                                                    </td>
+                                                                    @*}*@
+
+                                                                    @* Added If condition as per new change request *@
+                                                                    @*@if (int.Parse(HttpContext.Current.Session["UserTypeID"].ToString()) == 3)
+                                                                        {*@
+                                                                    <td style="display:none" id="reassigntd">
+                                                                        <label class="select">
+                                                                            @Html.DropDownList("ReAssignID", new SelectList(ViewBag.ReAssignUsers, "Value", "Text"), " ReAssign", new { id = "drpdwnreassign" })
+                                                                            @Html.ValidationMessage("ReAssignID")
+                                                                        </label>
+                                                                    </td>
+
+
+                                                                    @*@for (int i = 0; i < Model.UserTypes.Count; i++)
+                                                                        {
+                                                                             <td id="VoucherTypes">
+                                                                            @Html.DropDownListFor(model => Model.UserTypes[i].SelectedUserId, new SelectList(Model.UserTypes[i].Users, "Value", "Text"))
+
+                                                                             </td>
+                                                                        }*@
+                                                                </tr>
+
+
+                                                            </table>
+                                                        </section>
+                                                    </div>
+                                                </fieldset>
+
+
+                                            </div>
+
+                                            @Html.Hidden("hdnId");
+
+                                            <div id="divDataCredit">
+                                                <table id="divcomment1" class="table-striped table-bordered table-hover table-condensed" style="width:100% ">
+                                                    <tr>
+                                                        <td align="left" width="50%">
+                                                            <section class="col col-4">
+                                                                <label class="col-md-4 control-label">
+                                                                    Debit File
+                                                                </label>
+                                                            </section>
+                                                        </td>
+
+                                                        <td align="left" width="50%">
+                                                            <section class="col col-4">
+                                                                <label class="col-md-4 control-label">
+                                                                    Debit Amount
+                                                                </label>
+                                                            </section>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" width="50%">
+                                                            <section class="col col-4">
+                                                                <input type="file" name="UploadFile" id="txtUploadFile" />
+
+                                                            </section>
+                                                        </td>
+
+                                                        <td align="left" width="50%">
+                                                            <section class="col col-4">
+                                                                @Html.TextBoxFor(m => m.DebitAmount)
+                                                                @Html.ValidationMessageFor(m => m.DebitAmount)
+                                                            </section>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                        <td align="left">
+                                                            <input type="button" id="btnAdd" class="btn btn-primary button2" value="Add" />
+                                                            @*<input type="submit" id="btnAdd" class="btn btn-default button2" value="Add" onclick="return myFunction()" />*@
+                                                        </td>
+
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <label id="lblamountexd" for="YourLabel" style="display:none" class="YourClass">You Have Entered Amount Greater Than Total Invoice Delete Some Debit records</label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div id="tblCreditDetails">
+                                                <table class="table-striped table-bordered table-hover table-condensed" style="width:100% ">
+                                                    <thead>
+                                                        <tr>
+                                                            <td>
+                                                                <b>Debit Note Id</b>
+                                                            </td>
+                                                            <td>
+                                                                <b> Debit Note File</b>
+                                                            </td>
+                                                            <td>
+                                                                <b>
+                                                                    Debit Amount
+                                                                </b>
+                                                            </td>
+                                                            <td>
+                                                                <b>
+                                                                    Action
+                                                                </b>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th></th>
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody id="divcreditdetails"></tbody>
+
+                                                </table>
+                                            </div>
+
+
+
+                                            <div id="finaladetails" style="display:none;border: thin inset ">
+
+                                                <fieldset>
+                                                    <div class="row">
+                                                        <section>
+                                                            <table style="border-collapse:separate; border-spacing:16px; width:100%" align="center" class="table-bordered table-hover ">
+                                                                <tr>
+                                                                    <td>
+                                                                        <section class="col col-4">
+                                                                            <label class="input">
+                                                                                Navision Voucher No :
+                                                                            </label>
+
+                                                                        </section>
+                                                                    </td>
+                                                                    <td>
+                                                                        <section class="col col-4">
+                                                                            <label class="input">
+                                                                                @Html.TextBoxFor(m => m.Navisionvoucherno, new { placeholder = "Navision Voucher ", @class = "final", id = "txtNavisionVoucherno" })
+                                                                                @Html.ValidationMessageFor(m => m.InvoiceAmount)
+                                                                            </label>
+
+                                                                        </section>
+                                                                    </td>
+                                                                    <td>
+                                                                        <section class="col col-4">
+                                                                            <label class="input">
+                                                                                Date of Payment :
+                                                                            </label>
+
+                                                                        </section>
+                                                                    </td>
+                                                                    <td>
+                                                                        <section class="col col-4">
+                                                                            <label class="input">
+                                                                                @Html.TextBoxFor(m => m.DateOfPayment, new { placeholder = "Date of Payment", @class = "date final", id = "txtdateofpayment" })
+                                                                                @Html.ValidationMessageFor(m => m.DateOfPayment)
+                                                                            </label>
+                                                                        </section>
+                                                                    </td>
+                                                                    <td>
+                                                                        <section class="col col-4">
+                                                                            <label class="input">
+                                                                                Date of Account :
+                                                                            </label>
+                                                                        </section>
+                                                                    </td>
+                                                                    <td>
+                                                                        <section class="col col-4">
+                                                                            <label class="input">
+                                                                                @Html.TextBoxFor(m => m.DateOfAccount, new { placeholder = "Date Of Account", @class = "date final", id = "txtDateOfAccount" })
+                                                                                @Html.ValidationMessageFor(m => m.DateOfAccount)
+                                                                            </label>
+                                                                        </section>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </section>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*=========================================================================================*@
+
+
+                    </div><div class="col-md-10 col-md-offset-2">
+                        <button class="btn btn-primary cmd " type="submit" id='cmdSubmit'>
+                            <i class="fa fa-save"></i>
+                            Submit
+                        </button>
+                        <button class="btn btn-primary cmd" type="button" id='btnReassign' style="margin-left:8px; display:none">
+                            Re-Assign
+                        </button>
+                        <button class="btn btn-default cmd" type="button" id='cancelbtn' style="margin-left:8px">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-lg-6 -->
+        </div>
+
+    }
+
+
+</div>
+
+<!-- /#page-wrapper -->
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="~/Scripts/bootstrap.min.js"></script>
+<!-- Metis Menu Plugin JavaScript -->
+@*<script src="~/bower_components/metisMenu/dist/metisMenu.min.js"></script>*@
+<script src="~/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+<!-- Custom Theme JavaScript -->
+@*<script src="~/dist/css/js/sb-admin-2.js"></script>*@
+<script src="~/dist/css/js/sb-admin-2.js"></script>
+<!-- Page-Level Demo Scripts - Notifications - Use for reference -->
+<script>
+    // tooltip demo
+    $('.tooltip-demo').tooltip({
+        selector: "[data-toggle=tooltip]",
+        container: "body"
+    })
+    // popover demo
+    $("[data-toggle=popover]")
+        .popover()
+</script>
+
+
+<style type="text/css">
+    #divInvoiceImages {
+        height: 600px;
+        /*width: 400px;*/
+    }
+
+    #divInvoiceDetails {
+        position: relative;
+        left: 64%;
+        top: 1%;
+        width: 36%;
+        max-height: 98%;
+        min-height: 98%;
+        border: thin solid black;
+    }
+
+    #divInvoiceImage {
+    }
+
+    /*#imgInvoiceImage {
+                                -ms-zoom: 0.75;
+                                -moz-transform: scale(0.75);
+                                -moz-transform-origin: 0 0;
+                                -o-transform: scale(0.75);
+                                -o-transform-origin: 0 0;
+                                -webkit-transform: scale(0.75);
+                                -webkit-transform-origin: 0 0;
+                                overflow: scroll;
+                            }*/
+
+    #imgInvoiceImages {
+        width: 100%;
+        height: 100%;
+    }
+
+
+
+
+
+    /*Image Controls*/
+    .imglist {
+        display: none;
+    }
+
+    .cmdpv {
+        cursor: pointer;
+    }
+
+    /* Styles for validation helpers
+                            -----------------------------------------------------------*/
+    .field-validation-error {
+        color: #ff0000;
+    }
+
+    .field-validation-valid {
+        display: none;
+    }
+
+    .input-validation-error {
+        border: 1px solid #ff0000;
+        background-color: #ffeeee;
+    }
+
+    .validation-summary-errors {
+        font-weight: bold;
+        color: #ff0000;
+    }
+
+    .validation-summary-valid {
+        display: none;
+    }
+
+    .ui-jqgrid tr.jqgrow td.wrap {
+        white-space: normal !important;
+        height: auto;
+        padding-top: 2px;
+        word-wrap: break-word;
+    }
+
+    .ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+        height: auto;
+        vertical-align: text-top;
+        padding-top: 2px;
+        word-wrap: break-word;
+    }
+
+    .ui-jqgrid .ui-jqgrid-htable th div {
+        height: auto;
+        overflow: hidden;
+        padding-right: 4px;
+        padding-top: 2px;
+        position: relative;
+        vertical-align: text-top;
+        white-space: normal !important;
+    }
+
+    #tbInvoiceImages {
+    }
+
+        #tbInvoiceImages td {
+            border: 1px solid;
+            padding: 3px 5px 3px 5px;
+            text-align: center;
+        }
+
+    /*#tbInvList {
+                                    width: 98%;
+                                    top: 2%;
+                                    left: 1%;
+                                    height: auto;
+                                    position: absolute;
+                                    border: 1px solid lime;
+                                }
+
+                                    #tbInvList td, #tbInvList th {
+                                        border: thin solid black;
+                                        padding: 5px 3px 5px 3px;
+                                    }*/
+
+    .notapproved {
+        color: blue;
+    }
+
+    .approved {
+    }
+
+    .ec-caret {
+    }
+
+    .ec-tr {
+        display: none;
+    }
+
+    .ec-div {
+        position: relative;
+        width: 100%;
+        overflow: auto;
+        padding: 0;
+        height: 92%;
+        border: thin inset;
+        margin-bottom: 1.5%;
+    }
+
+    .ec-table-invoice-image-icons {
+        left: .2%;
+        width: 8%;
+        height: auto;
+        border: thin solid white;
+    }
+
+    .ec-div-invoice-image {
+        left: 9%;
+        top: 1%;
+        width: 49%;
+        height: 86%;
+        border: thin solid black;
+        position: absolute;
+        margin-top: 2px;
+    }
+
+    .ec-table-invoice-image-commands {
+        left: 9%;
+        top: 88%;
+        width: 49%;
+        position: absolute;
+    }
+
+    .ec-table-invoice-editor {
+        left: 60%;
+        width: 40%;
+        top: 0%;
+        border: thin solid;
+        position: absolute;
+        margin-top: 0px;
+    }
+
+    .ec-table-invoice-image-commands td {
+        padding: 2px !important;
+        border: thin solid;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .tablepad td {
+        border: none !important;
+        padding: 5px 2px 5px 2px;
+    }
+
+
+    .ec-invoice-image-icon {
+        position: relative;
+        width: 60px;
+        height: 60px;
+    }
+
+    * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    html {
+        -ms-touch-action: none;
+    }
+</style>
+
+<script>
+
+    // ////////////////////////////////////////////////////////////////////////////
+
+    var files = "";
+    $('#txtUploadFile').on('change', function (e) {
+        files = e.target.files;
+        //var myID = 3; //uncomment this to make sure the ajax URL works
+
+    });
+
+    $('#cancelbtn').click(function (e) {
+        var url = '@Url.Action("Index", "Dashboard")';
+        window.location.href = url;
+    });
+
+    $('#btnAdd').click(function (e) {
+        if (files.length > 0) {
+
+            if (window.FormData !== undefined) {
+                var data = new FormData();
+                for (var x = 0; x < files.length; x++) {
+                    if (files[x].type == "application/pdf") {
+                        data.append("file" + x, files[x]);
+                    }
+                    else {
+                        alert("Please Upload Pdf File only");
+                        return false;
+                    }
+                }
+                var stramt = $("#DebitAmount").val();
+
+
+
+
+
+
+
+
+
+
+                var amount = $("#DebitAmount").val();
+                var invId = $("#InvoiceID").val();
+
+                rowKey = invId;
+                $('#hdnId').val(rowKey);
+                $.ajax({
+                    type: "post",
+                    // async: false,
+                    /// url: '/Invoice/UpdateDebitData/',
+                    url: '/Invoice/UpdateDebitData?id=' + invId + '&amount=' + amount,
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    // data: { "id": invId, "amount": amount },
+                    success: function (jsondata) {
+                        alert("Success");
+                        var x = $("#lblInvoiceAmount").text();
+                        var y = (x - amount);
+                        $("#lblInvoiceAmount").text(y);
+
+                        //////////////////////////////////////////////////////
+                        $("#divcreditdetails").empty();
+                        $.ajax({
+                            type: "post", async: false,
+                            url: '/Invoice/getCreditDetails/',
+                            data: { invoiceno: rowKey },
+                            success: function (jsondata) {
+                                if (jsondata.success < 1) {
+                                    return;
+                                }
+                                var totamount = 0;
+                                $("#DebitAmount").val("");
+                                $("#txtUploadFile").val("");
+
+                                $.each(jsondata.creditlist, function (k, v) {
+                                    //$("#divcreditdetails").append("<tr><td><label id='UserID" + v.CreditNoteId + "' class='edit-mode'>" + v.CreditNoteId + "</label></td><td><span class='display-mode'><a href='/Invoice/DownloadFile/" + v.CreditNoteId + "'>" + v.CreditFileName + "</a></span></td><td id=labeltd" + v.CreditNoteId + ">" + v.CreditAmount + " </td><td style='display:none' id='editTd" + v.CreditNoteId + "'><input type='text' style='display:none' value='" + v.CreditAmount + "' id='inputamount" + v.CreditNoteId + "'/></td><td><a href='#' id='addcontractbtn" + v.CreditNoteId + "' onclick='editDetails(" + v.CreditNoteId + ")' class='btn btn-default button2'>Edit</a><a href='#' id='updatecontractbtn" + v.CreditNoteId + "' style='display:none' onclick='UpdateDetails(" + v.CreditNoteId + ")' class='btn btn-default button2'>Update</a>&nbsp<a href='#' id='DeleteCredit' onclick='DeleteCredit(" + v.CreditNoteId + ")' class='btn btn-default button2'>Delete</a></td></tr>");
+                                    $("#divcreditdetails").append("<tr><td><label id='UserID" + v.DebitNoteId + "' class='edit-mode'>" + v.DebitNoteId + "</label></td><td><span class='display-mode'><a href='/Invoice/DownloadFile/" + v.DebitNoteId + "'>" + v.DebitFileName + "</a></span></td><td id=labeltd" + v.DebitNoteId + ">" + v.DebitAmount + " </td><td style='display:none' id='editTd" + v.DebitNoteId + "'><input type='text' style='display:none' value='" + v.DebitAmount + "' id='inputamount" + v.DebitNoteId + "'/></td><td><a href='#' id='addcontractbtn" + v.DebitNoteId + "' onclick='editDetails(" + v.DebitNoteId + ")' class='btn btn-default button2'>Edit</a><a href='#' id='updatecontractbtn" + v.DebitNoteId + "' style='display:none' onclick='UpdateDetails(" + v.DebitNoteId + ")' class='btn btn-default button2'>Update</a>&nbsp<a href='#' id='DeleteCredit' onclick='DeleteCredit(" + v.DebitNoteId + ")' class='btn btn-default button2'>Delete</a></td></tr>");
+
+                                    totamount = totamount + v.CreditAmount
+                                });
+                                var amttot = $("#txtInvoiceAmount").val();
+                                var amtlbt = $("#hdnInvoiceAmount").val();
+
+                                amtlbt = Number(amtlbt) - Number(stramt);
+                                $("#txtInvoiceAmount").html(amtlbt);
+                                $("#hdnInvoiceAmount").val(amtlbt);
+                                //if((totamount-amttot)>0)
+                                //{
+                                //    $("#btnAdd").hide();
+                                //    $("#lblamountexd").show();
+                                //}
+                            },
+                            error: function (xhr, st, et) { alert(xhr.responseText); }
+                        });
+                        e.preventDefault();
+
+                        //////////////////////////////////////////////////////////
+                    }
+                })
+            }
+        }
+    });
+    ///////////////////////////////////////////////////////////////////////////////////
+    $("input[name='status']").click(function () {
+
+        if ($('input:radio[name=status]:checked').val() == "ReAssign") {
+            //  alert($('input:radio[name=status]:checked').val());
+            $("#reassigntd").show();
+        }
+        else {
+            $("#reassigntd").hide();
+        }
+    });
+
+
+    function UpdateDetails(id) {
+        var stramt = 0;
+        stramt = $("#inputamount" + id + "").val()
+        if (stramt == "") {
+            stramt = "null";
+        }
+        if (stramt == "null" || stramt == "0") {
+            alert('Enter Correct Amount');
+            return false;
+        }
+        else {
+            var invamt = $("#hdnInvoiceAmount").val();
+            if (Number(invamt) < 0) {
+                $("#btnAdd").hide();
+                if (isNaN(stramt)) {
+                    alert("Enter Number");
+                    return false;
+                }
+                else {
+                    if (Number(stramt) + Number(invamt) == 0) {
+                        $.ajax({
+                            type: "post",
+                            async: false,
+                            url: '/Invoice/UpdateCredit/',
+                            data: { "creditId": id, "amount": stramt },
+                            success: function (jsondata) {
+                                alert("Success");
+                                var rowKey = $('#hdnId').val();
+
+                                $("#divcreditdetails").empty();
+                                $.ajax({
+                                    type: "post", async: false,
+                                    url: '/Invoice/getCreditDetails/',
+                                    data: { invoiceno: rowKey },
+                                    success: function (jsondata) {
+                                        if (jsondata.success < 1) {
+                                            return;
+                                        }
+                                        var totamount = 0;
+                                        $.each(jsondata.creditlist, function (k, v) {
+                                            $("#divcreditdetails").append("<tr><td><label id='UserID" + v.DebitNoteId + "' class='edit-mode'>" + v.DebitNoteId + "</label></td><td><span class='display-mode'><a href='/Invoice/DownloadFile/" + v.DebitNoteId + "'>" + v.DebitFileName + "</a></span></td><td id=labeltd" + v.DebitNoteId + ">" + v.DebitAmount + " </td><td style='display:none' id='editTd" + v.DebitNoteId + "'><input type='text' style='display:none' value='" + v.DebitAmount + "' id='inputamount" + v.DebitNoteId + "'/></td><td><a href='#' id='addcontractbtn" + v.DebitNoteId + "' onclick='editDetails(" + v.DebitNoteId + ")' class='btn btn-default button2'>Edit</a><a href='#' id='updatecontractbtn" + v.DebitNoteId + "' style='display:none' onclick='UpdateDetails(" + v.DebitNoteId + ")' class='btn btn-default button2'>Update</a>&nbsp<a href='#' id='DeleteCredit' onclick='DeleteCredit(" + v.CreditNoteId + ")' class='btn btn-default button2'>Delete</a></td></tr>");
+                                            totamount = totamount + v.CreditAmount
+                                        });
+                                        var amttot = $("#hdnInvoiceAmount").val();
+                                        amttot = Number(amttot) + Number(prvamt);
+                                        amttot = Number(amttot) - Number(stramt);
+                                        $("#txtInvoiceAmount").html(amttot);
+                                        $("#hdnInvoiceAmount").val(amttot);
+
+                                    },
+                                    error: function (xhr, st, et) { alert(xhr.responseText); }
+                                });
+                            },
+                            error: function (xhr, st, et) { alert(xhr.responseText); }
+                        });
+                    }
+                    {
+                        alert("Invoice Amount Exceed,Update Amount To" + invamt);
+                    }
+                    return false;
+                }
+            }
+            else {
+                $("#btnAdd").show();
+                if (isNaN(stramt)) {
+                    alert("Enter Number");
+                    return false;
+                }
+                else {
+                    $.ajax({
+                        type: "post",
+                        async: false,
+                        url: '/Invoice/UpdateCredit/',
+                        data: { "creditId": id, "amount": stramt },
+                        success: function (jsondata) {
+                            alert("Success");
+                            var rowKey = $('#hdnId').val();
+
+                            $("#divcreditdetails").empty();
+                            $.ajax({
+                                type: "post", async: false,
+                                url: '/Invoice/getCreditDetails/',
+                                data: { invoiceno: rowKey },
+                                success: function (jsondata) {
+                                    if (jsondata.success < 1) {
+                                        return;
+                                    }
+                                    var totamount = 0;
+                                    $.each(jsondata.creditlist, function (k, v) {
+                                        $("#divcreditdetails").append("<tr><td><label id='UserID" + v.DebitNoteId + "' class='edit-mode'>" + v.DebitNoteId + "</label></td><td><span class='display-mode'><a href='/Invoice/DownloadFile/" + v.DebitNoteId + "'>" + v.DebitFileName + "</a></span></td><td id=labeltd" + v.DebitNoteId + ">" + v.DebitAmount + " </td><td style='display:none' id='editTd" + v.DebitNoteId + "'><input type='text' style='display:none' value='" + v.DebitAmount + "' id='inputamount" + v.DebitNoteId + "'/></td><td><a href='#' id='addcontractbtn" + v.DebitNoteId + "' onclick='editDetails(" + v.DebitNoteId + ")' class='btn btn-default button2'>Edit</a><a href='#' id='updatecontractbtn" + v.DebitNoteId + "' style='display:none' onclick='UpdateDetails(" + v.DebitNoteId + ")' class='btn btn-default button2'>Update</a>&nbsp<a href='#' id='DeleteCredit' onclick='DeleteCredit(" + v.DebitNoteId + ")' class='btn btn-default button2'>Delete</a></td></tr>");
+                                        totamount = totamount + v.DebitAmount
+                                    });
+                                    var amttot = $("#hdnInvoiceAmount").val();
+                                    amttot = Number(amttot) + Number(prvamt);
+                                    amttot = Number(amttot) - Number(stramt);
+                                    $("#lblInvoiceAmount").html(amttot);
+                                    $("#hdnInvoiceAmount").val(amttot);
+
+                                },
+                                error: function (xhr, st, et) { alert(xhr.responseText); }
+                            });
+                        },
+                        error: function (xhr, st, et) { alert(xhr.responseText); }
+                    });
+                }
+            }
+        }
+
+    }
+
+
+    function DeleteCredit(id) {
+        var prvamt = $("#labeltd" + id + "").text();
+        $.ajax({
+            type: "post",
+            async: false,
+            url: '/Invoice/DeleteCredit/',
+            data: { "creditId": id },
+            success: function (jsondata) {
+                alert("Success");
+                var rowKey = $('#hdnId').val();
+
+                $("#divcreditdetails").empty();
+                $.ajax({
+                    type: "post", async: false,
+                    url: '/Invoice/getCreditDetails/',
+                    data: { invoiceno: rowKey },
+                    success: function (jsondata) {
+                        if (jsondata.success < 1) {
+                            return;
+                        }
+                        var totamount = 0;
+                        $.each(jsondata.creditlist, function (k, v) {
+                            $("#divcreditdetails").append("<tr><td><label id='UserID" + v.DebitNoteId + "' class='edit-mode'>" + v.DebitNoteId + "</label></td><td><span class='display-mode'><a href='/Invoice/DownloadFile/" + v.DebitNoteId + "'>" + v.DebitFileName + "</a></span></td><td id=labeltd" + v.DebitNoteId + ">" + v.DebitAmount + " </td><td style='display:none' id='editTd" + v.DebitNoteId + "'><input type='text' style='display:none' value='" + v.DebitAmount + "' id='inputamount" + v.DebitNoteId + "'/></td><td><a href='#' id='addcontractbtn" + v.DebitNoteId + "' onclick='editDetails(" + v.DebitNoteId + ")' class='btn btn-default button2'>Edit</a><a href='#' id='updatecontractbtn" + v.DebitNoteId + "' style='display:none' onclick='UpdateDetails(" + v.DebitNoteId + ")' class='btn btn-default button2'>Update</a>&nbsp<a href='#' id='DeleteCredit' onclick='DeleteCredit(" + v.DebitNoteId + ")' class='btn btn-default button2'>Delete</a></td></tr>");
+                            totamount = totamount + v.DebitAmount
+                        });
+
+                        var amttot = $("#hdnInvoiceAmount").val();
+
+                        var amtlbt = Number(amttot) + Number(prvamt);
+                        $("#txtInvoiceAmount").html(amtlbt);
+                        $("#hdnInvoiceAmount").val(amtlbt);
+
+
+                    },
+                    error: function (xhr, st, et) { alert(xhr.responseText); }
+                });
+            },
+            error: function (xhr, st, et) { alert(xhr.responseText); }
+        });
+    }
+
+
+
+    function updateCreditamount(id) {
+        var creditid = $("#creditnoteid").val();
+        var creditamt = $('#txtamount').val();
+        if (creditamt == "") {
+            creditamt = "null";
+        }
+        if (creditamt == "null" || creditamt == "0") {
+            alert('Enter Correct Amount');
+            return false;
+        }
+        else {
+            if (isNaN(creditamt)) {
+                alert("Enter Number");
+                return false;
+            }
+            else {
+                $.ajax({
+                    type: "post",
+                    async: false,
+                    url: '/Invoice/UpdateCreditData/',
+                    data: { "creditId": creditid, "creditamount": creditamt },
+                    success: function (jsondata) {
+
+
+                        window.location.href = '/Invoice/Invoiceview/';
+
+                    },
+                    error: function (xhr, st, et) { alert(xhr.responseText); }
+                });
+            }
+        }
+    }
+
+    var rowKey = "82";
+    //comment
+    $.ajax({
+        type: "post",
+        async: false,
+        url: '/Invoice/getcomments/',
+        data: { invoiceno: rowKey },
+        success: function (jsondata) {
+            if (jsondata.success < 1) {
+                return;
+            }
+            var parsed = $.parseJSON(jsondata.commentlist);
+            $.each(parsed, function (k, v) {
+                $("#divcomments").append(
+                  "<tr><td>" + v.Comment + " </td> </tr>"
+               );
+            });
+
+        },
+        error: function (xhr, st, et) { alert(xhr.responseText); }
+    });
+
+
+    var frmInvoiceImageList = new window.FormData();
+    var mNumberOfImages = -1;
+    var currentDisplayedImageTD = null;
+    var deletedInvoiceImageList = [];
+
+    var prvamt = "";
+    function editDetails(id) {
+        prvamt = $("#labeltd" + id + "").text();
+
+        $("#labeltd" + id + "").hide();
+        $("#inputamount" + id + "").show();
+        $("#editTd" + id + "").show();
+        $("#addcontractbtn" + id + "").hide();
+
+        $("#updatecontractbtn" + id + "").show();
+    }
+    function UpdateDetails(id) {
+        var stramt = 0;
+        stramt = $("#inputamount" + id + "").val()
+        if (stramt == "") {
+            stramt = "null";
+        }
+        if (stramt == "null" || stramt == "0") {
+            alert('Enter Correct Amount');
+            return false;
+        }
+        else {
+            var invamt = $("#hdnInvoiceAmount").val();
+            if (Number(invamt) < 0) {
+                $("#btnAdd").hide();
+                if (isNaN(stramt)) {
+                    alert("Enter Number");
+                    return false;
+                }
+                else {
+                    if (Number(stramt) + Number(invamt) == 0) {
+                        $.ajax({
+                            type: "post",
+                            async: false,
+                            url: '/Invoice/UpdateCredit/',
+                            data: { "creditId": id, "amount": stramt },
+                            success: function (jsondata) {
+                                alert("Success");
+                                var rowKey = $('#hdnId').val();
+
+                                $("#divcreditdetails").empty();
+                                $.ajax({
+                                    type: "post", async: false,
+                                    url: '/Invoice/getCreditDetails/',
+                                    data: { invoiceno: rowKey },
+                                    success: function (jsondata) {
+                                        if (jsondata.success < 1) {
+                                            return;
+                                        }
+                                        var totamount = 0;
+                                        $.each(jsondata.creditlist, function (k, v) {
+                                            $("#divcreditdetails").append("<tr><td><label id='UserID" + v.DebitNoteId + "' class='edit-mode'>" + v.DebitNoteId + "</label></td><td><span class='display-mode'><a href='/Invoice/DownloadFile/" + v.DebitNoteId + "'>" + v.DebitFileName + "</a></span></td><td id=labeltd" + v.DebitNoteId + ">" + v.DebitAmount + " </td><td style='display:none' id='editTd" + v.DebitNoteId + "'><input type='text' style='display:none' value='" + v.DebitAmount + "' id='inputamount" + v.DebitNoteId + "'/></td><td><a href='#' id='addcontractbtn" + v.DebitNoteId + "' onclick='editDetails(" + v.DebitNoteId + ")' class='btn btn-default button2'>Edit</a><a href='#' id='updatecontractbtn" + v.DebitNoteId + "' style='display:none' onclick='UpdateDetails(" + v.DebitNoteId + ")' class='btn btn-default button2'>Update</a>&nbsp<a href='#' id='DeleteCredit' onclick='DeleteCredit(" + v.DebitNoteId + ")' class='btn btn-default button2'>Delete</a></td></tr>");
+                                            totamount = totamount + v.DebitAmount
+                                        });
+                                        var amttot = $("#hdnInvoiceAmount").val();
+                                        amttot = Number(amttot) + Number(prvamt);
+                                        amttot = Number(amttot) - Number(stramt);
+                                        $("#txtInvoiceAmount").html(amttot);
+                                        $("#hdnInvoiceAmount").val(amttot);
+
+                                    },
+                                    error: function (xhr, st, et) { alert(xhr.responseText); }
+                                });
+                            },
+                            error: function (xhr, st, et) { alert(xhr.responseText); }
+                        });
+                    }
+                    {
+                        alert("Invoice Amount Exceed,Update Amount To" + invamt);
+                    }
+                    return false;
+                }
+            }
+            else {
+                $("#btnAdd").show();
+                if (isNaN(stramt)) {
+                    alert("Enter Number");
+                    return false;
+                }
+                else {
+                    $.ajax({
+                        type: "post",
+                        async: false,
+                        url: '/Invoice/UpdateCredit/',
+                        data: { "creditId": id, "amount": stramt },
+                        success: function (jsondata) {
+                            alert("Success");
+                            var rowKey = $('#hdnId').val();
+
+                            $("#divcreditdetails").empty();
+                            $.ajax({
+                                type: "post", async: false,
+                                url: '/Invoice/getCreditDetails/',
+                                data: { invoiceno: rowKey },
+                                success: function (jsondata) {
+                                    if (jsondata.success < 1) {
+                                        return;
+                                    }
+                                    var totamount = 0;
+                                    $.each(jsondata.creditlist, function (k, v) {
+                                        $("#divcreditdetails").append("<tr><td><label id='UserID" + v.DebitNoteId + "' class='edit-mode'>" + v.DebitNoteId + "</label></td><td><span class='display-mode'><a href='/Invoice/DownloadFile/" + v.DebitNoteId + "'>" + v.DebitFileName + "</a></span></td><td id=labeltd" + v.DebitNoteId + ">" + v.DebitAmount + " </td><td style='display:none' id='editTd" + v.DebitNoteId + "'><input type='text' style='display:none' value='" + v.DebitAmount + "' id='inputamount" + v.DebitNoteId + "'/></td><td><a href='#' id='addcontractbtn" + v.DebitNoteId + "' onclick='editDetails(" + v.DebitNoteId + ")' class='btn btn-default button2'>Edit</a><a href='#' id='updatecontractbtn" + v.DebitNoteId + "' style='display:none' onclick='UpdateDetails(" + v.DebitNoteId + ")' class='btn btn-default button2'>Update</a>&nbsp<a href='#' id='DeleteCredit' onclick='DeleteCredit(" + v.DebitNoteId + ")' class='btn btn-default button2'>Delete</a></td></tr>");
+                                        totamount = totamount + v.DebitAmount
+                                    });
+                                    var amttot = $("#hdnInvoiceAmount").val();
+                                    amttot = Number(amttot) + Number(prvamt);
+                                    amttot = Number(amttot) - Number(stramt);
+                                    $("#txtInvoiceAmount").html(amttot);
+                                    $("#hdnInvoiceAmount").val(amttot);
+
+                                },
+                                error: function (xhr, st, et) { alert(xhr.responseText); }
+                            });
+                        },
+                        error: function (xhr, st, et) { alert(xhr.responseText); }
+                    });
+                }
+            }
+        }
+
+    }
+
+
+    function DeleteCredit(id) {
+        var prvamt = $("#labeltd" + id + "").text();
+        $.ajax({
+            type: "post",
+            async: false,
+            url: '/Invoice/DeleteCredit/',
+            data: { "debitId": id },
+            success: function (jsondata) {
+                alert("Success");
+                var rowKey = $('#hdnId').val();
+
+                $("#divcreditdetails").empty();
+                $.ajax({
+                    type: "post", async: false,
+                    url: '/Invoice/getCreditDetails/',
+                    data: { invoiceno: rowKey },
+                    success: function (jsondata) {
+                        if (jsondata.success < 1) {
+                            return;
+                        }
+                        var totamount = 0;
+                        $.each(jsondata.creditlist, function (k, v) {
+                            $("#divcreditdetails").append("<tr><td><label id='UserID" + v.DebitNoteId + "' class='edit-mode'>" + v.DebitNoteId + "</label></td><td><span class='display-mode'><a href='/Invoice/DownloadFile/" + v.DebitNoteId + "'>" + v.DebitFileName + "</a></span></td><td id=labeltd" + v.DebitNoteId + ">" + v.DebitAmount + " </td><td style='display:none' id='editTd" + v.DebitNoteId + "'><input type='text' style='display:none' value='" + v.DebitAmount + "' id='inputamount" + v.DebitNoteId + "'/></td><td><a href='#' id='addcontractbtn" + v.DebitNoteId + "' onclick='editDetails(" + v.DebitNoteId + ")' class='btn btn-default button2'>Edit</a><a href='#' id='updatecontractbtn" + v.DebitNoteId + "' style='display:none' onclick='UpdateDetails(" + v.DebitNoteId + ")' class='btn btn-default button2'>Update</a>&nbsp<a href='#' id='DeleteCredit' onclick='DeleteCredit(" + v.DebitNoteId + ")' class='btn btn-default button2'>Delete</a></td></tr>");
+                            totamount = totamount + v.DebitAmount
+                        });
+
+                        var amttot = $("#hdnInvoiceAmount").val();
+
+                        var amtlbt = Number(amttot) + Number(prvamt);
+                        $("#txtInvoiceAmount").html(amtlbt);
+                        $("#hdnInvoiceAmount").val(amtlbt);
+
+
+                    },
+                    error: function (xhr, st, et) { alert(xhr.responseText); }
+                });
+            },
+            error: function (xhr, st, et) { alert(xhr.responseText); }
+        });
+    }
+
+
+
+    function updateCreditamount(id) {
+        var creditid = $("#creditnoteid").val();
+        var creditamt = $('#txtamount').val();
+        if (creditamt == "") {
+            creditamt = "null";
+        }
+        if (creditamt == "null" || creditamt == "0") {
+            alert('Enter Correct Amount');
+            return false;
+        }
+        else {
+            if (isNaN(creditamt)) {
+                alert("Enter Number");
+                return false;
+            }
+            else {
+                $.ajax({
+                    type: "post",
+                    async: false,
+                    url: '/Invoice/UpdateCreditData/',
+                    data: { "creditId": creditid, "creditamount": creditamt },
+                    success: function (jsondata) {
+
+
+                        window.location.href = '/Invoice/Invoiceview/';
+
+                    },
+                    error: function (xhr, st, et) { alert(xhr.responseText); }
+                });
+            }
+        }
+    }
+    function ClearText() {
+        $("#InvoiceNumber").val("");
+        $("#txtInvoiceAmount").val("");
+        $("#txtinvoicereceiveddate").val("");
+        $("#txtInvoiceDate").val("");
+        $("#txtInvoiceDueDate").val("");
+        $("#txtpono").val("");
+        $("#txtpanno").val("");
+
+        $('#drpdeptid').prop('selectedIndex', 0);
+        $('#drpeduserid').prop('selectedIndex', 0);
+        $('#drpenduserapproval').prop('selectedIndex', 0);
+        $('#drpcostcenterid').prop('selectedIndex', 0);
+        $('#drptaxtypeid').prop('selectedIndex', 0);
+
+        $("#drpvendorid").val("");
+
+    }
+
+    function resetImagelist() {
+        deletedInvoiceImageList = [];
+        frmInvoiceImageList = new window.FormData();
+        $("img.imglist").remove();
+        $("#tbimglist td").remove();
+        currentDisplayedImageTD = null;
+        mNumberOfImages = -1;
+    }
+
+    function zoom(inout) {
+
+        if ($("div.ec-div img").length < 1) return;
+        if ($("#tbimglist tr").length < 1) return;
+
+        $("div.ec-div img").css({
+            "height": ($("div.ec-div img")[0].offsetHeight + $("div.ec-div img")[0].offsetHeight * .01 * inout) + "px",
+            "width": ($("div.ec-div img")[0].offsetWidth + $("div.ec-div img")[0].offsetWidth * .01 * inout) + "px"
+        });
+    }
+
+
+
+    function ec_showInvoiceImage1(img) {
+
+        $("div.ec-div-invoice-image iframe:first").removeAttr('src');
+    }
+
+    function ec_showInvoiceImage(img) {
+
+        var rsrc = $(img)[0].src;
+
+        var rext = rsrc.substring(rsrc.lastIndexOf(".") + 1);
+
+        if (rext != "pdf") {
+            $("div.ec-div-invoice-image img")[0].src = $(img)[0].src;
+            $("#printimg").attr("src", $(img)[0].src);
+            $("div.ec-div-invoice-image iframe").hide();
+            $("div.ec-div-invoice-image img").show();
+            $(".zoombtn").show();
+            //wheelzoom(document.getElementById('imgInvoiceImage'));
+        }
+        else {
+
+
+            $("div.ec-div-invoice-image iframe:first").attr('src', rsrc);
+
+            $("div.ec-div-invoice-image img").hide();
+            $("div.ec-div-invoice-image iframe").show();
+            $(".zoombtn").hide();
+        }
+
+        currentDisplayedImageTD = $(img).closest("td");
+        var n = $("#tbimglist td").length;
+        $("#spannof").text(($(img).closest("td").parent().parent().children().index($(img).closest("td").parent()) + 1) + "/" + n);
+
+
+    }
+
+
+    function zoom(inout) {
+        if ($("div.ec-div-invoice-image img").length < 1) return;
+        if ($("table.ec-table-invoice-image-icons tr").length < 1) return;
+
+        $("div.ec-div-invoice-image img").css({
+            "height": ($("div.ec-div-invoice-image img")[0].offsetHeight + $("div.ec-div-invoice-image img")[0].offsetHeight * .01 * inout) + "px",
+            "width": ($("div.ec-div-invoice-image img")[0].offsetWidth + $("div.ec-div-invoice-image img")[0].offsetWidth * .01 * inout) + "px"
+        });
+    }
+
+    function nextimage(prevnext) {
+
+
+        if ($("table.ec-table-invoice-image-icons tr").length < 1) return;
+
+        if ($("table.ec-table-invoice-image-icons tr.current-invoice-image-icon").length < 1) {
+
+            $("table.ec-table-invoice-image-icons tr:nth-child(1)").addClass("current-invoice-image-icon");
+        }
+        else {
+
+            var tr = $("table.ec-table-invoice-image-icons tr.current-invoice-image-icon")[0];
+
+            $("table.ec-table-invoice-image-icons tr").removeClass("current-invoice-image-icon");
+            if (prevnext == -1) {
+                if ($(tr).prev("tr"))
+                    $(tr).prev("tr").addClass("current-invoice-image-icon");
+                else
+                    $("table.ec-table-invoice-image-icons tr:last").addClass("current-invoice-image-icon");
+            }
+            if (prevnext == 1) {
+                //alert($("img",$(tr).next("tr")).length);
+                if ($("img", $(tr).next("tr")).length == 1) {
+                    $(tr).next("tr").addClass("current-invoice-image-icon");
+
+                }
+                else {
+                    $("table.ec-table-invoice-image-icons tr:first").addClass("current-invoice-image-icon");
+                }
+            }
+        }
+        $("table.ec-table-invoice-image-icons tr.current-invoice-image-icon img:first").click();
+
+    }
+
+    function removeimage() {
+
+        if ($("#tbimglist td img.can").length != 0) {
+
+            if (currentDisplayedImageTD == null) return;
+
+            var imgsrc = $("img", currentDisplayedImageTD)[0].src;
+            var imgpath = imgsrc.substring(imgsrc.lastIndexOf("/") + 1);
+
+            $.ajax({
+                type: "post", async: false,
+                url: '/Invoice/removeInvoiceImages',
+                data: { filename: imgpath },
+                success: function (jsondata) {
+
+                    var imgid = $("img", currentDisplayedImageTD)[0].id;
+                    $("#imgInvoiceImage")[0].src = "";
+
+                    var tcurrentDisplayedImageTD = ($(currentDisplayedImageTD).parent().next("tr").length != 0 ? $(currentDisplayedImageTD).parent().next("tr").children("td") : $(currentDisplayedImageTD).parent().prev("tr").children("td"));
+                    $(currentDisplayedImageTD).parent().remove();
+                    currentDisplayedImageTD = tcurrentDisplayedImageTD;
+                    deletedInvoiceImageList.push("cfu" + imgid.split("_")[1]);
+
+                    if ($("#tbimglist td img").length != 0) {
+
+                        var rsrc = $("img", currentDisplayedImageTD)[0].src;
+                        var rext = rsrc.substring(rsrc.lastIndexOf(".") + 1);
+                        if (rext != "pdf") {
+
+                            $("#imgInvoiceImage")[0].src = $("img", currentDisplayedImageTD)[0].src;
+                            $("#printimg").attr("src", $("img", currentDisplayedImageTD)[0].src);
+                            $("div.ec-div-invoice-image iframe").hide();
+                            $("div.ec-div-invoice-image img").show();
+                            $(".zoombtn").show();
+                        }
+                        else {
+                            $("#iframeInvoiceImage")[0].src = $("img", currentDisplayedImageTD)[0].src;
+
+                            $("div.ec-div-invoice-image img").hide();
+                            $("div.ec-div-invoice-image iframe").show();
+                            $(".zoombtn").hide();
+                        }
+                        $("#spannof").show();
+
+                        var n = $("#tbimglist td").length;
+                        $("#spannof").text(($(currentDisplayedImageTD).parent().parent().children().index($(currentDisplayedImageTD).parent()) + 1) + "/" + n);
+                    }
+                    else {
+                        //$("#spannof").hide();
+                    }
+                },
+                error: function (xhr, st, et) { alert(xhr.responseText); }
+
+            });
+        }
+        else {
+            alert("No Images are Added to remove");
+        }
+    }
+
+    function resetImagelist() {
+        deletedInvoiceImageList = [];
+        frmInvoiceImageList = new window.FormData();
+        $("img.imglist").remove();
+        $("#tbimglist td").remove();
+        currentDisplayedImageTD = null;
+        mNumberOfImages = -1;
+    }
+</script>
+
+@*Add to Viewer*@
+<script>
+        var frmInvoiceImageList = new window.FormData();
+        var mNumberOfImages = -1;
+        var currentDisplayedImageTD = null;
+        var deletedInvoiceImageList = [];
+
+
+        function addToInvoiceImagesList() {
+
+
+            var fi = document.getElementById("filetoupload");
+
+            var nof = fi.files.length;
+
+            if (nof < 1) return;
+            var allowedfiles = ["jpg", "jpeg", "bmp", "gif", "png", "tif", "tiff","pdf","docx","doc","dot","docm","dotx","docb","dotm","xlsx","xlsm","xltx","xltm","xlsb","xla","xll","xlw"];
+            var temdata = new window.FormData();
+            var n = 0;
+            var startno = mNumberOfImages + 1;
+
+            for (var i = 0; i < nof; i++) {
+                var nm = fi.files[i].name;
+
+                var ext = nm.substring(nm.lastIndexOf(".") + 1);
+                ext = $.trim(ext.toLowerCase());
+
+                if (allowedfiles.indexOf(ext) < 0) continue;
+                mNumberOfImages++;
+
+                frmInvoiceImageList.append("filetoupload" + mNumberOfImages, fi.files[i], fi.files[i].name);
+                temdata.append("filetoupload" + mNumberOfImages, fi.files[i], fi.files[i].name);
+                n++;
+            }
+            $("#filetoupload").val("");
+            if (n > 0) {
+
+                var xhr = new XMLHttpRequest();
+                if (xhr == undefined) { xhr = new ActiveXObject("Microsoft.XMLHTTP"); }
+                xhr.onreadystatechange = function () {
+                    if (this.status == 200 && this.readyState == 4) {
+                        var src = JSON.parse(this.responseText).imglist;
+                        var icontable = $("table.ec-table-invoice-image-icons");
+                        var i = 1;
+                        $.each(src, function (k, z) {
+
+                            //var allowedfiles1 = [".jpg", ".jpeg", ".bmp", ".gif", ".png", ".tif", ".tiff",".pdf"];
+                            var allowedfiles1 = [".jpg", ".jpeg", ".bmp", ".gif", ".png", ".tif", ".tiff",".pdf",".docx",".doc",".dot",".docm",".dotx",".docb",".dotm",".xlsx",".xlsm",".xltx",".xltm",".xlsb",".xla",".xll",".xlw"];
+                            var arrimag = z.split('~');
+                            var v = arrimag[0];
+
+                            var filename = arrimag[1];
+
+                            var ext = filename.substring(filename.lastIndexOf(".") + 1);
+                            ext = "."+ext;
+                            var pdffile = filename.substring(filename.lastIndexOf("\\") + 1);
+                            var pdffile1= pdffile.split('/');
+
+                            if (allowedfiles1.indexOf(ext) >= 0)
+                            {
+                                $(icontable).append(
+                                     "<tr><td><img src='/Files/Temp/" + pdffile + "' class='ec-invoice-image-icon can' title="+pdffile1[1] +" onclick='ec_showInvoiceImage(this);'/></td></tr>"
+                                     );
+                            }
+                            else
+                            {
+                                if(ext== '.pdf')
+                                {
+                                    $(icontable).append(
+                                      "<tr><td> <img  src='/ViewerJS/#../Files/Temp/" + pdffile + "' class='ec-invoice-image-icon can'  title="+pdffile1[1] +" onmousedown='ec_showInvoiceImage1(this);' onmouseup='ec_showInvoiceImage(this);' /></td></tr>"
+                                     );
+                                }
+                                else if(ext == '.docx' || ext == '.doc' || ext == '.dot' || ext == '.docm' || ext == '.dotx' || ext == '.dotm' || ext == '.docb')
+                                {
+                                    $(icontable).append(
+                                "<tr><td> <a class=\"media\" href='/Files/Temp/" + pdffile + "' target=\"_blank\"  >  <img class='ec-invoice-image-icon can' src='/Files/word.jpg' title="+pdffile1[1] +" /></a></td></tr>"
+                               );
+                                }
+                                else if(ext == '.xlsx' || ext == '.xlsm' || ext == '.xltx' || ext == '.xltm' || ext == '.xlsb' || ext == '.xla' || ext == '.xll' || ext == '.xlw')
+                                {
+                                    $(icontable).append(
+                                "<tr><td> <a class=\"media\" href='/Files/Temp/" + pdffile + "' target=\"_blank\"  >  <img class='ec-invoice-image-icon can' src='/Files/excel.jpg' title="+pdffile1[1] +" /></a></td></tr>"
+                               );
+                                }
+                            }
+
+
+                            i++;
+                            startno++;
+                        });
+
+                        if (i == 1) {
+
+
+                            currentDisplayedImageTD = $("table.ec-table-invoice-image-icons tr:first td:last");
+                            $("tr:first", $(icontable)).addClass("current-invoice-image-icon")
+
+                            var rsrc=  $("tr:first td:first img", $(icontable))[0].src;
+                            var rext = rsrc.substring(rsrc.lastIndexOf(".") + 1);
+                            if( rext != "pdf" )
+                            {
+                                $("div.ec-div-invoice-image img")[0].src = $("tr:first td:last img", $(icontable))[0].src;
+                                $("div.ec-div-invoice-image img:first").attr("src",$("tr:first td:last img:first", $(icontable)).attr("src"));
+                                //$("#printimg").attr("src",$("tr:first td:first img:first", $(icontable)).attr("src"));
+                                $("div.ec-div-invoice-image iframe").hide();
+                                $("div.ec-div-invoice-image img").show();
+                                $(".zoombtn").show();
+                                // wheelzoom(document.getElementById('imgInvoiceImage'));
+
+
+                            }
+                            else
+                            {
+
+                                $("div.ec-div-invoice-image iframe")[0].src = $("tr:first td:last img", $(icontable))[0].src;
+                                $("div.ec-div-invoice-image iframe:first").attr("src",$("tr:first td:last img:first", $(icontable)).attr("src"));
+                                $("div.ec-div-invoice-image img").hide();
+                                $("div.ec-div-invoice-image iframe").show();
+                                $(".zoombtn").hide();
+                            }
+
+                        }
+                        var n = $("#tbimglist td").length;
+                        $("#spannof").show();
+                        $("#spannof").text(($(currentDisplayedImageTD)[0].cellIndex + 1) +"/" + n);
+                    }
+                };
+                xhr.open('POST', "@Url.Action("NewgetImageLists", "Invoice")", true);
+                xhr.send(temdata);
+
+
+            }
+        }
+</script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+

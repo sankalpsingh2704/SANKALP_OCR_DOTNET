@@ -1,0 +1,163 @@
+﻿
+@{
+    ViewBag.Title = "Tax";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .jumbotron {
+        background: white;
+        color: black;
+    }
+
+    .jumbotron h2 {
+        width: 400px;
+        margin: 0 auto;
+    }
+
+    tbody {
+        background: white;
+    }
+
+    .wrapper-two {
+        margin: 20px;
+    }
+
+    table {
+        width: 900px !important;
+    }
+
+    .category-ref td {
+        width: 200px;
+    }
+
+    input[type=text] {
+        height: 30px;
+    }
+</style>
+<div class="container-fluid">
+    <header class="jumbotron">
+        <h2>Tax Management</h2>
+    </header>
+</div>
+<div class="wrapper-one">
+    <div class="wrapper-two">
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Tax Name</th><th>Tax Value</th><th>IsActive</th><th>Action</th>
+                </tr>
+            </thead>
+            <tbody class="category-ref">
+                
+            </tbody>
+        </table>
+        <input style="margin-left: 40px;" type="button" id="addItem" value="Add" class="btn btn-primary" />
+        <!--<input style="margin-left: 40px;" type="button" id="submit" value="Submit" class="btn btn-primary" />-->
+    </div>
+    <script>
+        $(function () {
+            function refresh() {
+                $.get("getAllTax", function (data, status) {
+                    console.log(data);
+                    data.forEach(function (data, idx) {
+                        //console.log(data);
+                        /*
+                        var option = "";
+                        if (data.IsActive == true)
+                        {
+                            option = "<option selected='selected' value='true'>True</option><option value='false'>False</option>";
+                        }
+                        <select class='form-control' id='isactive"+idx+"'>"+option+"</select>
+                        else {
+                            option = "<option value='true'>True</option><option selected='selected' value='false'>False</option>";
+                        }*/
+                        $(".category-ref").append("<tr id='" + idx + "'><td>" + data.TaxName + "</td><td>" + data.TaxValue + "</td><td>"+data.IsActive+"</td><td><input id='btn" + idx + "' type='button' value='Edit' rel='" + data.TaxID + "' class='btn btn-primary upd'  /></td></tr>");
+                    });
+                });
+                
+            }
+            refresh();
+            $("#addItem").click(function () {
+                var id = parseInt($(".category-ref").children().last().attr("id"));
+                
+               
+                if (isNaN(id)) {
+                    id = -1;
+                }
+                var id = id + 1;
+                $(".category-ref").append("<tr class='create' id='" + id + "'><td><input class='form-control' id='taxname" + id + "' type='text'  /></td><td><input class='form-control' id='taxvalue" + id + "' type='text'  /></td><td><select class='form-control' id='isactive" + id + "' type='text'  ><option value='true'>True</option><option value='false'>False</option></select></td><td><input id='btn" + id + "' type='button' value='Save' class='btn btn-primary save'  /></td></tr>");
+            });
+            $(".category-ref").on("click", ".upd", function () {
+                var taxid = $(this).attr("rel");
+                var id = $(this).attr("id").replace(/^\D+/g, '');
+                console.log(id);
+                var taxName = $(".category-ref #" + id + " td:nth-child(1)").html();
+                var taxValue = $(".category-ref #" + id + " td:nth-child(2)").html();
+                var isActive = $(".category-ref #" + id + " td:nth-child(3)").html();
+                var optionarr = ["true", "false"];
+                var options = optionarr.map(function (x,i) {
+                    if(isActive == x)
+                        return "<option val='"+x+"' selected='selected' >"+x+"</option>";
+                    else {
+                        return "<option val='" + x + "'>"+x+"</option>";
+                    }
+
+                }).join("");
+
+
+                $(".category-ref #" + id).empty();
+                $(".category-ref #" + id).attr("class", "edit");
+                $(".category-ref #" + id).append("<td><input class='form-control' id='taxname" + id + "' type='text' value='" + taxName + "' /></td><td><input class='form-control' id='taxvalue" + id + "' type='text' value='" + taxValue + "'  /></td><td><select class='form-control' id='isactive" + id + "' type='text'  >" + options + "</select></td><td><input id='btn" + id + "' type='button' value='Save' rel='" + taxid + "' class='btn btn-primary saveup'  /></td>");  
+            });
+
+            $(".category-ref").on("click", ".saveup", function () {
+
+                var id = $(this).attr("id").replace(/^\D+/g, '');
+                var rel = $(this).attr("rel");
+                
+                var tax = { "TaxName": $(".category-ref #" + id + " td:nth-child(1) #taxname" + id).val(), "TaxValue": $(".category-ref #" + id + " td:nth-child(2) #taxvalue" + id).val(), "IsActive": $(".category-ref #" + id + " td:nth-child(3) #isactive" + id + " :selected").val(), "UpdateID": rel };
+                $.post("updateTax", { tax }, function (data, status) {
+
+                    $(".category-ref").empty();
+                    refresh();
+
+                });
+                //console.log(obj);
+            });
+
+            //$(".category-ref").on("click")
+            $(".category-ref").on("click",".save",function () {
+                var taxlist = {};
+                $(".category-ref .create").each(function (index, item) {
+                    var id = $(item).attr("id");
+                    taxlist = { "TaxName": $(".category-ref #" + id + " td:nth-child(1) #taxname" + id).val(), "TaxValue": $(".category-ref #" + id + " td:nth-child(2) #taxvalue" + id).val(), "IsActive": $(".category-ref #" + id + " td:nth-child(3) #isactive" + id+" :selected").val() };
+                    console.log(taxlist);
+                    //console.log($(".category-ref #" + id + " td:nth-child(2) #name"+id).val());
+                    
+                    //taxlist.push(obj);
+                    
+                });
+                $.post("AddTax", { taxlist }, function (data, status) {
+
+                    $(".category-ref").empty();
+                    refresh();
+                    
+                });
+            });
+            /*
+            $(".category-ref").on("click", ".del", function () {
+                var taxid = $(this).attr("rel");
+                $.post("DeleteTax", { taxid }, function (data, status) {
+                    $(".category-ref").empty();
+                    refresh();
+
+                });
+            });
+            */
+            
+        });
+    </script>
+</div>
+

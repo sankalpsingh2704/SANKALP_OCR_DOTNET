@@ -1,0 +1,264 @@
+﻿@*@model  InvoiceNew.Models.UserMappingModel*@
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //int maxUsrCount = ViewBag.MaxRowCount;
+}
+<style>
+    .lstBoxHeight{
+        height:250px !important;
+    }
+</style>
+<section class="content">
+    <!-- Info boxes -->
+
+   
+
+
+    @*@using (Html.BeginForm("Creates", "UsersMapping", FormMethod.Post, new { @class = "form-horizontal", id = "form" }))
+    {
+        @Html.AntiForgeryToken()*@
+
+    <div class="form-group">
+        <div style="float:left">
+        <div class="row">
+            <div class="col-lg-4" style="height:40px;">
+                <div class="col-md-12">
+                    @Html.DropDownList("Users", new SelectList(ViewBag.Users, "Value", "Text", ""), "--SELECT--", new { id = "drpUserTypes", Class = "ddlStyle form-control", onchange = "SelectedIndexChanged()", style="width:auto" })
+                </div>
+                <div id="EnableUser" class="col-md-12" style="margin-left:0">
+
+                </div>
+                <div class="col-md-12">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <input type="button" value="SAVE" id="save" class="btn btn-primary" />
+                    </div>
+                   
+                </div>
+                <!--
+                <div class="col-md-4">
+                    
+                    <div id="EnableUser">
+                        @*@{Html.RenderAction("GetFilteredUsers", "UsersMapping");}*@
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <!--
+                    <div id="divUsers">
+                        @*@Html.RenderPartial("_FilteredUsers");*@
+                        @*@Html.Partial("_FilteredUsers")*@
+                        @*@{Html.RenderAction("GetFilteredUsers", "UsersMapping");}*@
+                    </div>
+                       
+                </div> -->
+            </div>
+            <div id="multi-platform" class="col-lg-4">
+                <!--<select id='branch' class='selectedBranch'></select>-->
+            </div>
+            <div id="divUsers" class="col-lg-4">
+                @*@Html.RenderPartial("_FilteredUsers");*@
+                @*@Html.Partial("_FilteredUsers")*@
+                @*@{Html.RenderAction("GetFilteredUsers", "UsersMapping");}*@
+            </div>
+        </div>
+           
+        </div>
+
+        
+        <br />
+        <div class="col-sm-4">
+           
+        </div>
+        
+       
+    </div>
+    <!--
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-2">
+            <input type="button" value="SAVE" id="save" class="btn btn-primary" />
+        </div>
+        
+        <div class="col-lg-10 col-lg-offset-2">
+            <input type="button" value="del" id="del" class="btn btn-primary" />
+        </div> 
+    </div>
+        -->
+</section>
+
+<script type="text/javascript">
+    console.log("call");
+    function SelectedIndexChanged() {
+        var Id = ($("#drpUserTypes").val());
+
+        var usrList = ($('#TeamIds').val());
+        var usrL = JSON.stringify(usrList);
+        $.ajax({
+
+            type: "POST",
+            url: '/UsersMapping/GetUserDetails/',
+            dataType: "html",
+            data: { Id: Id },
+           // contentType: "application/html; charset=utf-8",
+            success: function (data) {
+                
+                $("#EnableUser").html(data);
+                
+                $.ajax({
+                    type: "POST",
+                    url: '/UsersMapping/GetFilteredUsers/',
+                    dataType: "html",
+                    data: { Id: Id },
+                    // contentType: "application/html; charset=utf-8",
+                    success: function (data) {
+                        
+                        $("#divUsers").html(data);
+                       
+                    }
+                });
+            }
+        });
+    }
+    /*
+    $("#del").on("click",function(){
+        $("#branch").attr("multiple","multiple");
+        $("#branch").after("<select multiple='multiple' class='selectedBranch'><option>One</option><option>Two</option></select>");
+        refreshms();
+        
+        console.log("del");
+    
+    });*/
+    $("#save").on("click", function () {
+        
+        if(valmultiselect()){
+            var id = ($("#drpUserTypes").val());
+            $("#TeamIds option").prop("selected", true);
+            var usrList =  ($('#TeamIds').val());
+            //var blist = [];
+            var itemList = [];
+            $(".selectedBranch").each(function (ind, item) {
+                //console.log("item:"+item);
+                // + .btn-group .multiselect-container .active input
+                item = $(item).val();
+                itemList.push(item);
+                //blist.push(itemList);
+                //console.log(item);
+           
+            });
+            var usrL = JSON.stringify(usrList);
+            if(itemList[0].constructor === Array){
+            
+            }
+            else{
+            
+                for(x in itemList)
+                {
+                    var arr = [];
+                    arr.push(itemList[x]);
+                    itemList[x] = arr;
+                
+                }
+           
+            }
+            console.log(usrList);
+            console.log(itemList);
+            //saveCategory();
+        
+            $.ajax({
+                type: "post",
+                async: false,
+                url: '/UsersMapping/UpdateDetails/',
+                dataType: "json",
+                data: { "usertypeid": id, "userList": usrList,"branchList":itemList },
+                success: function (jsondata) {
+                    alert("Success");
+                    //$.ajax({
+                    //    type: "post",
+                    //    url: '/UsersMapping/GetFilteredUsers/',
+                    //    data: { "Id": id },
+                    //    //    async:false,
+                    //    contentType: "application/json; charset=utf-8",
+                    //    dataType: "",
+                    //    success: function (data) {
+                    //        // alert(data);
+                    //        $('#divUsers').html(data);
+                    //    }
+                    //});
+                }
+            });
+        }
+        else{
+
+        }
+        
+    })
+    function valmultiselect(){
+        var valid = true;
+        $("#multi-platform .selectedBranch").each(function(idx,el){
+            var id = $(el).attr("id");
+            var count = parseInt(id.replace(/^\D+/g, '')) + 1;
+            var mVal = $("#"+id+" + .btn-group > .multiselect-container").has(".active");
+           
+            if(mVal.length == 0){
+                alert("DropDown "+count+" is Not selected");
+                valid = false;
+            }
+            
+        });
+        return valid;
+    }
+
+    function refreshms() {
+        $('.selectedBranch').multiselect({
+
+            includeSelectAllOption: false,
+            multiple: true,
+            buttonWidth: '200px',
+            buttonText: function (options) {
+                if (options.length == 0) {
+                    return '0 Selected';
+                } else {
+                    var selected = 0;
+                    options.each(function () {
+                        selected += 1;
+                    });
+                    return selected + 'Selected';
+                }
+            }
+
+        });
+
+
+    }
+
+   
+    function filldropdown(){
+
+        var branch = @Html.Raw(ViewBag.BranchData);
+        console.log(branch);
+        var options = branch.map(function(x,idx){
+            return "<option value='"+x.BranchID+"' >"+x.BranchName+"</option>";
+        });
+        $(".selectedBranch").append(options);
+        refreshms();
+
+    }
+    filldropdown();
+   
+    function saveCategory(){
+        console.log("save");
+        $("#branch + .btn-group .multiselect-container .active input").each(function (ind, item) {
+            var item = $(item).val();
+            console.log(item);
+            /*
+            if (ind != 0)
+                selected += "," + $(item).val();
+            else {
+                if ($(item).val() !== "multiselect-all")
+                    selected += $(item).val();
+            }
+            selected = selected.replace(/^,/, '');
+            */
+        });
+    }
+</script>

@@ -1,0 +1,46 @@
+﻿@model  IList<InvoiceNew.Models.UserPreferenceViewModel>
+
+<div>
+    <table id="disabledUsers" class="table-hover">
+        <tbody>
+            @foreach (var m in Model)
+            {
+                <tr class="bg-danger">
+                    <td>
+                        @Html.HiddenFor(model => @m.ColumnOrder)
+                        @Html.HiddenFor(model => @m.Id)
+                        <button type="button" class="btn btn-xs enable"><i class="fa fa-arrow-circle-left"></i></button>
+                    </td>
+                    <td>
+                        @Html.DisplayTextFor(model => @m.Description)
+                    </td>
+                    <td class="btnenable">
+                     
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+
+</div>
+
+<script>
+    $("#disabledUsers").on("click", ".enable", function () {
+        var id = ($(this).closest('tr').find('input[id$=_Id]').val());
+     //   alert(id);
+        $.ajax({
+            url: '/Home/enableUserTypeById/',
+            data: { id: id },
+            type: "POST",
+            datatype: "text/plain",
+            datatype: "json",
+            global: false,
+            //    contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                document.location.reload();
+            }
+        });
+    });
+</script>
+

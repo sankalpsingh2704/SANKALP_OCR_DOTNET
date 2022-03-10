@@ -1,0 +1,385 @@
+--------------------------------------
+Timestamp: 12-05-2017 19:05:53 Message: Cannot redirect after HTTP headers have been sent. 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:06:10 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:06:10 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:06:10 Message: Error: [D:\IQInvoiceSvn\trunk\InvoiceNew\Files\Temp\363aea02-631b-4b8c-b35b-bf510e774f03\Chn] File not found 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:06:13 Message: InvoiceController/ReadXMLInvoice 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:06:13 Message: Data at the root level is invalid. Line 1, position 1. 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:06:44 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:06:57 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:06:57 Message: <INVOICE>
+<VENDOR>Vida Homeloans is a trading style of Belmont Green Finance Limited</VENDOR>
+<INVOICENO></INVOICENO>
+<INVOICEDATE></INVOICEDATE>
+<PAN></PAN>
+<PO></PO>
+<AMOUNT></AMOUNT>
+<COMPANYVATTIN></COMPANYVATTIN>
+<COMPANYCSTNO></COMPANYCSTNO>
+<BUYERVATTIN></BUYERVATTIN>
+<BUYERCSTNO></BUYERCSTNO>
+<ADDRESS></ADDRESS>
+<PO_DATE></PO_DATE>
+<VAT></VAT>
+<CST></CST>
+<SERVICE_TAX></SERVICE_TAX>
+<SOURCEFILE>D:\IQInvoiceSvn\trunk\InvoiceNew\Files\Temp\140c2654-7171-4b0f-93ce-d59507f9a387\Application_Document.pdf</SOURCEFILE>
+<ERRORMSG></ERRORMSG>
+<ITEMS> 
+</ITEMS>
+ </INVOICE> 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:07:38 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:08:00 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:08:00 Message: <INVOICE>
+<VENDOR></VENDOR>
+<INVOICENO></INVOICENO>
+<INVOICEDATE></INVOICEDATE>
+<PAN></PAN>
+<PO></PO>
+<AMOUNT></AMOUNT>
+<COMPANYVATTIN></COMPANYVATTIN>
+<COMPANYCSTNO></COMPANYCSTNO>
+<BUYERVATTIN></BUYERVATTIN>
+<BUYERCSTNO></BUYERCSTNO>
+<ADDRESS></ADDRESS>
+<PO_DATE></PO_DATE>
+<VAT></VAT>
+<CST></CST>
+<SERVICE_TAX></SERVICE_TAX>
+<SOURCEFILE>D:\IQInvoiceSvn\trunk\InvoiceNew\Files\Temp\e51da8e4-809e-4e51-8be4-c8d69520f2e4\1250.pdf</SOURCEFILE>
+<ERRORMSG></ERRORMSG>
+<ITEMS> 
+</ITEMS>
+ </INVOICE> 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:08:18 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:08:20 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:08:20 Message: <INVOICE>
+<VENDOR></VENDOR>
+<INVOICENO></INVOICENO>
+<INVOICEDATE></INVOICEDATE>
+<PAN></PAN>
+<PO></PO>
+<AMOUNT></AMOUNT>
+<COMPANYVATTIN></COMPANYVATTIN>
+<COMPANYCSTNO></COMPANYCSTNO>
+<BUYERVATTIN></BUYERVATTIN>
+<BUYERCSTNO></BUYERCSTNO>
+<ADDRESS></ADDRESS>
+<PO_DATE></PO_DATE>
+<VAT></VAT>
+<CST></CST>
+<SERVICE_TAX></SERVICE_TAX>
+<SOURCEFILE>D:\IQInvoiceSvn\trunk\InvoiceNew\Files\Temp\8ff0db2a-7e3b-4c49-a75d-f4245d4a5ba8\1250.pdf</SOURCEFILE>
+<ERRORMSG></ERRORMSG>
+<ITEMS> 
+</ITEMS>
+ </INVOICE> 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:10:57 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:11:05 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:11:05 Message: <INVOICE>
+<VENDOR>Vida Homeloans is a trading style of Belmont Green Finance Limited</VENDOR>
+<INVOICENO></INVOICENO>
+<INVOICEDATE></INVOICEDATE>
+<PAN></PAN>
+<PO></PO>
+<AMOUNT></AMOUNT>
+<COMPANYVATTIN></COMPANYVATTIN>
+<COMPANYCSTNO></COMPANYCSTNO>
+<BUYERVATTIN></BUYERVATTIN>
+<BUYERCSTNO></BUYERCSTNO>
+<ADDRESS></ADDRESS>
+<PO_DATE></PO_DATE>
+<VAT></VAT>
+<CST></CST>
+<SERVICE_TAX></SERVICE_TAX>
+<SOURCEFILE>D:\IQInvoiceSvn\trunk\InvoiceNew\Files\Temp\33b457bf-1ee6-4eb4-aa57-0a20adfabbd6\Application_Document.pdf</SOURCEFILE>
+<ERRORMSG></ERRORMSG>
+<ITEMS> 
+</ITEMS>
+ </INVOICE> 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:13:04 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:13:07 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:13:07 Message: <INVOICE>
+<VENDOR></VENDOR>
+<INVOICENO></INVOICENO>
+<INVOICEDATE></INVOICEDATE>
+<PAN></PAN>
+<PO></PO>
+<AMOUNT></AMOUNT>
+<COMPANYVATTIN></COMPANYVATTIN>
+<COMPANYCSTNO></COMPANYCSTNO>
+<BUYERVATTIN></BUYERVATTIN>
+<BUYERCSTNO></BUYERCSTNO>
+<ADDRESS></ADDRESS>
+<PO_DATE></PO_DATE>
+<VAT></VAT>
+<CST></CST>
+<SERVICE_TAX></SERVICE_TAX>
+<SOURCEFILE>D:\IQInvoiceSvn\trunk\InvoiceNew\Files\Temp\344b94fb-ef47-4f3b-a5b3-27b2eb47630a\1250.pdf</SOURCEFILE>
+<ERRORMSG></ERRORMSG>
+<ITEMS> 
+</ITEMS>
+ </INVOICE> 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:14:09 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:14:13 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:14:13 Message: <INVOICE>
+<VENDOR>may" Synergy Eco</VENDOR>
+<INVOICENO></INVOICENO>
+<INVOICEDATE></INVOICEDATE>
+<PAN></PAN>
+<PO></PO>
+<AMOUNT></AMOUNT>
+<COMPANYVATTIN></COMPANYVATTIN>
+<COMPANYCSTNO></COMPANYCSTNO>
+<BUYERVATTIN></BUYERVATTIN>
+<BUYERCSTNO></BUYERCSTNO>
+<ADDRESS></ADDRESS>
+<PO_DATE></PO_DATE>
+<VAT></VAT>
+<CST></CST>
+<SERVICE_TAX></SERVICE_TAX>
+<SOURCEFILE>D:\IQInvoiceSvn\trunk\InvoiceNew\Files\Temp\ff8867ec-6ac9-44e1-b538-ae0ed18fc99c\205.pdf</SOURCEFILE>
+<ERRORMSG></ERRORMSG>
+<ITEMS> 
+</ITEMS>
+ </INVOICE> 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:15:02 Message: Cannot redirect after HTTP headers have been sent. 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:15:33 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:15:33 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:15:33 Message: Error: [D:\IQInvoiceSvn\trunk\InvoiceNew\Files\Temp\b773e157-d46f-4957-8ed2-6690b7595523\Chn] File not found 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:15:40 Message: InvoiceController/ReadXMLInvoice 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:15:40 Message: Data at the root level is invalid. Line 1, position 1. 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:18:41 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:18:45 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:18:45 Message: <INVOICE>
+<VENDOR>may" Synergy Eco</VENDOR>
+<INVOICENO></INVOICENO>
+<INVOICEDATE></INVOICEDATE>
+<PAN></PAN>
+<PO></PO>
+<AMOUNT></AMOUNT>
+<COMPANYVATTIN></COMPANYVATTIN>
+<COMPANYCSTNO></COMPANYCSTNO>
+<BUYERVATTIN></BUYERVATTIN>
+<BUYERCSTNO></BUYERCSTNO>
+<ADDRESS></ADDRESS>
+<PO_DATE></PO_DATE>
+<VAT></VAT>
+<CST></CST>
+<SERVICE_TAX></SERVICE_TAX>
+<SOURCEFILE>D:\IQInvoiceSvn\trunk\InvoiceNew\Files\Temp\7f9c5e3f-9ee8-46ca-80a7-db4fd1929af4\205.pdf</SOURCEFILE>
+<ERRORMSG></ERRORMSG>
+<ITEMS> 
+</ITEMS>
+ </INVOICE> 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:26:24 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:26:29 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:26:29 Message: <INVOICE>
+<VENDOR>may" Synergy Eco</VENDOR>
+<INVOICENO></INVOICENO>
+<INVOICEDATE></INVOICEDATE>
+<PAN></PAN>
+<PO></PO>
+<AMOUNT></AMOUNT>
+<COMPANYVATTIN></COMPANYVATTIN>
+<COMPANYCSTNO></COMPANYCSTNO>
+<BUYERVATTIN></BUYERVATTIN>
+<BUYERCSTNO></BUYERCSTNO>
+<ADDRESS></ADDRESS>
+<PO_DATE></PO_DATE>
+<VAT></VAT>
+<CST></CST>
+<SERVICE_TAX></SERVICE_TAX>
+<SOURCEFILE>D:\IQInvoiceSvn\trunk\InvoiceNew\Files\Temp\2326d5cd-5028-4a17-b96b-80c10c49a05c\205.pdf</SOURCEFILE>
+<ERRORMSG></ERRORMSG>
+<ITEMS> 
+</ITEMS>
+ </INVOICE> 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:28:05 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:28:08 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:28:08 Message: <INVOICE>
+<VENDOR></VENDOR>
+<INVOICENO></INVOICENO>
+<INVOICEDATE></INVOICEDATE>
+<PAN></PAN>
+<PO></PO>
+<AMOUNT></AMOUNT>
+<COMPANYVATTIN></COMPANYVATTIN>
+<COMPANYCSTNO></COMPANYCSTNO>
+<BUYERVATTIN></BUYERVATTIN>
+<BUYERCSTNO></BUYERCSTNO>
+<ADDRESS></ADDRESS>
+<PO_DATE></PO_DATE>
+<VAT></VAT>
+<CST></CST>
+<SERVICE_TAX></SERVICE_TAX>
+<SOURCEFILE>D:\IQInvoiceSvn\trunk\InvoiceNew\Files\Temp\2a1c11d0-1328-4305-af99-738cb5caf94a\1250.pdf</SOURCEFILE>
+<ERRORMSG></ERRORMSG>
+<ITEMS> 
+</ITEMS>
+ </INVOICE> 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:31:16 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:31:26 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:31:26 Message: <INVOICE>
+<VENDOR>Vida Homeloans is a trading style of Belmont Green Finance Limited</VENDOR>
+<INVOICENO></INVOICENO>
+<INVOICEDATE></INVOICEDATE>
+<PAN></PAN>
+<PO></PO>
+<AMOUNT></AMOUNT>
+<COMPANYVATTIN></COMPANYVATTIN>
+<COMPANYCSTNO></COMPANYCSTNO>
+<BUYERVATTIN></BUYERVATTIN>
+<BUYERCSTNO></BUYERCSTNO>
+<ADDRESS></ADDRESS>
+<PO_DATE></PO_DATE>
+<VAT></VAT>
+<CST></CST>
+<SERVICE_TAX></SERVICE_TAX>
+<SOURCEFILE>D:\IQInvoiceSvn\trunk\InvoiceNew\Files\Temp\b8379451-065b-45aa-9418-a7d213040693\Application_Document.pdf</SOURCEFILE>
+<ERRORMSG></ERRORMSG>
+<ITEMS> 
+</ITEMS>
+ </INVOICE> 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:39:17 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:39:22 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:39:22 Message: <INVOICE>
+<VENDOR>may" Synergy Eco</VENDOR>
+<INVOICENO></INVOICENO>
+<INVOICEDATE></INVOICEDATE>
+<PAN></PAN>
+<PO></PO>
+<AMOUNT></AMOUNT>
+<COMPANYVATTIN></COMPANYVATTIN>
+<COMPANYCSTNO></COMPANYCSTNO>
+<BUYERVATTIN></BUYERVATTIN>
+<BUYERCSTNO></BUYERCSTNO>
+<ADDRESS></ADDRESS>
+<PO_DATE></PO_DATE>
+<VAT></VAT>
+<CST></CST>
+<SERVICE_TAX></SERVICE_TAX>
+<SOURCEFILE>D:\IQInvoiceSvn\trunk\InvoiceNew\Files\Temp\13431130-cb0b-4022-89a1-742fb72260ea\205.pdf</SOURCEFILE>
+<ERRORMSG></ERRORMSG>
+<ITEMS> 
+</ITEMS>
+ </INVOICE> 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:40:15 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:40:16 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:40:16 Message: Error: [D:\IQInvoiceSvn\trunk\InvoiceNew\Files\Temp\b4b53a9c-b75f-4910-b549-e51d29bc382c\Chn] File not found 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:40:17 Message: InvoiceController/ReadXMLInvoice 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:40:17 Message: Data at the root level is invalid. Line 1, position 1. 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:51:39 Message: Reached inside OCR Method 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:51:40 Message: going to write output 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:51:40 Message: Error: [D:\IQInvoiceSvn\trunk\InvoiceNew\Files\Temp\4f635835-5be8-46c6-9647-e69d82bb589e\205] File not found 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:51:40 Message: InvoiceController/ReadXMLInvoice 
+--------------------------------------
+--------------------------------------
+Timestamp: 12-05-2017 19:51:40 Message: Data at the root level is invalid. Line 1, position 1. 
+--------------------------------------

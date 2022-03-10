@@ -1,0 +1,35 @@
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-03-07 11:03:57
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-03-07 11:03:57 ::1 GET / - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 - 200 0 0 28678
+2017-03-07 11:03:57 ::1 GET /scripts/plugin/jquery-validate/jquery.unobtrusive-ajax.min.js - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 25
+2017-03-07 11:03:57 ::1 GET /scripts/plugin/jquery-validate/jquery.unobtrusive-ajax.js - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 27
+2017-03-07 11:03:57 ::1 GET /Content/site.css - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 28
+2017-03-07 11:03:57 ::1 GET /Content/jquery.dataTables.min.css - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 37
+2017-03-07 11:03:57 ::1 GET /scripts/plugin/jquery-validate/jquery.validate.min.js - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 15
+2017-03-07 11:03:57 ::1 GET /Content/bootstrap.css - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 50
+2017-03-07 11:03:57 ::1 GET /scripts/plugin/jquery-validate/jquery.validate.unobtrusive.min.js - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 46
+2017-03-07 11:03:57 ::1 GET /Scripts/bootstrap.js - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 44
+2017-03-07 11:03:57 ::1 GET /bower_components/font-awesome/css/font-awesome.min.css - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 60
+2017-03-07 11:03:57 ::1 GET /Scripts/respond.js - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 58
+2017-03-07 11:03:57 ::1 GET /Scripts/bootstrap.min.js - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 69
+2017-03-07 11:03:57 ::1 GET /Scripts/modernizr-2.6.2.js - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 84
+2017-03-07 11:03:57 ::1 GET /Scripts/jquery.dataTables.min.js - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 116
+2017-03-07 11:03:57 ::1 GET /Scripts/jquery-1.10.2.js - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 173
+2017-03-07 11:03:57 ::1 GET /Scripts/jquery-1.10.2.min.js - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 148
+2017-03-07 11:03:57 ::1 GET /bower_components/jquery/dist/jquery.min.js - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 133
+2017-03-07 11:03:57 ::1 GET /bower_components/metisMenu/dist/metisMenu.min.js - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 25
+2017-03-07 11:03:57 ::1 GET /dist/css/js/sb-admin-2.js - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 37
+2017-03-07 11:03:57 ::1 GET /Content/images/zoom_out.png - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 40
+2017-03-07 11:03:57 ::1 GET /Content/images/zoom_in.png - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 40
+2017-03-07 11:03:57 ::1 GET /bower_components/bootstrap/dist/js/bootstrap.min.js - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 54
+2017-03-07 11:03:57 ::1 GET /bower_components/font-awesome/fonts/fontawesome-webfont.woff v=4.2.0 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/bower_components/font-awesome/css/font-awesome.min.css 200 0 0 172
+2017-03-07 11:03:57 ::1 GET /favicon.ico - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 80
+2017-03-07 11:03:59 ::1 GET /__browserLink/requestData/44ebdc6c6a8143d0a65879f304be493a version=2 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 176
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-03-07 12:56:50
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-03-07 12:56:50 ::1 GET / - 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 - 200 0 0 3183
+2017-03-07 12:56:50 ::1 GET /__browserLink/requestData/22d593ac18584c5e8c1d4190582d2fb2 version=2 50203 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50203/ 200 0 0 62

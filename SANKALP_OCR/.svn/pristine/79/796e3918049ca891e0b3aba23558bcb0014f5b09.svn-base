@@ -1,0 +1,370 @@
+﻿@model InvoiceNew.Models.CreditModel
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Credit Note</title>
+    <style type="text/css">
+        .alignCenter {
+            text-align: center;
+        }
+
+        .alignRight {
+            text-align: right;
+        }
+
+        .heading {
+            font-size: 16px;
+        }
+
+        .text {
+            font-size: 16px;
+        }
+
+        .spacer {
+            height: 15px;
+        }
+
+        .padR20 {
+            padding-right: 20px;
+        }
+
+        .padL10 {
+            padding-left: 10px;
+        }
+
+        .borderT {
+            border-top: 1px solid #000000;
+        }
+
+        .borderB {
+            border-bottom: 1px solid #000000;
+        }
+
+        .borderR {
+            border-right: 1px solid #000000;
+        }
+    </style>
+</head>
+
+<body>
+    <FONT FACE="Arial, Helvetica" size="10px">
+        <!--
+        The header table column structure is:
+
+                <tr>
+                    <td width="20%"></td>
+                    <td width="20%"></td>
+                    <td width="20%"></td>
+                    <td width="20%"></td>
+                    <td width="20%"></td>
+                </tr>
+        -->
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="text">
+            <tr>
+                <td colspan="5" class="heading alignCenter"><B>FICUS PAX PRIVATE LIMITED.</B></td>
+            </tr>
+            <tr>
+                <td colspan="5" class="heading alignCenter"><B>95/2B, Along NH-207, Koraluru Village, Thirumalasetthy Halli Cross, Kasaba Hobli , Bangalore - 67</B></td>
+            </tr>
+            <tr>
+                <td colspan="5" class="heading alignCenter"><B>GSTIN No. 29AAACF5951E1ZN</B></td>
+            </tr>
+            @if (Model.DocType == "2")
+            {
+                <tr>
+                    <td colspan="5" class="spacer"></td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="heading alignCenter"><B>State Name: Karnataka, Code: 29</B></td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="spacer"></td>
+                </tr>
+            }
+            <tr>
+                <td colspan="5" class="spacer"></td>
+            </tr>
+            <tr>
+                <td colspan="5" class="heading alignCenter"><b>CIN:</b></td>
+            </tr>
+            <tr>
+                <td colspan="5" class="heading alignCenter"><b>E-Mail: ar@ficuspax.com</b></td>
+            </tr>
+            <tr>
+                <td colspan="5" class="spacer"></td>
+            </tr>
+            <tr>
+                <td colspan="5" class="heading alignCenter"><b>
+                @if (Model.DocType == "1")
+                {
+                    @Html.Raw("Credit Note")
+                }
+                else
+                {
+                    @Html.Raw("Debit Note")
+                }
+                </b></td>
+            </tr>
+            <tr>
+                <td width="20%"><b>No.   :   CN - @Html.DisplayFor(model => model.CrDrNoteId)</b></td>
+                <td width="20%"></td>
+                <td width="20%"></td>
+                <td width="20%"></td>
+                <td width="20%" class="alignRight"><b>Dated: @Html.DisplayFor(model => model.CrDrNoteDate)</b></td>
+            </tr>
+            <tr>
+                <td width="20%"><b>Ref.   :   @Html.DisplayFor(model => model.InvoiceNumber)</b></td>
+                <td width="20%"><b>dt. @Html.DisplayFor(model => model.InvoiceDate)</b></td>
+                <td width="20%"></td>
+                <td width="20%"></td>
+                <td width="20%"></td>
+            </tr>
+            <tr>
+                <td colspan="5" class="spacer"></td>
+            </tr>
+            <tr>
+                <td><b>Party's Name</b></td>
+                <td><b>:&nbsp;@Html.DisplayFor(model => model.VendorName)</b></td>
+            </tr>
+            <tr>
+                <td colspan="5" class="spacer"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="4" class="heading"><b>&nbsp;@Html.DisplayFor(model => model.VendorAddress)</b></td>
+            </tr>
+            <tr>
+                <td colspan="5" class="spacer"></td>
+            </tr>
+            <tr>
+                <td>PAN/IT No</td>
+                <td><b>:</b></td>
+            </tr>
+            <tr>
+                <td colspan="5" class="spacer"></td>
+            </tr>
+        </table>
+
+        <!--
+        The Items table column structure is:
+
+                <tr>
+                    <td width="10%"></td>
+                    <td width="10%"></td>
+                    <td width="20%"></td>
+                    <td width="20%"></td>
+                    <td width="20%" class="alignRight padR20 borderR"></td>
+                    <td width="20%" class="padL10"></td>
+                </tr>
+        -->
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="text">
+            <tr>
+                <td colspan="5" width="80%" class="borderT borderB borderR" style="padding-left:50px;"><b>Particulars</b></td>
+                <td width="20%" class="padL10 borderT borderB alignRight" ><b>Amount</b></td>
+            </tr>
+            <tr>
+                <td colspan="5" width="80%" class="spacer borderR"></td>
+                <td width="20%" id="amount">IRupees @Html.DisplayFor(model => model.Total)</td>
+            </tr>
+            @foreach(var item in Model.CreditDebitNoteItems)
+            { 
+            <tr>
+                <td colspan="2"> @Html.DisplayFor(model => item.Name) </td>
+                <td></td>
+                <td></td>
+                <td class="alignRight padR20 borderR">@Html.DisplayFor(model => item.Amount)</td>
+               <!-- <td class="padL10">IRupees 2,008.00</td> -->
+            </tr>
+            @*<tr>
+                <td colspan="2"> @@ SGST @Html.DisplayFor(model => item.SGST)% </td>
+                <td></td>
+                <td></td>
+                <td class="alignRight padR20 borderR">@Html.DisplayFor(model => item.SAmount)</td>
+                <!-- <td class="padL10">IRupees 2,008.00</td> -->
+            </tr>
+            <tr>
+                <td colspan="2"> @@ CGST @Html.DisplayFor(model => item.CGST)% </td>
+                <td></td>
+                <td></td>
+                <td class="alignRight padR20 borderR">@Html.DisplayFor(model => item.CAmount)</td>
+                <!-- <td class="padL10">IRupees 2,008.00</td> -->
+            </tr>
+            <tr>
+                <td colspan="2"> @@ IGST @Html.DisplayFor(model => item.IGST) %Sales</td>
+                <td></td>
+                <td></td>
+                <td class="alignRight padR20 borderR">@Html.DisplayFor(model => item.IAmount)</td>
+                <!-- <td class="padL10">IRupees 2,008.00</td> -->
+            </tr>*@
+            }
+            <tr>
+                <td colspan="5" class="spacer borderR"></td>
+                <td class="spacer"></td>
+            </tr>
+            @foreach (var taxitem in Model.CreditDebitNoteTaxes)
+            {
+                <tr>
+                <td colspan="2"> @@ @Html.DisplayFor(model => taxitem.TaxType) @Html.DisplayFor(model => taxitem.Tax)% </td>
+                <td></td>
+                <td></td>
+                <td class="alignRight padR20 borderR">@Html.DisplayFor(model => taxitem.TaxAmount)</td>
+                <!-- <td class="padL10">IRupees 2,008.00</td> -->
+            </tr>
+            }
+            <tr>
+                <td colspan="5" class="spacer borderR"></td>
+                <td class="spacer"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Bill Details:%</td>
+                <td></td>
+                <td></td>
+                <td class="alignRight padR20 borderR"></td>
+                <td class="padL10"></td>
+            </tr>
+            <tr>
+                <td width="10%"></td>
+                <td width="30%" colspan="2">Agst Ref @Html.DisplayFor(model => model.InvoiceNumber)</td>
+                <td>@Html.DisplayFor(model => model.Total)  
+                @if (Model.DocType == "1")
+                {
+                    @Html.Raw("Cr")
+                }
+                else
+                {
+                    @Html.Raw("Dr")
+                }
+                </td>
+
+
+                <td class="alignRight padR20 borderR"></td>
+                <td class="padL10"></td>
+            </tr>
+            <tr>
+                <td colspan="5" class="spacer borderR"></td>
+                <td class="spacer"></td>
+            </tr>
+            <tr>
+                <td colspan="2" width="20%">On Account of:</td>
+                <td></td>
+                <td></td>
+                <td class="alignRight padR20 borderR"></td>
+                <td class="padL10"></td>
+            </tr>
+            <tr>
+                <td width = "10%" ></ td >
+                <td width="50%" colspan="3">Being 
+                @if (Model.DocType == "1")
+                {
+                    @Html.Raw("Credit")
+                }
+                else
+                {
+                    @Html.Raw("Debit")
+                }
+                note towards</td>
+                <td width = "20%" class="alignRight padR20 borderR"></td>
+                <td width = "20%" class="padL10"></td>
+            </tr>
+            <tr>
+                <td colspan="5" class="spacer borderR"></td>
+                <td class="spacer"></td>
+            </tr>
+            <tr>
+                <td colspan="2" width="20%">Amount (in words):</td>
+                <td></td>
+                <td></td>
+                <td class="alignRight padR20 borderR"></td>
+                <td class="padL10"></td>
+            </tr>
+            <tr>
+                <td width="10%"></td>
+                <td width="50%" colspan="3">INR @Html.DisplayFor(model => model.TotalWords) Only</td>
+                <td width="20%" class="alignRight padR20 borderR"></td>
+                <td width="20%" class="padL10"></td>
+            </tr>
+            <tr>
+                <td colspan="5" class="spacer borderR"></td>
+                <td class="spacer"></td>
+            </tr>
+            <tr>
+                <td colspan="5" width="80%" class="borderB borderR" style="padding-left:50px;"></td>
+                <td width="20%" class="alignRight borderB"></td>
+            </tr>
+        </table>
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="text">
+            <tr>
+                <td class="spacer"></td>
+            </tr>
+            <tr>
+                <td width="20%"><b>Company's PAN</b></td>                
+                <td><b>:</b></td>
+                <td width="20%"></td>
+                <td width="20%"></td>
+                <td width="20%"></td>
+            </tr>
+            <tr>
+                <td class="spacer"></td>
+            </tr>
+            <tr>
+                <td colspan="3" width="60%" class="alignRight"><b>for</b></td>
+
+                <td colspan="2" width="40%" class="alignCenter"><b>FICUS PAX PRIVATE LIMITED</b></td>
+            </tr>
+            <tr>
+                <td class="spacer"></td>
+            </tr>
+            <tr>
+                <td style="height:100px"></td>
+            </tr>
+            <tr>
+                <td colspan="5" width="100%" class="alignRight">Authorised Signatory</td>
+            </tr>
+            <tr>
+                <td style="height:100px"></td>
+            </tr>
+            @if (Model.DocType == "1")
+            {
+                <tr>
+                    <td width="20%"><b>Prepared by</b></td>
+                    <td width="20%"></td>
+                    <td width="20%"><b>Checked by</b></td>
+                    <td width="20%"></td>
+                    <td width="20%" class="alignRight"><b>Verified by</b></td>
+                </tr>
+            }
+        </table>
+        <button id="printwin" onclick="PrintBtn()">Print</button>
+</body>
+
+
+</html>
+
+<style>
+    #amount{
+        
+        position : relative;
+        top: 27px;
+        left: 20px;
+    }
+</style>
+<script>
+    function PrintBtn() {
+        window.print();
+    }
+</script>

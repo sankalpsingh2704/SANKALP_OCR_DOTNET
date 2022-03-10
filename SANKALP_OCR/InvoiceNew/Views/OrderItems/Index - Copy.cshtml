@@ -1,0 +1,98 @@
+﻿@model  IList<ProductExtractTool.Models.OrderItems>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+<div>
+    <h4>VendorDetails</h4>
+    <hr />
+  
+        @*<table>
+
+            <tr><td><input type="button" id="btnExport" value="Export To Excel" class="btn btn-primary" /></td>
+            
+                <td><input type="button" id="btnOrderExport" value="Order with Details Excel" class="btn btn-primary" /></td>
+                <td><input type="button" id="btnAssetExport" value="Asset Details Excel" class="btn btn-primary" /></td>
+            </tr>
+        </table>
+        <strong></strong>*@
+    <div class="table-responsive">
+        <table id="InvoicInfo" class="display table table-bordered table-hover">  
+
+            <tr>
+                <th> Vendor </th>
+                <th> InvoiceNo </th>
+                <th> InvoiceDate</th>
+                <th> PO</th>
+                <th> Amount</th>
+                <th> PO</th>
+                <th> COMPANYVATTIN</th>
+                <th> COMPANYCSTNO</th>
+                <th> BUYERVATTIN</th>
+                <th> BUYERCSTNO </th>
+                <th>Edit|</th>
+
+
+            </tr>
+
+
+
+            @foreach (var m in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => @m.Vendor)</td>
+                    <td>@Html.DisplayFor(model => @m.InvoiceNo) </td>
+                    <td>@Html.DisplayFor(model => @m.InvoiceDate)</td>
+                    <td>@Html.DisplayFor(model => @m.PO)</td>
+                    <td>@Html.DisplayFor(model => @m.Amount)</td>
+                    <td>@Html.DisplayFor(model => @m.PO)</td>
+                    <td>@Html.DisplayFor(model => @m.COMPANYVATTIN)</td>
+                    <td>@Html.DisplayFor(model => @m.COMPANYCSTNO)</td>
+                    <td>@Html.DisplayFor(model => @m.BUYERVATTIN)</td>
+                    <td>@Html.DisplayFor(model => @m.BUYERCSTNO)</td>
+                    <td>@Html.ActionLink("Edit", "Edit", new { id = @m.ID }) |</td>
+
+
+                </tr>
+
+
+
+            }
+
+
+
+
+        </table>
+        </div>
+    </div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script> 
+    $(document).ready(function () {
+        $("#InvoicInfo").DataTable();
+
+ //$('#btnExport').click(function () {
+
+ //    window.location = '/OrderItems/ExportToExcel';
+
+ //});
+
+
+ //$('#btnOrderExport').click(function () {
+
+ //    window.location = '/OrderItems/OrderExportToExcel';
+
+ //});
+ //$('#btnAssetExport').click(function () {
+
+ //    window.location = '/OrderItems/AssetExportToExcel';
+
+ //});
+ 
+ 
+ 
+});
+</script>
+

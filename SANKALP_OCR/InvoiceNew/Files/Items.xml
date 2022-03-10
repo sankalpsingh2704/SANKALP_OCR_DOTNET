@@ -1,0 +1,25 @@
+<Invoice>
+  <Vendor>IQ Software Service</Vendor>
+  <InvoiceNo>LRT23442DF</InvoiceNo>
+  <InvoiceDate>02-MARCH-2016</InvoiceDate>
+  <Amount>407470.87</Amount>
+  <PAN>ANSAK1223L</PAN>
+  <ITEMS>
+    <Item Name="Air Filter" Price="450" Qty="100" Total="45450" />
+    <Item Name="Oil Filter" Price="550" Qty="3" Total="1699.5" />
+    <Item Name="H-cloth" Price="55" Qty="56" Total="3110.8" />
+    <Item Name="Belt" Price="678" Qty="6" Total="4556.16" />
+    <Item Name="Griesy" Price="22" Qty="23" Total="511.06" />
+    <Item Name="Paint" Price="65" Qty="55" Total="3610.75" />
+    <Item Name="AC winslider" Price="555" Qty="123" Total="70312.95" />
+    <Item Name="Windshield" Price="455" Qty="453" Total="216420.8" />
+    <Item Name="X-windshield" Price="456" Qty="35" Total="17077.2" />
+    <Item Name="Rear view mirror" Price="345" Qty="45" Total="17077.5" />
+    <Item Name="side shield" Price="7" Qty="55" Total="400.4" />
+    <Item Name="roof light" Price="12" Qty="7" Total="86.52" />
+    <Item Name="roof light holder" Price="56" Qty="324" Total="19232.64" />
+    <Item Name="washer" Price="456" Qty="5" Total="2439.6" />
+    <Item Name="Rim" Price="44" Qty="67" Total="3036.44" />
+    <Item Name="Side mirror" Price="66" Qty="35" Total="2448.6" />
+  </ITEMS>
+</Invoice>

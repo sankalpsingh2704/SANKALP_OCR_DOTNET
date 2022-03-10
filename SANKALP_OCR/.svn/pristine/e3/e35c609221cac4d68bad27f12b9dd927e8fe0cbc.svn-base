@@ -1,0 +1,1126 @@
+﻿@model  InvoiceNew.Models.UserModel
+@{
+    ViewBag.Title = "UsersView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.EnableUnobtrusiveJavaScript(true);
+}
+<script src="~/Scripts/plugin/jqgrid/grid.common.js"></script>
+<script src="~/Scripts/plugin/jqgrid/grid.formedit.js"></script>
+<script src="~/Scripts/plugin/jqgrid/grid.locale-en.min.js"></script>
+<script src="~/Scripts/plugin/jqgrid/jqDnR.js"></script>
+<script src="~/Scripts/plugin/jqgrid/jqModal.js"></script>
+<script src="~/Scripts/plugin/jqgrid/jquery.jqGrid.min.js"></script>
+<div id="content">
+
+    <!-- row -->
+    <div class="row">
+        <!-- col -->
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <h3 class="page-title txt-color-blueDark">
+                <!-- PAGE HEADER --><i class="fa-fw fa fa-home"></i> IQ invoice <span>
+                    Users
+                </span>
+            </h3>
+        </div>
+
+    </div>
+    <!-- end row -->
+    <!--
+    The ID "widget-grid" will start to initialize all widgets below
+    You do not need to use widgets if you dont want to. Simply remove
+    the <section></section> and you can use wells or panels instead
+    -->
+
+    <div id="usersview">
+        <!-- widget grid -->
+        <section id="widget-grid" class="">
+
+            <!-- row -->
+            <div class="row" id="symaindiv">
+
+                <!-- NEW WIDGET START -->
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <table id="jqgrid"></table>
+                    <div id="pjqgrid"></div>
+
+                    <br>
+                    @*<a href="javascript:void(0)" id="m1">Get Selected id's</a>
+                        <br>
+                        <a href="javascript:void(0)" id="m1s">Select(Unselect) row 13</a>*@
+                    <table>
+                        <tr>
+                            <td style="margin-right:5%;">
+                                <div id="btnAddUser" class="btn btn-sm btn-primary" style="text-align:center; width:70px; margin-left:5%;">
+                                    <span class="fa fa-plus"></span>
+                                </div>
+                            </td>
+
+                            @*<td>
+                                    <div id="btnEditUser" class="btn btn-sm btn-primary" style="text-align:center; width:70px; margin-left: 15%;">
+                                        <span class="fa fa-pencil"></span>
+                                    </div>
+                                </td>*@
+                        </tr>
+                    </table>
+                </article>
+                <!-- WIDGET END -->
+
+            </div>
+
+            <!-- end row -->
+
+        </section>
+        <!-- end widget grid -->
+    </div>
+
+    <div id="AddUser" class="row" style="display:none">
+
+        <!-- NEW COL START; In-line CSS to stretch div to screen -->
+        <article class="col-sm-12 col-md-12 col-lg-6" style="width:100%">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2> Add new user </h2>
+
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+
+                        @*<form method="post" action="@Url.Action("Submit", "Users")"  class = "smart-form client-form" enctype="multipart/form-data"  >*@
+                        @using (Html.BeginForm("CreateUser", "Users", FormMethod.Post, new { @class = "smart-form client-form", enctype = "multipart/form-data", id = "addform" }))
+                        {
+                            <fieldset>
+                                <div class=" row">
+                                    <section class="col col-4">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            @Html.TextBoxFor(m => m.UserFirstName, new { placeholder = "First Name", id = "txtFname", name = "txtFname" })
+                                            @Html.ValidationMessageFor(m => m.UserFirstName)
+                                        </label>
+
+                                    </section>
+
+                                    <section class="col col-4">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            @Html.TextBoxFor(m => m.UserMiddleName, new { placeholder = "Middle Name", id = "txtMname" })
+                                            @Html.ValidationMessageFor(m => m.UserMiddleName)
+                                        </label>
+
+                                    </section>
+                                    <section class="col col-4">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            @Html.TextBoxFor(m => m.UserLastName, new { placeholder = "Last Name", id = "txtLname" })
+                                            @Html.ValidationMessageFor(m => m.UserLastName)
+                                        </label>
+
+                                    </section>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="row">
+
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            @Html.TextBoxFor(m => m.UserLoginName, new { placeholder = "User Name" })
+                                            @Html.ValidationMessageFor(m => m.UserLoginName)
+                                        </label>
+
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-envelope-o"></i>
+                                            @Html.TextBoxFor(m => m.UserEmailID, new { placeholder = "Email " })
+                                            @Html.ValidationMessageFor(m => m.UserEmailID)
+                                        </label>
+                                        <div id="errorEmail" style="color:#C00000"></div>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="select">
+                                            @*@Html.DropDownList("UserDepartmentID", new SelectList(ViewBag.Departments, "DeptID", "DeptName"), "Department")
+                                            @Html.ValidationMessage("UserDepartmentID")*@
+                                        </label>
+
+                                    </section>
+
+                                    <section class="col col-3">
+                                        <label class="select">
+                                            @*@Html.DropDownList("UserTypeID", new SelectList(ViewBag.usertypes, "UserTypeID", "UserType1"), "Usertype")
+                                            @Html.ValidationMessage("UserTypeID")*@
+                                        </label>
+
+                                    </section>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-lock"></i>
+                                            @Html.PasswordFor(m => m.UserPassword, new { placeholder = "Password", id = "txtPassword" })
+                                            @Html.ValidationMessageFor(m => m.UserPassword)
+                                        </label>
+
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-lock"></i>
+                                            @Html.PasswordFor(m => m.ComparePassword, new { placeholder = "Re-enter Password", id = "txtReenterPassword" })
+                                            @Html.ValidationMessageFor(m => m.ComparePassword)
+                                        </label>
+
+                                    </section>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="row">
+                                    <section>
+                                        <table style="border-collapse:separate; border-spacing:16px; width:88%">
+                                            <tr>
+                                                <td>
+                                                    <div class="input input-file">
+                                                        <span class="button"><input type="file" id="file" name="file" accept="image/*" onchange="this.parentNode.nextSibling.value = this.value; theimage()">Browse</span><input type="text" id="fileUpload" name="logo" placeholder="Browse pic..." readonly="">@*<img id="upload" src="#" alt="your image" />*@
+                                                    </div>
+                                                    <div id="errorImage" style="color:#C00000"></div>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox" style="margin-left:10%">
+                                                        @Html.CheckBoxFor(m => m.IsActive)
+
+                                                        <i></i>Disable
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox" style="margin-left:10%">
+                                                        @Html.CheckBoxFor(m => m.IsFinance)
+
+                                                        <i></i>Finance
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox" style="margin-left:10%">
+                                                        @Html.CheckBoxFor(m => m.IsVendor)
+
+                                                        <i></i>Vendor Management
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <fieldset>
+                                                        <div id="userpic"></div>
+                                                    </fieldset>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </section>
+                                </div>
+                            </fieldset>
+
+                            <footer>
+                                @*@Html.HiddenFor(m => m.UserID, new { id = "addUserid" })*@
+                                <input type="submit" value="Add User" class="btn btn-primary" />
+                                <input type="button" value="Cancel" class="btn btn-primary" id="btnaddcancel" />
+                            </footer>
+                            @*</form>*@
+                        }
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+        </article>
+        <!-- END COL -->
+        <!-- END COL -->
+    </div>
+
+    <div id="EditUser" class="row" style="display:none">
+
+        <!-- NEW COL START; In-line CSS to stretch div to screen -->
+        <article class="col-sm-12 col-md-12 col-lg-6" style="width:100%">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2> Edit User Details </h2>
+
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+
+                        @using (Html.BeginForm("Update", "Users", FormMethod.Post, new { @class = "smart-form client-form", enctype = "multipart/form-data" }))
+                        {
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            @Html.TextBoxFor(m => m.UserFirstName, new { id = "fname", placeholder = "First Name" })
+                                            @Html.ValidationMessageFor(m => m.UserFirstName)
+                                        </label>
+
+                                    </section>
+                                    <section class="col col-4">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            @Html.TextBoxFor(m => m.UserMiddleName, new { id = "mname", placeholder = "Middle Name" })
+                                            @Html.ValidationMessageFor(m => m.UserMiddleName)
+                                        </label>
+
+                                    </section>
+                                    <section class="col col-4">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            @Html.TextBoxFor(m => m.UserLastName, new { id = "lname", placeholder = "Last Name" })
+                                            @Html.ValidationMessageFor(m => m.UserLastName)
+                                        </label>
+
+                                    </section>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="row">
+
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            @Html.TextBoxFor(m => m.UserLoginName, new { id = "loginname", placeholder = "User Name" })
+                                            @Html.ValidationMessageFor(m => m.UserLoginName)
+                                        </label>
+
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-envelope-o"></i>
+                                            @Html.TextBoxFor(m => m.UserEmailID, new { id = "email", placeholder = "Email ID" })
+                                            @Html.ValidationMessageFor(m => m.UserEmailID)
+                                        </label>
+                                        <div id="errorEmailEdit" style="color:#C00000"></div>
+                                    </section>
+
+                                    <section class="col col-3">
+                                        <label class="select">
+                                            @*@Html.DropDownListFor(m => m.UserDepartmentID, new SelectList(ViewBag.Departments, "DeptID", "DeptName"), " Department ", new { id = "dept" })
+                                            @Html.ValidationMessageFor(m => m.UserDepartmentID)*@
+                                        </label>
+
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="select">
+                                            @*@Html.DropDownListFor(m => m.UserTypeID, new SelectList(ViewBag.usertypes, "UserTypeID", "UserType1"), " Usertype ", new { id = "usertype" })
+                                            @Html.ValidationMessageFor(m => m.UserTypeID)*@
+                                        </label>
+
+                                    </section>
+
+                                </div>
+                            </fieldset>
+
+
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-lock"></i>
+                                            @Html.PasswordFor(m => m.NewPassword, new { placeholder = "Password", id = "edittxtPassword" })
+                                            @Html.ValidationMessageFor(m => m.NewPassword)
+                                        </label>
+                                        <div id="errorPwd" style="color:#C00000"></div>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-lock"></i>
+                                            @Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "Re-enter Password", id = "edittxtReenterPassword" })
+                                            @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                                        </label>
+                                        <div id="errorRePwd" style="color:#C00000"></div>
+                                    </section>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="row">
+                                    <section>
+                                        <table style="border-collapse:separate; border-spacing:16px; width:88%">
+                                            <tr>
+                                                <td>
+                                                    <div class="input input-file">
+                                                        <span class="button"><input type="file" id="fileEdit" name="file" accept="image/*" onchange="this.parentNode.nextSibling.value = this.value">Browse</span><input type="text" id="fileUploadEdit" name="logo" placeholder="Browse pic..." readonly="">
+                                                    </div>
+                                                    <div id="errorImageUpdate" style="color:#C00000"></div>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox" style="margin-left:10%" id="chkAdmin">
+                                                        @Html.CheckBoxFor(m => m.IsActive, new { id = "isActive" })
+                                                        <i></i>Disable
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox" style="margin-left:10%">
+                                                        @Html.CheckBoxFor(m => m.IsFinance, new { id = "isFinance" })
+
+                                                        <i></i>Finance
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox" style="margin-left:10%">
+                                                        @Html.CheckBoxFor(m => m.IsVendor, new { id = "isVendor" })
+
+                                                        <i></i>Vendor Management
+                                                    </label>
+                                                </td>
+
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <fieldset>
+                                                        <div id="userpicEdit"></div>
+                                                    </fieldset>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </section>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                @Html.HiddenFor(m => m.UserID, new { id = "hiddenuserid" })
+                                @Html.HiddenFor(m => m.UserPassword, new { id = "hiddenpassword" })
+                                @Html.HiddenFor(m => m.UserPic, new { id = "hiddenuserpic" })
+                            </fieldset>
+
+                            <footer>
+                                <input type="submit" value="Update" class="btn btn-primary" />
+
+                                <input type="button" value="Cancel" class="btn btn-primary" id="btneditcancel" />
+                            </footer>
+                        }
+
+                    </div>
+
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+        </article>
+        <!-- END COL -->
+        <!-- END COL -->
+    </div>
+
+</div>
+
+
+<style type="text/css">
+    .ui-jqgrid tr.jqgrow td.wrap {
+        white-space: normal !important;
+        height: auto;
+        padding-top: 2px;
+        word-wrap: break-word;
+    }
+
+    .ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+        height: auto;
+        vertical-align: text-top;
+        padding-top: 2px;
+        word-wrap: break-word;
+    }
+</style>
+
+
+
+<script>
+        if (!window.jQuery) {
+            document.write('<script src="js/libs/jquery-2.1.1.min.js"><\/script>');
+        }
+</script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script>
+        if (!window.jQuery.ui) {
+            document.write('<script src="~/Scripts/libs/jquery-ui-1.10.3.min.js"><\/script>');
+        }
+</script>   
+ <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
+<!-- Basic Styles -->
+@*<link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />*@
+<link href="~/Content/dist/css/font-awesome.min.css" rel="stylesheet" />
+
+
+<!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+<link href="~/Content/dist/css/smartadmin-production-plugins.min.css" rel="stylesheet" />
+
+<link href="~/Content/dist/css/smartadmin-production.min.css" rel="stylesheet" />
+
+<link href="~/Content/dist/css/smartadmin-skins.min.css" rel="stylesheet" />
+<link href="~/Content/dist/css/smartadmin-rtl.min.css" rel="stylesheet" />
+
+
+<link href="~/Content/css/demo.min.css" rel="stylesheet" />
+
+<link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
+<link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
+@*<script src="~/Scripts/libs/jquery-ui-1.10.3.min.js"></script>*@
+
+
+@*<!-- GOOGLE FONT -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+
+    <!-- Specifying a Webpage Icon for Web Clip
+         Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->*@
+
+<!-- IMPORTANT: APP CONFIG -->
+<script src="~/Scripts/app.config.js"></script>
+
+<!-- browser msie issue fix -->
+<script src="~/Scripts/plugin/msie-fix/jquery.mb.browser.min.js"></script>
+<script src="~/Scripts/demo.min.js"></script>
+<script src="~/Scripts/jqGrid/grid.locale-en.js" type="text/javascript"></script>
+<script src="~/Scripts/jqGrid/jquery.jqGrid.min.js"></script>
+
+<script data-pace-options='{ "restartOnRequestAfter": true }' src="~/Scripts/plugin/pace/pace.min.js"></script>
+
+
+<script src="~/Scripts/demo.min.js"></script>
+
+<script src="~/Scripts/app.min.js"></script>
+
+<script type="text/javascript">
+
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+
+
+        $(document).ready(function () {
+            $(".breadcrumb li:contains('Home')").remove();
+            $(".breadcrumb li:contains('Reports')").remove();
+            $(".breadcrumb li:contains('Administration')").remove();
+
+            $('.breadcrumb').prepend('<li>Users</li>');
+            $('.breadcrumb').prepend('<li>Home</li>');
+            var jqgrid_data = [];
+            jQuery("#jqgrid").jqGrid({
+                url: '/Users/GetUserDetails/',
+                datatype: 'json',
+                mtype: 'GET',
+                jsonReader: {
+                    root: "rows",
+                    page: "page",
+                    total: "total",
+                    records: "records",
+                    repeatitems: false,
+                    userdata: "userdata",
+                    cell: "cell",
+                    id: "id"
+                },
+                height: 'auto',
+                colNames: ['User ID', 'Sl.No', 'User Name', 'Password', 'ConfirmPassword', 'User Type', 'Department Type', 'FirstName', 'Middle Name', 'LastName', 'email', 'User Image', 'Disabled'],
+                colModel: [{
+                    name: 'UserID',
+                    index: 'UserID',
+                    editable: false,
+                    readonly: true,
+                    hidden: true
+                }, {
+                    name: 'slno',
+                    index: 'slno',
+                    editable: false,
+                    hidden: false,
+                    width: '40',
+                    formatter: 'integer',
+                    sorttype: 'integer',
+                    sortable: true
+
+                }, {
+                    name: 'UserName',
+                    index: 'UserName',
+                    classes: 'wrap',
+                    editable: true,
+                    sortable: false,
+
+                },
+                {
+                    name: 'UserPassword',
+                    index: 'UserPassword',
+                    classes: 'wrap',
+                    editable: true,
+                    sortable: false,
+                    hidden: true
+                },
+                {
+                    name: 'ConfirmUserPassword',
+                    index: 'ConfirmUserPassword',
+                    classes: 'wrap',
+                    editable: true,
+                    sortable: false,
+                    hidden: true
+
+                },
+                 {
+                     name: 'UserTypeID',
+                     index: 'UserTypeID',
+                     classes: 'wrap',
+                     editable: true,
+                     sortable: false,
+
+                 },
+                 {
+                     name: 'DepartmentID',
+                     index: 'DepartmentID',
+                     classes: 'wrap',
+                     editable: true,
+                     sortable: false,
+
+                 },
+                {
+                    name: 'FirstName',
+                    index: 'FirstName',
+                    classes: 'wrap',
+                    editable: true,
+                    sortable: false,
+
+                },
+                {
+                    name: 'MiddleName',
+                    index: 'MiddleName',
+                    classes: 'wrap',
+                    editable: true,
+                    sortable: false,
+
+                },
+                {
+                    name: 'LastName',
+                    index: 'LastName',
+                    classes: 'wrap',
+                    editable: true,
+                    sortable: false,
+
+                },
+                {
+                    name: 'EmailAddress',
+                    index: 'EmailAddress',
+                    classes: 'wrap',
+                    editable: true,
+                    sortable: false,
+
+                },
+                {
+                    name: 'UserImage',
+                    index: 'customer_id',
+                    align: 'left',
+                    editable: true,
+                    edittype: 'file',
+                    editoptions: {
+                        enctype: "multipart/form-data"
+                    },
+                    width: 210,
+                    align: 'center',
+                    //  formatter: ImageFormatter,
+                    search: false,
+                    hidden: true
+                },
+                {
+                    name: 'Disabled',
+                    index: 'Disabled',
+                    align: "middle",
+                    editable: true,
+                    edittype: 'checkbox',
+                    edittype: 'checkbox',
+                    //formatter: "checkbox",
+                    //formatoptions: { disabled: false },
+                    stype: "select",
+                    searchoptions: { sopt: ["eq", "ne"], value: "Yes:true;No:false" }
+                }],
+                rowNum: 10,
+                rowList: [10, 20, 30],
+                pager: '#pjqgrid',
+                loadonce: true,
+                sortname: 'SlNo asc',
+                sortorder: 'asc',
+                toolbarfilter: true,
+                viewrecords: true,
+                gridComplete: function () {
+                    var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
+                },
+
+                aftersavefunc: function () {
+                    var $this = $(this); // grid
+                    setTimeout(function () {
+
+                        $this.trigger("reloadGrid");
+                    }, 50);
+                },
+
+                //editurl: '/Users/SaveUserDetails/',
+                caption: "Users",
+                multiselect: false,
+                autowidth: true,
+                ondblClickRow: function (rowid) {
+
+                    $("#EditUser").show(1000);
+                    $("#AddUser").hide(1000);
+
+                    var rowData = jQuery(this).getRowData(rowid);
+                    var temp = rowData['UserID'];//replace name with you column
+
+
+
+                    $.ajax({
+
+
+                        url: '/Users/getDetails/',
+                        data: { id: temp },
+                        dataType: 'json',
+                        aysnc: false,
+                        success: function (data) {
+
+                            $("#fname").val(data.UserFirstName);
+                            $("#mname").val(data.UserMiddleName);
+                            $("#lname").val(data.UserLastName);
+                            $("#loginname").val(data.UserLoginName);
+                            $("#email").val(data.UserEmailID);
+                            $("#dept").val(data.UserDepartmentID);
+                            $("#usertype").val(data.UserTypeID);
+                            $("#hiddenuserid").val(data.UserID);
+
+                            $("#hiddenuserpic").val(data.UserPic);
+
+                            if (data.IsActive == true) {
+                                $("#isActive").attr("checked", true);
+                            }
+                            else {
+                                $("#isActive").attr("checked", false);
+                            }
+                            if (data.IsFinance == true) {
+                                $("#isFinance").attr("checked", true);
+                            }
+                            else {
+                                $("#isFinance").attr("checked", false);
+                            }
+                            if (data.IsVendor == true) {
+                                $("#isVendor").attr("checked", true);
+                            }
+                            else {
+                                $("#isVendor").attr("checked", false);
+                            }
+                        }
+                    });
+
+
+                }
+
+            });
+
+            jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {
+                edit: true,
+                add: true,
+                del: true,
+                refresh: true,
+
+            },
+            {
+                zindex: 100,
+                url: '/Users/Edit',
+                closeOnEscape: true,
+                closeAfterEdit: true,
+                recreateForm: true,
+                afterComplete: function (response) {
+                    if (response.responseText) {
+                        alert(response.responseText);
+                    }
+                }
+            },
+            {
+                zindex: 100,
+                url: '/Users/Create',
+                closeOnEscape: true,
+                closeAfterEdit: true,
+                recreateForm: true,
+                afterComplete: function (response) {
+                    if (response.responseText) {
+                        alert(response.responseText);
+                    }
+                }
+            },
+             {
+                 zindex: 100,
+                 url: '/Users/Delete',
+                 closeOnEscape: true,
+                 closeAfterEdit: true,
+                 recreateForm: true,
+                 msg: "Are You Sure You want to delete the user",
+                 afterComplete: function (response) {
+                     if (response.responseText) {
+                         alert(response.responseText);
+                     }
+                 }
+             }
+
+            );
+
+            /* Add tooltips */
+            $('.navtable .ui-pg-button').tooltip({
+                container: 'body'
+            });
+
+            jQuery("#m1").click(function () {
+                var s;
+                s = jQuery("#jqgrid").jqGrid('getGridParam', 'selarrrow');
+
+            });
+            jQuery("#m1s").click(function () {
+                jQuery("#jqgrid").jqGrid('setSelection', "13");
+
+            });
+
+            // remove classes
+            $(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
+            $(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
+            $(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
+            $(".ui-jqgrid-pager").removeClass("ui-state-default");
+            $(".ui-jqgrid").removeClass("ui-widget-content");
+
+
+            $(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
+            $(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
+            $(".ui-icon.ui-icon-plus").parent().parent().remove();
+            $(".ui-icon.ui-icon-pencil").parent().parent().remove();
+            $(".ui-icon.ui-icon-trash").parent().parent().remove();
+            $(".ui-icon ui-icon-closethick").removeClass().addClass("fa fa-close");
+            // $(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
+            // $(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
+
+            $(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
+
+            $(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
+
+            $(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
+
+            $(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
+
+
+        })
+        $(window).on('resize.jqGrid', function () {
+            $("#jqgrid").jqGrid('setGridWidth', $("#content").width());
+
+
+
+            $(".js-status-update a").click(function () {
+
+                var selText = $(this).text();
+                var $this = $(this);
+                $this.parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
+                $this.parents('.dropdown-menu').find('li').removeClass('active');
+                $this.parent().addClass('active');
+            });
+
+
+
+        });
+</script>
+
+
+
+<script type="text/javascript">
+
+        // $.validator.unobtrusive.parse('form');
+        $("#txtFname").on({
+            keydown: function (e) {
+                if (((e.which >= 32 && e.which <= 64) && (e.which != 46 && e.which != 37 && e.which != 39 && e.which != 35 && e.which != 36))
+                    || (e.which >= 91 && e.which <= 96) || (e.which >= 186 && e.which <= 222)) {
+                    return false;
+                }
+            }
+        })
+
+        $("#txtMname").on({
+            keydown: function (e) {
+                if (((e.which >= 32 && e.which <= 64) && (e.which != 46 && e.which != 37 && e.which != 39 && e.which != 35 && e.which != 36))
+                    || (e.which >= 91 && e.which <= 96) || (e.which >= 186 && e.which <= 222)) {
+                    return false;
+                }
+            }
+        })
+
+        $("#txtLname").on({
+            keydown: function (e) {
+                if (((e.which >= 32 && e.which <= 64) && (e.which != 46 && e.which != 37 && e.which != 39 && e.which != 35 && e.which != 36))
+                    || (e.which >= 91 && e.which <= 96) || (e.which >= 186 && e.which <= 222)) {
+                    return false;
+                }
+            }
+        })
+
+
+
+        $("#fname").on({
+            keydown: function (e) {
+                if (((e.which >= 32 && e.which <= 64) && (e.which != 46 && e.which != 37 && e.which != 39 && e.which != 35 && e.which != 36))
+                    || (e.which >= 91 && e.which <= 96) || (e.which >= 186 && e.which <= 222)) {
+                    return false;
+                }
+            }
+        })
+
+        $("#mname").on({
+            keydown: function (e) {
+                if (((e.which >= 32 && e.which <= 64) && (e.which != 46 && e.which != 37 && e.which != 39 && e.which != 35 && e.which != 36))
+                    || (e.which >= 91 && e.which <= 96) || (e.which >= 186 && e.which <= 222)) {
+                    return false;
+                }
+            }
+        })
+
+        $("#lname").on({
+            keydown: function (e) {
+                if (((e.which >= 32 && e.which <= 64) && (e.which != 46 && e.which != 37 && e.which != 39 && e.which != 35 && e.which != 36))
+                    || (e.which >= 91 && e.which <= 96) || (e.which >= 186 && e.which <= 222)) {
+                    return false;
+                }
+            }
+        })
+
+
+
+        $("#file").blur(function () {
+            $.ajax({
+                data: { filename: $("#file").val() },
+                url: '/Users/checkImage',
+                success: function (data) {
+                    $("#errorImage").html(data);
+                },
+
+                error: function (data) {
+                    alert("Something went wrong!");
+                }
+            })
+        })
+
+        $("#fileEdit").blur(function () {
+            $.ajax({
+                data: { filename: $("#fileEdit").val() },
+                url: '/Users/checkImage',
+                success: function (data) {
+                    $("#errorImageUpdate").html(data);
+                },
+
+                error: function (data) {
+                    alert("Something went wrong!");
+                }
+            })
+        })
+
+        $("#file").change(function () {
+            var files = this.files;
+            var reader = new FileReader();
+            name = this.value;
+
+            reader.onload = function (e) {
+                console.log(e);
+                $("#userpic").html("<a><img src='" + e.target.result + "' width='60' height='60' />");
+            };
+            reader.readAsDataURL(files[0]);
+
+            var filename = document.getElementById('file').value;
+            var formattedText = filename.replace('C:\\fakepath\\', "");
+
+            document.getElementById('fileUpload').value = formattedText;
+        });
+
+        $("#fileEdit").change(function () {
+            var files = this.files;
+            var reader = new FileReader();
+            name = this.value;
+
+            reader.onload = function (e) {
+                console.log(e);
+                $("#userpicEdit").html("<a><img src='" + e.target.result + "' width='60' height='60' />");
+            };
+            reader.readAsDataURL(files[0]);
+
+            var filename = document.getElementById('fileEdit').value;
+            var formattedText = filename.replace('C:\\fakepath\\', "");
+
+            document.getElementById('fileUploadEdit').value = formattedText;
+        });
+
+        function clearFormFields() {
+
+
+            $("#txtFname").val("");
+            $("#txtMname").val("");
+            $("#txtLname").val("");
+            $("#txtLogin").val("");
+            $("#txtEmail").val("");
+            $("#dropdowndept").val("");
+            $("#dropdownusertype").val("");
+            $("#hiddenuserid").val("");
+            $("#txtPassword").val("");
+            $("#txtReenterPassword").val("");
+
+            $("#users_IsActive").attr("checked", false);
+            //$("#users_IsAdmin").attr("checked", false);
+            $("#fileUpload").val("");
+            $("#fileUploadEdit").val("");
+            $("#userpic").empty();
+            $("#userpicEdit").empty();
+
+            // Clear Add page errors
+            $("#errorFname").empty();
+            $("#errorMname").empty();
+            $("#errorLname").empty();
+
+            $("#errorLogin").empty();
+            $("#errorEmail").empty();
+            $("#errordept").empty();
+            $("#errorusertype").empty();
+            $("#errorCountry").empty();
+            $("#errorGover").empty();
+            $("#errorArea").empty();
+            $("#errorPwd").empty();
+            $("#errorRePwd").empty();
+
+            // Clear Edit page errors
+            $("#errorFnameEdit").empty();
+            $("#errorMnameEdit").empty();
+            $("#errorLnameEdit").empty();
+            $("#errorGenderEdit").empty();
+            $("#errorLoginEdit").empty();
+            $("#errorEmailEdit").empty();
+            $("#erroreditdept").empty();
+            $("#erroreditusrtyp").empty();
+            $("#errorPwdEdit").empty();
+
+            $("label").removeClass("state-error");
+            $("label").removeClass("state-success");
+            $(".field-validation-error").html("");
+        }
+
+
+        $("#btnaddcancel").click(function () {
+            $("#AddUser").hide(1000);
+            $("#EditUser").hide(1000);
+            clearFormFields();
+
+        })
+
+
+        $("#btneditcancel").click(function () {
+            $("#AddUser").hide(1000);
+            $("#EditUser").hide(1000);
+            clearFormFields();
+
+        })
+
+        $("#btnAddUser").click(function () {
+            $("#AddUser").show(1000);
+            $("#EditUser").hide(1000);
+            clearFormFields();
+        })
+
+        $("#btnEditUser").click(function () {
+            var rowKey = $("#jqgrid").getGridParam("selrow");
+
+            if ($("#jqgrid").getGridParam("selrow") == null) {
+                alert("Select a row to edit!");
+            }
+
+            else {
+
+                $("#EditUser").show(1000);
+                $("#AddUser").hide(1000);
+                clearFormFields();
+
+                $.ajax({
+                    data: { id: rowKey },
+                    url: '/Users/getDetails/',
+                    dataType: 'json',
+                    success: function (data) {
+
+                        $("#fname").val(data.UserFirstName);
+                        $("#mname").val(data.UserMiddleName);
+                        $("#lname").val(data.UserLastName);
+                        $("#loginname").val(data.UserLoginName);
+                        $("#email").val(data.UserEmailID);
+                        $("#dept").val(data.UserDepartmentID);
+                        $("#usertype").val(data.UserTypeID);
+                        $("#hiddenuserid").val(data.UserID);
+
+                        $("#hiddenuserpic").val(data.UserPic);
+
+                        if (data.IsActive == true) {
+                            $("#isActive").attr("checked", true);
+                        }
+                        else {
+                            $("#isActive").attr("checked", false);
+                        }
+
+                    },
+
+                    error: function (data) {
+                        alert("error");
+                        return false;
+                    }
+                });
+            }
+        })
+
+        function UserPicFormatter(cellvalue, options, rowObject) {
+            var html = "<img src='" + cellvalue + "' height='" + 50 + "px' width='" + 50 + "px' />";
+            return html;
+        }
+        $(document).ready(function () {
+
+            $.validator.unobtrusive.parse('form');
+
+        })
+</script>
+
+
+

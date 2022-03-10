@@ -1,0 +1,999 @@
+﻿@model InvoiceNew.Models.InvoiceModel
+@using System.Collections;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    <!-- Custom Fonts -->
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    @*<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    var myid = "";
+}
+<style>
+    .hide-display {
+        display: none;
+    }
+     #imgviewer{
+            float:right;
+            position:relative;
+            height:600px;
+            width:500px;
+            /*left:160px;
+            top:57px;*/
+            overflow:auto;
+            background-color:rgba(0,0,0,0);
+        }
+        #plus, #minus{
+            cursor:pointer;
+        }
+        .zoom-icon{
+            position: relative;
+            top: 530px;
+            left: 504px;
+        }
+</style>
+<div class="wrapper" style="background-color:#FFFFFF">
+    @using (Html.BeginForm("SubmitInvoice", "Invoice", FormMethod.Post))
+    {
+        <div id="Inv">
+
+            <div id="page-wrapper">
+                <div class="">
+                    @*<div class="col-lg-12">
+                            <h1 class="page-header">Invoice Reader</h1>
+                        </div>*@
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-lg-6" style="width:638px;margin-top:10px;margin-left:10px;">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h4><b>INVOICE</b></h4>
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div style="padding-right:5px;padding-left:5px;" class="panel-body">
+                                <table>
+                                    <tr>
+                                        <td style="color:green">@Html.Raw(ViewBag.ErrMsg)</td>
+                                    </tr>
+                                </table>
+                               
+                                @*<object data='@Url.Action("GetFile", "OrderItems",new { @filepath = Model.filePath})' width="600px" height="600px"></object>*@
+                                @*<img src="@Url.Content("~/Files/Temp/8f0dd014-865c-42e8-94a4-6e1d0e39cc2e/invoice_no68.pdf")" />*@
+                                <object id="object_id" style="float:right;margin-right:0;" data='@Url.Action("GetFile", "MyInvoice",new { @filepath = Model.filePath})' width="600px" height="725px"></object>
+                                <div id="imgviewer">
+                                    <img id="view" width="500" height="600" src="#" alt="Alternate Text" />
+                                </div>
+                                <div class="zoom-icon">
+                                    <img id="plus" src="~/Content/images/plus.png" height="25" width="25" />
+                                    <img id="minus" src="~/Content/images/minus.png" height="20" width="20" />
+                                </div>
+                            </div>
+                            <!-- .panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                        @*
+    @using (Html.BeginForm("NewgetImageLists", "MyInvoice", FormMethod.Post, new { id = "invoceupdateform", enctype = "multipart/form-data" }))
+    {
+        <section id="widget-grid">
+            <div id="Editinvoice" class="row">
+                <article class="col-sm-12 col-md-12 col-lg-6" id="detailarticleimage">
+                    Form Data
+                </article>
+            </div>
+        </section>
+    } *@
+                    </div>
+                    <!-- /.col-lg-6 -->
+                   
+                    <div id="divInvoice">
+                        <div class="col-sm-6 col-md-6" style="margin-top:10px;margin-left:10px;background-color:white">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h4><b>VENDOR DETAILS</b></h4>
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body">
+                                    <table id="InvoiceInfo" class="display table table-bordered table-hover">
+                                        <tbody>
+                                            <tr>
+                                                <td style="font-weight:bold;">@Html.DisplayNameFor(m => m.GateEntryNumber)</td>
+                                                <td>
+                                                    @Html.DisplayFor(m => m.GateEntryNumber, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.GateEntryNumber)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:bold;">@Html.DisplayNameFor(m => m.SelectedType)</td>
+                                                <td>
+                                                    @Html.DisplayFor(m => m.SelectedType, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.SelectedType)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:bold;">@Html.DisplayNameFor(m => m.VehicleNumber)</td>
+                                                <td>
+                                                    @Html.DisplayFor(m => m.VehicleNumber, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.VehicleNumber)
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="font-weight:bold;">@Html.DisplayNameFor(m => m.Date)</td>
+                                                <td>
+                                                    @Html.DisplayFor(m => m.Date, "{0:dd/MM/yyyy }", new { @class = "form-control date" })
+                                                    @Html.ValidationMessageFor(m => m.Date)
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="font-weight:bold;">@Html.DisplayNameFor(m => m.Time)</td>
+                                                <td>
+                                                    @Html.DisplayFor(m => m.Time, new { @class = "form-control timepicker" })
+                                                    @Html.ValidationMessageFor(m => m.Time)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:bold;">Invoice No.</td>
+                                                <td>
+                                                    @Html.HiddenFor(m => m.InvoiceID)
+                                                    @Html.DisplayFor(m => m.InvoiceNumber)
+                                                    @Html.ValidationMessageFor(m => m.InvoiceNumber)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:bold;">Invoice Amount</td>
+                                                <td>
+                                                   
+                                                    @Html.DisplayFor(m => m.InvoiceAmount)
+                                                    @Html.ValidationMessageFor(m => m.InvoiceAmount)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:bold;">Invoice Date</td>
+                                                <td>
+                                                  @*  @Html.DisplayFor(m => m.InvoiceDate) *@
+                                                    @Model.InvoiceDate.Value.ToString("dd/MM/yyyy")
+                                                    @Html.ValidationMessageFor(m => m.InvoiceDate)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:bold;">Invoice Received Date</td>
+                                                <td>
+                                                    @*@Html.DisplayFor(m => m.InvoiceReceiveddate, new { @class = "form-control" })*@
+                                                    @Model.InvoiceReceiveddate.Value.ToString("dd/MM/yyyy")
+                                                    @Html.ValidationMessageFor(m => m.InvoiceReceiveddate)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:bold;">Invoice Due Date</td>
+                                                <td>
+                                                    @* @Html.DisplayFor(m => m.InvoiceDueDate, new { @class = "form-control" }) *@
+                                                    @Model.InvoiceDueDate.Value.ToString("dd/MM/yyyy")
+                                                    @Html.ValidationMessageFor(m => m.InvoiceDueDate)
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="font-weight:bold;">PO Number</td>
+                                                <td>@Html.DisplayFor(m => m.PONumber)</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight:bold;">GSTIN</td>
+                                                <td>@Html.DisplayFor(m => m.GSTIN)</td>
+                                            </tr>
+                                            @*
+        <tr>
+            <td style="font-weight:bold;">Place of Supply</td>
+            <td>@Html.DisplayFor(m => m.PlaceOfSupply)</td>
+        </tr>
+        <tr>
+            <td style="font-weight:bold;">Reverse Charges</td>
+            <td>
+                @if (Model.ReverseCharges)
+            {<text>Yes</text>}
+            else
+            {<text>No</text>}
+        </td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;">Ecommerce GSTIN</td>
+        <td>@Html.DisplayFor(m => m.EcommerceGSTIN) </td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;">Taxable Value</td>
+        <td>@Html.DisplayFor(m => m.TaxableValue)</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;">Tax Percent</td>
+        <td>@Html.DisplayFor(m => m.TaxPercent)</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;">Cess Amount</td>
+        <td>@Html.DisplayFor(m => m.CessAmount)</td>
+    </tr>
+                                            *@
+                                        <tr>
+                                            <td style="font-weight:bold;">PAN Number</td>
+                                            <td>@Html.DisplayFor(m => m.PANNumber)</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="font-weight:bold;">Vendor Name</td>
+                                            <td>@Html.DisplayFor(m => m.VendorName)</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="font-weight:bold;">Currently With</td>
+                                            <td>@Html.DisplayFor(m => m.CurrentUserName)</td>
+                                        </tr>
+
+
+
+                                        @if (Model.UserTypes != null)
+                                        {
+                                            for (int i = 0; i < Model.UserTypes.Count; i++)
+                                            {
+                                                <tr class="RowClass">
+                                                    <td style="font-weight:bold;">@Html.DisplayFor(m => m.UserTypes[i].UserTypeName)</td>
+                                                    <td>@Html.DisplayFor(m => m.UserTypes[i].UserName, new { @class = "form-control" })</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- .panel-body -->
+                        </div>
+                    </div>
+
+                        <div class="col-sm-12 col-md-12" style="margin-right:20px;background-color:white">
+                            <div class="panel panel-info" style="margin-left:10px;margin-right:10px;">
+                                <div class="panel-heading">
+                                    <span class="widget-icon"> <i class="fa-lg fa fa-th-list"></i></span>
+                                    <b>&nbsp;ITEMS LIST</b>
+                                </div>
+                                <div class="panel-body">
+                                    <style>
+                                        display tbody tr:nth-child(2n+1) {
+                                            background-color: #f9f9f9;
+                                        }
+
+                                        .item-list input {
+                                            width: 110px;
+                                        }
+                                    </style>
+                                    <table class="item-list table table-bordered table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <!--
+                                                <th>Id</th>
+                                                <th>Code</th>
+                                                <th>Name</th>
+                                                <th>Qty</th>
+                                                <th>Rate</th>
+                                                <th>IGST</th>
+                                                <th>SGST</th>
+                                                <th>CGST</th>
+                                                <th>Amount</th>-->
+                                                <th>Category Name</th>
+                                                <th>Name</th>
+                                                <th>UOM</th>
+                                                <th>HSN</th>
+                                                <th>Price</th>
+                                                <th>Qty</th>
+                                                <th>Amount</th>
+                                                <th>IGST</th>
+                                                <th>I.Amount</th>
+                                                <th>SGST</th>
+                                                <th>S.Amount</th>
+                                                <th>CGST</th>
+                                                <th>C.Amount</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        @if (Model.InvoiceItems != null)
+                                        {
+                                            foreach (var items in Model.InvoiceItems)
+                                            {
+                                            <tr>
+                                                @*
+                                                <td>@Html.DisplayFor(m => items.ItemId)</td>
+                                                <td>@Html.DisplayFor(m => items.Code)</td>
+                                                <td>@Html.DisplayFor(m => items.Name)</td>
+                                                <td>@Html.DisplayFor(m => items.Qty)</td>
+                                                <td>@Html.DisplayFor(m => items.Rate)</td>
+                                                <td>@Html.DisplayFor(m => items.IGST)</td>
+                                                <td>@Html.DisplayFor(m => items.SGST)</td>
+                                                <td>@Html.DisplayFor(m => items.CGST)</td>
+                                                <td>@Html.DisplayFor(m => items.Amount)</td>
+                                                *@
+                                                <td>@Html.DisplayFor(m => items.CategoryId)</td>
+                                                <td>@Html.DisplayFor(m => items.Name)</td>
+                                                <td>@Html.DisplayFor(m => items.UOM)</td>
+                                                <td>@Html.DisplayFor(m => items.HSN)</td>
+                                                <td>@Html.DisplayFor(m => items.Price)</td>
+                                                <td>@Html.DisplayFor(m => items.Qty)</td>
+                                                <td>@Html.DisplayFor(m => items.Amount)</td>
+                                                <td>@Html.DisplayFor(m => items.IGST)</td>
+                                                <td>@Html.DisplayFor(m => items.IAmount)</td>
+                                                <td>@Html.DisplayFor(m => items.SGST)</td>
+                                                <td>@Html.DisplayFor(m => items.SAmount)</td>
+                                                <td>@Html.DisplayFor(m => items.CGST)</td>
+                                                <td>@Html.DisplayFor(m => items.CAmount)</td>
+                                                <td>@Html.DisplayFor(m => items.Total)</td>
+                                            </tr>
+                                            }
+                                        }
+                                        </tbody>
+                                        @if (Model.InvoiceItems.Count != 0)
+                                        {
+                                            var url = Request.Url.GetLeftPart(UriPartial.Authority);
+                                            <a href=@(url+"/invoice/grnview?id="+Model.InvoiceItems[0].InvoiceId) target="_blank">View GRN</a>
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12" style="margin-top:10px;background-color:white">
+                            <div class="panel panel-info" style="margin-left:10px;margin-top:10px;margin-right:10px;">
+                                <div class="panel-heading">
+                                    <span class="widget-icon"> <i class="fa-lg fa fa-table"></i> </span>
+                                    <b>DEBIT NOTE</b>
+                                </div>
+                                <div class="panel-body">
+                                    <div id="divDataCredit">
+                                        <table id="divnotes" class="table-striped table-bordered table-hover table-condensed" style="width:100%;">
+                                            <tr>
+                                                <td>
+                                                    Generated Notes
+                                                </td>
+
+                                                @if (Model.CreditDebitNotes != null)
+                                                {
+                                                    for (int i = 0; i < Model.CreditDebitNotes.Count; i++)
+                                                    {
+                                                        <td style="font-weight:bold;"><a class="noteslink" href="CreditView?Id=@Html.DisplayFor(m => m.CreditDebitNotes[i].CrDrNoteID)" target="_blank">@Html.DisplayFor(m => m.CreditDebitNotes[i].NoteType)&nbsp;Note</a></td>
+                                                    }
+                                                }
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="col-sm-12 col-md-12" style="background-color:white">
+                        <div class="panel panel-info" style="margin-left:10px;margin-top:10px;margin-right:10px;">
+                            <div class="panel-heading">
+                                <span class="widget-icon"> <i class=" fa-lg fa fa-pencil-square-o"></i></span>
+                                <b>APPROVAL HISTORY</b>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-inline" role="form">
+                                    <div align="center" id="cmnt" style="border: thin inset;">
+
+                                        <table id="divcomments" class="table-striped table-bordered table-hover table-condensed" style="width:100% ">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                </tr>
+
+                                            </thead>
+
+                                        </table>
+                                    </div>
+
+                                    <div id="labelfinaladetails" style="display:none;border: thin inset ">
+
+                                        <fieldset>
+                                            <div class="row">
+                                                <section>
+                                                    <table style="border-collapse:separate; border-spacing:16px; width:88%" align="left" class="table-bordered table-hover ">
+                                                        <tr>
+                                                            <td align="right">
+                                                                <section class="col col-4">
+                                                                    <label class="input">
+                                                                        Navision Voucher No :
+                                                                    </label>
+
+                                                                </section>
+                                                            </td>
+                                                            <td align="left">
+                                                                <section class="col col-4">
+                                                                    <label class="input" id="lblNavisionVoucherno">
+                                                                        @*@Html.TextBoxFor(m => m.Navisionvoucherno, new { placeholder = "Navision Voucher ", @class = "final", id = "txtNavisionVoucherno" })*@
+                                                                        @Html.ValidationMessageFor(m => m.InvoiceAmount)
+                                                                    </label>
+
+                                                                </section>
+                                                            </td>
+
+                                                        </tr>
+                                                    </table>
+                                                </section>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    
+
+                            @*==================================================================================
+                             <div class="col-sm-12 col-md-12">
+                                 <div class="panel panel-default">
+                                     <div class="panel-heading">
+                                         <span class="widget-icon"> <i class="fa-lg fa fa-table"></i> </span>
+                                         <b> Comments </b>
+                                     </div>
+                                     <div class="panel-body">
+                                         <div class="form-inline" role="form">
+                                             <div class="widget-body">
+                                                 <div class="input-group" style="width:100%">
+                                                     <div align="left" class="col-sm-12" style="width:100%" id="curentcoment">
+                                                         @Html.TextAreaFor(m => m.Comment, new { placeholder = "Comment", id = "txtcomment", @rows = 4, @class = "form-control", @style = "width:80%" })
+                                                         @Html.ValidationMessageFor(m => m.Comment)
+                                                     </div>
+                                                 </div>
+
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                ===========================================================================*@
+
+
+                        </div>
+                        @*<div class="col-md-10 col-md-offset-2">
+                <button class="btn btn-primary cmd " type="submit" id='cmdSubmit'>
+                    <i class="fa fa-save"></i>
+                    Submit
+                </button>
+                <button class="btn btn-primary cmd" type="button" id='btnReassign' style="margin-left:8px; display:none">
+                    Re-Assign
+                </button>
+                <button class="btn btn-default cmd" type="button" id='cancelbtn' style="margin-left:8px">
+                    Cancel
+                </button>
+            </div>*@
+                    </div>
+                </div>
+            <!-- /.col-lg-6 -->
+        </div>
+
+
+    }
+
+
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="width:800px;position:  relative;right: 40px;">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <!--<h4 class="modal-title">Modal Header</h4>-->
+            </div>
+            <div class="modal-body" style="height:500px;">
+                <iframe id="mframe" style="height:100%;width:100%;border:none" src="#"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- /#page-wrapper -->
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="~/Scripts/bootstrap.min.js"></script>
+<!-- Metis Menu Plugin JavaScript -->
+@*<script src="~/bower_components/metisMenu/dist/metisMenu.min.js"></script>*@
+<script src="~/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+<!-- Custom Theme JavaScript -->
+@*<script src="~/dist/css/js/sb-admin-2.js"></script>*@
+<script src="~/dist/css/js/sb-admin-2.js"></script>
+<!-- Page-Level Demo Scripts - Notifications - Use for reference -->
+<script>
+    // tooltip demo
+
+    $(function(){
+
+
+
+
+        var filepath = '@Url.Action("GetFile", "MyInvoice",new { @filepath = Model.filePath})'
+        var ext = filepath.substring(filepath.lastIndexOf(".") + 1);
+        //var filerel = $("#icon-navbar tr:nth-child(" + clickedchild + ") img").attr('rel');
+        if (ext == "jpg") {
+            console.log("Setting");
+            $("#object_id").addClass("hide-display");
+            $(".zoom-icon").removeClass("hide-display");
+            $("#imgviewer").removeClass("hide-display");
+            $("#imgviewer > img").attr("src", filepath);
+        }
+        else {
+            $(".zoom-icon").addClass("hide-display");
+            $("#imgviewer").addClass("hide-display");
+            $("#object_id").removeClass("hide-display");
+           // $("#object_id").attr("data", "getfile?filepath=" + encodeURIComponent(filpath));
+        }
+
+    });
+    $("#plus").click(function(){
+        console.log("plus");
+      
+        var height = parseInt($("#imgviewer > #view").attr("height"));
+        var width = parseInt($("#imgviewer > #view").attr("width"));
+
+        height = height + 20;
+        width = width + 20;
+        $("#imgviewer > #view").attr("height",height);
+        $("#imgviewer > #view").attr("width",height);
+    });
+    $("#minus").click(function(){
+        console.log("minus");
+        var height = parseInt($("#imgviewer > #view").attr("height"));
+        var width = parseInt($("#imgviewer > #view").attr("width"));
+        height = height - 20;
+        width = width - 20;
+        $("#imgviewer > #view").attr("height",height);
+        $("#imgviewer > #view").attr("width",height);
+    });
+    $(".noteslink").click(function(e){
+        e.preventDefault();
+        $("#mframe").attr("src",$(this).attr("href"));
+        $("#myModal").modal();
+                                    
+    });
+
+    $('.tooltip-demo').tooltip({
+        selector: "[data-toggle=tooltip]",
+        container: "body"
+    })
+    // popover demo
+    $("[data-toggle=popover]")
+        .popover()
+</script>
+
+
+<style type="text/css">
+    #divInvoiceImages {
+        height: 600px;
+        /*width: 400px;*/
+    }
+
+    #divInvoiceDetails {
+        position: relative;
+        left: 64%;
+        top: 1%;
+        width: 36%;
+        max-height: 98%;
+        min-height: 98%;
+        border: thin solid black;
+    }
+
+    #divInvoiceImage {
+    }
+
+    /*#imgInvoiceImage {
+                                -ms-zoom: 0.75;
+                                -moz-transform: scale(0.75);
+                                -moz-transform-origin: 0 0;
+                                -o-transform: scale(0.75);
+                                -o-transform-origin: 0 0;
+                                -webkit-transform: scale(0.75);
+                                -webkit-transform-origin: 0 0;
+                                overflow: scroll;
+                            }*/
+
+    #imgInvoiceImages {
+        width: 100%;
+        height: 100%;
+    }
+
+
+
+
+
+    /*Image Controls*/
+    .imglist {
+        display: none;
+    }
+
+    .cmdpv {
+        cursor: pointer;
+    }
+
+    /* Styles for validation helpers
+                            -----------------------------------------------------------*/
+    .field-validation-error {
+        color: #ff0000;
+    }
+
+    .field-validation-valid {
+        display: none;
+    }
+
+    .input-validation-error {
+        border: 1px solid #ff0000;
+        background-color: #ffeeee;
+    }
+
+    .validation-summary-errors {
+        font-weight: bold;
+        color: #ff0000;
+    }
+
+    .validation-summary-valid {
+        display: none;
+    }
+
+    .ui-jqgrid tr.jqgrow td.wrap {
+        white-space: normal !important;
+        height: auto;
+        padding-top: 2px;
+        word-wrap: break-word;
+    }
+
+    .ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+        height: auto;
+        vertical-align: text-top;
+        padding-top: 2px;
+        word-wrap: break-word;
+    }
+
+    .ui-jqgrid .ui-jqgrid-htable th div {
+        height: auto;
+        overflow: hidden;
+        padding-right: 4px;
+        padding-top: 2px;
+        position: relative;
+        vertical-align: text-top;
+        white-space: normal !important;
+    }
+
+    #tbInvoiceImages {
+    }
+
+        #tbInvoiceImages td {
+            border: 1px solid;
+            padding: 3px 5px 3px 5px;
+            text-align: center;
+        }
+
+    /*#tbInvList {
+                                    width: 98%;
+                                    top: 2%;
+                                    left: 1%;
+                                    height: auto;
+                                    position: absolute;
+                                    border: 1px solid lime;
+                                }
+
+                                    #tbInvList td, #tbInvList th {
+                                        border: thin solid black;
+                                        padding: 5px 3px 5px 3px;
+                                    }*/
+
+    .notapproved {
+        color: blue;
+    }
+
+    .approved {
+    }
+
+    .ec-caret {
+    }
+
+    .ec-tr {
+        display: none;
+    }
+
+    .ec-div {
+        position: relative;
+        width: 100%;
+        overflow: auto;
+        padding: 0;
+        height: 92%;
+        border: thin inset;
+        margin-bottom: 1.5%;
+    }
+
+    .ec-table-invoice-image-icons {
+        left: .2%;
+        width: 8%;
+        height: auto;
+        border: thin solid white;
+    }
+
+    .ec-div-invoice-image {
+        left: 9%;
+        top: 1%;
+        width: 49%;
+        height: 86%;
+        border: thin solid black;
+        position: absolute;
+        margin-top: 2px;
+    }
+
+    .ec-table-invoice-image-commands {
+        left: 9%;
+        top: 88%;
+        width: 49%;
+        position: absolute;
+    }
+
+    .ec-table-invoice-editor {
+        left: 60%;
+        width: 40%;
+        top: 0%;
+        border: thin solid;
+        position: absolute;
+        margin-top: 0px;
+    }
+
+    .ec-table-invoice-image-commands td {
+        padding: 2px !important;
+        border: thin solid;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .tablepad td {
+        border: none !important;
+        padding: 5px 2px 5px 2px;
+    }
+
+
+    .ec-invoice-image-icon {
+        position: relative;
+        width: 60px;
+        height: 60px;
+    }
+
+    * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    html {
+        -ms-touch-action: none;
+    }
+</style>
+
+<script>
+    //
+    $("input[name='status']").click(function () {
+
+        if ($('input:radio[name=status]:checked').val() == "ReAssign") {
+            //  alert($('input:radio[name=status]:checked').val());
+            $("#reassigntd").show();
+        }
+        else {
+            $("#reassigntd").hide();
+        }
+    });
+    var rowKey = "82";
+    //comment
+    $.ajax({
+        type: "post",
+        async: false,
+        url: '/Invoice/getcomments/',
+        data: { invoiceno: rowKey },
+        success: function (jsondata) {
+            if (jsondata.success < 1) {
+                return;
+            }
+            var parsed = $.parseJSON(jsondata.commentlist);
+            $.each(parsed, function (k, v) {
+                $("#divcomments").append(
+                  "<tr><td>" + v.Comment + " </td> </tr>"
+               );
+            });
+
+        },
+        error: function (xhr, st, et) { alert(xhr.responseText); }
+    });
+
+     $.ajax({
+                type: "GET", async: false,
+                url: '/Invoice/getCreditDetailss',
+               data: { invoiceno: @Model.InvoiceID },
+                success: function (jsondata) {
+                    if (jsondata.success < 1) {
+                        return;
+                    }
+                    var totamount = 0;
+                    $.each(jsondata.creditlist, function (k, v) {
+                        $("#divcreditdetails").append("<tr><td><label id='UserID" + v.DebitNoteId + "' class='edit-mode'>" + v.DebitNoteId + "</label></td><td><span class='display-mode'><a href='/Invoice/DownloadFile/" + v.DebitNoteId + "'>" + v.DebitFileName + "</a></span></td><td id=labeltd" + v.DebitNoteId + ">" + v.DebitAmount + " </td><td style='display:none' id='editTd" + v.DebitNoteId + "'><input type='text' style='display:none' value='" + v.DebitAmount + "' id='inputamount" + v.DebitNoteId + "'/></td></tr>");
+                        totamount = totamount + v.DebitAmount
+                    });
+
+                    var amttot = $("#hdnInvoiceAmount").val();
+
+                    var amtlbt = Number(amttot) + Number(prvamt);
+                    $("#txtInvoiceAmount").html(amtlbt);
+                    $("#hdnInvoiceAmount").val(amtlbt);
+
+
+                },
+                error: function (xhr, st, et) { alert(xhr.responseText); }
+            });
+
+    var frmInvoiceImageList = new window.FormData();
+    var mNumberOfImages = -1;
+    var currentDisplayedImageTD = null;
+    var deletedInvoiceImageList = [];
+
+    function ec_showInvoiceImage1() {
+        $("#iframeInvoiceImage").removeAttr('src');
+    }
+
+    function nextimage(prev_next) {
+
+        if ($("#tbimglist tr:nth-child(1) td").length < 1) return;
+        if (prev_next == 1) {
+            currentDisplayedImageTD = $(currentDisplayedImageTD).next("td");
+            if (currentDisplayedImageTD.length < 1) currentDisplayedImageTD = $("#tbimglist tr:nth-child(1) td:first");
+
+            var rsrc = $("img", currentDisplayedImageTD)[0].src;
+            var rext = rsrc.substring(rsrc.lastIndexOf(".") + 1);
+            if (rext != "pdf") {
+
+                $("#imgInvoiceImage")[0].src = $("img", currentDisplayedImageTD)[0].src;
+                $("#iframeInvoiceImage").hide();
+                $("#imgInvoiceImage").show();
+                // wheelzoom(document.getElementById('imgInvoiceImage'));
+                $(".zoombtn").show();
+            }
+            else {
+
+                $("#iframeInvoiceImage").attr('src', rsrc);
+                //  $("#iframeInvoiceImage").src = rsrc;
+                $("#imgInvoiceImage").hide();
+                $("#iframeInvoiceImage").show();
+                $(".zoombtn").hide();
+            }
+        }
+        if (prev_next == -1) {
+
+            currentDisplayedImageTD = $(currentDisplayedImageTD).prev("td");
+            if (currentDisplayedImageTD.length < 1) currentDisplayedImageTD = $("#tbimglist tr:nth-child(1) td:last");
+
+            var rsrc = $("img", currentDisplayedImageTD)[0].src;
+            var rext = rsrc.substring(rsrc.lastIndexOf(".") + 1);
+            if (rext != "pdf") {
+
+                $("#imgInvoiceImage")[0].src = $("img", currentDisplayedImageTD)[0].src;
+                $("#iframeInvoiceImage").hide();
+                $("#imgInvoiceImage").show();
+                // wheelzoom(document.getElementById('imgInvoiceImage'));
+                $(".zoombtn").show();
+            }
+            else {
+                $("#iframeInvoiceImage").attr('src', rsrc);
+                $("#imgInvoiceImage").hide();
+                $("#iframeInvoiceImage").show();
+                $(".zoombtn").hide();
+            }
+        }
+
+        var n = $("#tbimglist td").length;
+        $("#spannof").text(($(currentDisplayedImageTD)[0].cellIndex + 1) + "/" + n);
+    }
+    function removeimage() {
+
+
+        if ($("#tbimglist td").length != 0) {
+            if (currentDisplayedImageTD == null) return;
+
+            var imgsrc = $("img", currentDisplayedImageTD)[0].src;
+            var imgpath = imgsrc.substring(imgsrc.lastIndexOf("/") + 1);
+            $.ajax({
+                type: "post", async: false,
+                url: '/Invoice/removeInvoiceImages',
+                data: { filename: imgpath },
+                success: function (jsondata) {
+
+                    var imgid = $("img", currentDisplayedImageTD)[0].id;
+                    $("#imgInvoiceImage")[0].src = '';
+
+                    var tcurrentDisplayedImageTD = ($(currentDisplayedImageTD).next("td").length != 0 ? $(currentDisplayedImageTD).next("td") : $(currentDisplayedImageTD).prev("td"));
+                    $(currentDisplayedImageTD).remove();
+
+
+
+                    currentDisplayedImageTD = tcurrentDisplayedImageTD;
+                    deletedInvoiceImageList.push("filetoupload" + imgid.split("_")[1]);
+
+                    if ($("#tbimglist td").length != 0) {
+
+                        $("#spannof").show();
+
+                        var rsrc = $("img", currentDisplayedImageTD)[0].src;
+                        var rext = rsrc.substring(rsrc.lastIndexOf(".") + 1);
+                        if (rext != "pdf") {
+
+                            $("#imgInvoiceImage")[0].src = $("img", currentDisplayedImageTD)[0].src;
+                            $("#iframeInvoiceImage").hide();
+                            $("#imgInvoiceImage").show();
+                            // wheelzoom(document.getElementById('imgInvoiceImage'));
+                            $(".zoombtn").show();
+                        }
+                        else {
+                            $("#iframeInvoiceImage")[0].src = $("img", currentDisplayedImageTD)[0].src;
+                            $("#iframeInvoiceImage").show();
+                            $("#imgInvoiceImage").hide();
+                            $(".zoombtn").hide();
+                        }
+                        //$("#imgInvoiceImage")[0].src = $("img", currentDisplayedImageTD)[0].src;
+                        //wheelzoom(document.getElementById('imgInvoiceImage'));
+                        var n = $("#tbimglist td").length;
+                        $("#spannof").text(($(currentDisplayedImageTD)[0].cellIndex + 1) + "/" + n);
+                    }
+                    else {
+                        $("#spannof").hide();
+                    }
+
+
+
+                },
+                error: function (xhr, st, et) { alert(xhr.responseText); }
+
+            });
+        }
+        else {
+
+            alert("No Images are there to remove");
+        }
+        ClearText();
+    }
+
+
+
+    function resetImagelist() {
+        deletedInvoiceImageList = [];
+        frmInvoiceImageList = new window.FormData();
+        $("img.imglist").remove();
+        $("#tbimglist td").remove();
+        currentDisplayedImageTD = null;
+        mNumberOfImages = -1;
+    }
+
+    function zoom(inout) {
+
+        if ($("div.ec-div img").length < 1) return;
+        if ($("#tbimglist tr").length < 1) return;
+
+        $("div.ec-div img").css({
+            "height": ($("div.ec-div img")[0].offsetHeight + $("div.ec-div img")[0].offsetHeight * .01 * inout) + "px",
+            "width": ($("div.ec-div img")[0].offsetWidth + $("div.ec-div img")[0].offsetWidth * .01 * inout) + "px"
+        });
+    }
+
+</script>
+@*<script src="https://code.jquery.com/jquery-1.12.4.js"></script>*@
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+

@@ -1,0 +1,102 @@
+﻿@model IList<InvoiceNew.Models.OrderItems>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+ }
+    <div id="content">
+
+        <!-- row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>VendorDetails</h4>
+                    </div>
+                    <div class="panel-body">
+                        @*<table>
+
+                            <tr>
+                                <td><input type="button" id="btnExport" value="Export To Excel" class="btn btn-primary" />&nbsp;&nbsp;</td>
+
+                                <td><input type="button" id="btnOrderExport" value="Order with Details Excel" class="btn btn-primary" />&nbsp;&nbsp;</td>
+                                <td><input type="button" id="btnAssetExport" value="Asset Details Excel" class="btn btn-primary" /></td>
+                            </tr>
+                        </table>*@
+                        <strong></strong>
+                        <div class="table-responsive">
+                            <table id="InvoiceInfo" class="display table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th> Vendor </th>
+                                        <th> Invoice No </th>
+                                        <th> Invoice Date</th>
+                                        <th> PO</th>
+                                        <th> Amount</th>
+                                        <th> PO</th>
+                                        <th> COMPANY VAT TIN</th>
+                                        <th> COMPANY CST NO</th>
+                                        <th> BUYER VAT TIN</th>
+                                        <th> BUYER CST NO </th>
+                                        <th class="nosort">Edit|</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var m in Model)
+                                    {
+                                    <tr>
+                                        <td>@Html.DisplayFor(model => @m.Vendor)</td>
+                                        <td>@Html.DisplayFor(model => @m.InvoiceNo) </td>
+                                        <td>@Html.DisplayFor(model => @m.InvoiceDate)</td>
+                                        <td>@Html.DisplayFor(model => @m.PO)</td>
+                                        <td>@Html.DisplayFor(model => @m.Amount)</td>
+                                        <td>@Html.DisplayFor(model => @m.PO)</td>
+                                        <td>@Html.DisplayFor(model => @m.COMPANYVATTIN)</td>
+                                        <td>@Html.DisplayFor(model => @m.COMPANYCSTNO)</td>
+                                        <td>@Html.DisplayFor(model => @m.BUYERVATTIN)</td>
+                                        <td>@Html.DisplayFor(model => @m.BUYERCSTNO)</td>
+                                        <td>@Html.ActionLink("Edit", "Edit", new { id = @m.ID }) |</td>
+                                    </tr>
+                                    }
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            //$("#InvoiceInfo").DataTable();  "sPaginationType": "full_numbers",
+            $("#InvoiceInfo").dataTable({
+                "sPaginationType": "full_numbers",
+                'aoColumnDefs': [{
+                    'bSortable': false,
+                    'aTargets': ['nosort']
+                }]
+            });
+            $('#btnExport').click(function () {
+
+                window.location = '/OrderItems/ExportToExcel';
+
+            });
+
+
+            $('#btnOrderExport').click(function () {
+
+                window.location = '/OrderItems/OrderExportToExcel';
+
+            });
+            $('#btnAssetExport').click(function () {
+
+                window.location = '/OrderItems/AssetExportToExcel';
+
+            });
+
+        });
+    </script>
+

@@ -1,0 +1,23 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>WebApiTest</title>
+</head>
+<body>
+
+    <h2>File Upload Example</h2>
+    <form action="http://192.168.1.99:8080/OCRRestService/textcapture/extractinvoice/upload" method="post" enctype="multipart/form-data">
+        <p>
+            Select a file : <input type="file" name="file" size="45" />
+        </p>
+        <input type="submit" value="Upload File" />
+    </form>  
+</body>
+</html>

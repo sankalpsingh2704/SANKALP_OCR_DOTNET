@@ -1,0 +1,255 @@
+﻿@{
+    Layout = null;// "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Tell the browser to be responsive to screen width -->
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title>@ViewBag.Title - IQInvoice Product Extract Tool</title>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<!-- Bootstrap 3.3.5 -->
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<!-- Ionicons -->
+<!-- Theme style -->
+<link rel="stylesheet" href="~/Content/dist/css/AdminLTE.min.css">
+<!-- AdminLTE Skins. Choose a skin from the css/skins
+     folder instead of downloading all of them to reduce the load. -->
+<link rel="stylesheet" href="~/Content/dist/css/skins/_all-skins.min.css">
+<style>
+     html, body, .container-table {
+    height: 100%;
+}
+    .container-table {
+    display: table;
+      height: 100%;
+      margin-top:10%;
+}
+.vertical-center-row {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+</style>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+
+    <div class="wrapper">
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="index2.html" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>IQ</b>i</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>IQ</b>invoice</span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- Messages: style can be found in dropdown.less-->
+                        <li class="dropdown messages-menu">
+
+                        </li>
+                        <!-- Notifications: style can be found in dropdown.less -->
+                        <li class="dropdown notifications-menu">
+                        </li>
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                        </li>
+                        <!-- Control Sidebar Toggle Button -->
+                    </ul>
+                </div>
+            </nav>
+        </header>
+            <!-- MAIN CONTENT -->
+        <div class="container container-table">
+            <div class="row vertical-center-row">
+                <div class="col-md-8 form-horizontal">
+                    <div class="panel panel-info col-lg-offset-4">
+                        <div class="panel-heading">
+                            <span class="widget-icon"> <i class="fa-lg fa fa-lock"></i></span>
+                            &nbsp;&nbsp;<b>LOGIN</b>
+                        </div>
+                        <div class="panel-body">
+                            <h5>Welcome to IQ Invoice, please login.</h5>
+                            <div class="row">                            
+                                @if (@ViewBag.msg != null) {
+                                <div class="col-lg-12">
+                                    <div class="alert alert-info alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        <center>@ViewBag.msg</center>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                            <section id="loginForm">
+                                <div class="col-lg-12">
+                                    <div class="well no-padding" id="divLogin">
+                                        <div class="row">&nbsp;</div>
+                                        @using (Html.BeginForm("Submit", "Login", FormMethod.Post, new { @class = "smart-form client-form" }))
+                                        {
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label class="col-md-4 control-label">Username</label>
+                                                    <label class="input col-md-8">
+                                                        <i class="icon-append fa fa-user"></i>
+                                                        <input type="text" name="email" maxlength="50" class="form-control">
+                                                        <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Username </b>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label class="col-md-4 control-label">Password</label>
+                                                    <label class="input col-md-8">
+                                                        <i class="icon-append fa fa-lock left"></i>
+                                                        <input type="password" name="password" maxlength="255" class="form-control left">
+                                                        <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Password</b>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="row">&nbsp;</div>
+                                                <div class="row">
+                                                    @*<div class="col-md-8 col-md-offset-4">
+                                                            <a href="@Url.Action("forgotpasswordview", "Forgotpassword")">Forgot Password?</a>
+                                                        </div>*@
+                                                    <div class="col-md-12">
+                                                        <label class="col-md-4"></label>
+                                                        <section class="col-md-8">
+                                                            <input type="hidden" value="@ViewBag.InvoiceId" id="hdnInvoiceID" name="hdnInvoiceID" />
+                                                            <button type="submit" class="btn btn-primary col-md-6">
+                                                                LOGIN
+                                                            </button>
+                                                        </section>
+                                                    </div>
+                                                </div>
+                                                <div class="row">&nbsp;</div>
+
+                                }
+
+                            </div>
+                        </div>
+
+                            </section>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <!-- PAGE FOOTER -->
+        </div>
+        <div class="page-footer">
+        </div>
+            </div>
+    </body>
+</html>
+            <!-- END PAGE FOOTER -->
+            <!--================================================== -->
+            <!-- PACE LOADER - turn this on if you want ajax loading to show (caution: uses lots of memory on iDevices)-->
+            @*<script src="~/Scripts/plugin/pace/pace.min.js"></script>*@
+
+            <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
+            @*<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+                <script> if (!window.jQuery) { document.write('<script src="~/Scripts/libs/jquery-2.1.1.min.js"><\/script>'); } </script>
+
+                <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+                <script> if (!window.jQuery.ui) { document.write('<script src="~/Scripts/libs/jquery-ui-1.10.3.min.js"><\/script>'); } </script>*@
+
+            <script src="~/Scripts/libs/jquery-2.1.1.min.js"></script>
+            <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+            <!-- IMPORTANT: APP CONFIG -->
+            <script src="~/Scripts/app.config.js"></script>
+
+            <!-- JS TOUCH : include this plugin for mobile drag / drop touch events
+            <script src="js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script> -->
+            <!-- BOOTSTRAP JS -->
+            <script src="~/Scripts/bootstrap/bootstrap.min.js"></script>
+
+            <script src="~/Scripts/notification/SmartNotification.min.js"></script>
+
+
+            <!-- JQUERY VALIDATE -->
+            <script src="~/Scripts/plugin/jquery-validate/jquery.validate.min.js"></script>
+
+            <!-- JQUERY MASKED INPUT -->
+            <script src="~/Scripts/plugin/masked-input/jquery.maskedinput.min.js"></script>
+
+            <!--[if IE 8]>
+
+                <h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+
+            <![endif]-->
+            <!-- MAIN APP JS FILE -->
+            <script src="~/Scripts/app.min.js"></script>
+            @*<script src="~/Scripts/smart-chat-ui/smart.chat.manager.min.js"></script>
+
+                <script src="~/Scripts/smart-chat-ui/smart.chat.ui.min.js"></script>*@
+            <script type="text/javascript">
+
+        runAllForms();
+        @*$(document).ready(function () {
+
+            var msg = "@ViewBag.msg";
+            //if (msg != "") customMessage.showMessage("divmsg", msg, { x: "1%", color: "#ff0010", padding: { paddingTop: "10px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "1px" ,top:"-43px"} });
+
+            if (msg != "") {
+
+                $.smallBox({
+                    title: "Information",
+                    content: msg,
+                    color: "#5384AF",
+                    timeout: 5000,
+                    icon: "fa fa-bell"
+                });
+            }
+
+        });*@
+        $(function () {
+            // Validation
+            $("#login-form").validate({
+                // Rules for form validation
+                rules: {
+                    email: {
+                        required: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 3,
+                        maxlength: 20
+                    }
+                },
+
+                // Messages for form validation
+                messages: {
+                    email: {
+                        required: 'Please enter your User Login Name',
+
+                    },
+                    password: {
+                        required: 'Please enter your password'
+                    }
+                },
+
+                // Do not change code below
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
+        });
+            </script>
+

@@ -1,0 +1,12 @@
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-03-22 07:31:04
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-03-22 07:31:04 ::1 GET / - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 - 200 0 0 12902
+2017-03-22 07:31:06 ::1 GET /__browserLink/requestData/4156a92d9a5b4d05a7224c7362dfb3a0 version=2 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 61
+2017-03-22 07:31:41 ::1 GET / - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 - 200 0 0 19
+2017-03-22 07:31:41 ::1 GET /Content/img/favicon/favicon.ico - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 37
+2017-03-22 07:31:41 ::1 GET /__browserLink/requestData/dbee56324a144d27afafc78ebae3a3f4 version=2 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 6
+2017-03-22 07:31:42 ::1 GET / - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 - 200 0 0 5
+2017-03-22 07:31:42 ::1 GET /Content/img/favicon/favicon.ico - 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 7
+2017-03-22 07:31:42 ::1 GET /__browserLink/requestData/77dd15ae925c4acdbbd4d4fdce3d17cf version=2 50192 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/56.0.2924.87+Safari/537.36 http://localhost:50192/ 200 0 0 6

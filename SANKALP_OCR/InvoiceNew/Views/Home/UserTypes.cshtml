@@ -1,0 +1,200 @@
+﻿@model  IList<InvoiceNew.Models.UserPreferenceViewModel>
+@{
+    ViewBag.Title = "UserTypes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var parsedData = @Html.Raw(Json.Encode(Model));
+}
+
+<style>
+   #sortable, #disabledUsers {
+        list-style-type: none;
+        margin: 0;
+        padding: 2px 2px 15px 2px;
+        border: 1px black solid;
+        background-color: white;
+    }
+
+
+  #sortable td, #disabledUsers td {
+            margin: 0 3px 3px 0px;
+            padding: 0.4em;
+            padding-left: .5em;
+            border-bottom: 1px white outset;
+        }
+    .description {
+         cursor:move;
+    }
+.floatdiv{
+    padding:5px;
+}
+</style>
+
+
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Add User Types
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-md-4" style="margin-top:5%;">
+                
+                    <input type="text" id="UserTypes" class="form-control bg-info" style="border:1px black solid" placeholder="  NEW USER TYPE"><br />
+                    <input type="submit" class="btn-primary" style="margin-left:30%;" id="submit" onclick="addUserTypes();" value=" Add >> ">
+                </div>
+                <div class="col-md-4">
+                    @using (Html.BeginForm("SubmitUserTypes", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "form1" }))
+                    {
+                        <table id="sortable" class="table-hover sortable">
+                            <tbody id="tbodysort">
+                                @foreach (var m in Model)
+                                {
+                                    <tr class="draggableObjectClass">
+                                        <td>
+                                            @Html.HiddenFor(model => @m.ColumnOrder)
+                                            @Html.HiddenFor(model => @m.Id)
+                                        </td>
+                                        <td class="description" contenteditable="true">
+                                            @Html.DisplayTextFor(model => @m.Description)
+                                        </td>
+                                        <td class="delbutton">
+                                            <button type="button" class="btn btn-xs delete"><i class="fa fa-close"></i></button>
+                                            <button type="button" class="btn btn-xs edit"><i class="fa fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <br />
+                        <div id="divEdit">
+                            <div class="floatdiv bg-info">
+                                <input type="text" id="editUser" class="text-center input-lg" style="border:1px black solid;">
+                                <button type="button" class="btn-primary btn-xs" id="save"><i class="fa fa-save"></i>&nbsp;Done</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="col-md-4">
+                    <div id="disabledUseTypes">
+                      @*@{
+                          Html.RenderPartial("_DisabledUserTypes");
+                    }*@ 
+                    </div>
+
+                </div>
+                </div>
+            <div class="row>">
+                <div class="col-md-3 col-md-offset-9">
+                    <button type="button" class="btn btn-lg btn-primary" id="btnSave">Save </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready($(function () {
+        $('#disabledUseTypes').load("/Home/DisabledUserTypes");
+        $("#divEdit").hide();
+    }));
+    $(function () {
+        $("#tbodysort").sortable();
+    //    $("#tbodysort").disableSelection();
+    });
+
+    function addUserTypes() {
+        var usr = $("#UserTypes").val();
+        if (usr != "") {
+            $("#UserTypes").val("");
+            var x = $("#tbodysort").html();
+            x = x + "<tr class=\"draggableObjectClass\"><td><input id=\"m_ColumnOrder\" name=\"m.ColumnOrder\" type=\"hidden\" value=\"\"></td><td class=\"description\">" + usr + "</td><td><button type=\"button\" class=\"btn btn-xs delete\"><i class=\"fa fa-close\"></i></button><button type=\"button\" class=\"btn btn-xs edit\"><i class=\"fa fa-edit\"></i></button></td></tr>";
+            $("#tbodysort").html(x);
+        }
+
+        //$("#tbodysort tr td").click(function () {
+        //    alert("SFDddddddddd");
+        //    $(".edit").prop("contentEditable", "true");
+        //});
+    }
+    $("#tbodysort").on("click", ".edit", function (e) {
+        var descCol = "";
+        descCol = $(this).closest('tr').find('.description');
+        var id = ($(this).closest('tr').find('input[id$=_Id]').val());
+        $("#divEdit").show();
+        var desc = "";
+        $("#editUser").val(descCol.text().trim());
+        $("#save").click(function (e) {
+          desc = $("#editUser").val();
+          descCol.text(desc);
+          $("#divEdit").hide();
+            /// Save UserType Name
+          $.ajax({
+              url: '/Home/SaveUserType',
+              data: JSON.stringify({ Id: id, desc: desc }),
+              type: "POST",
+              contentType: 'application/json; charset=utf-8',
+            //  data: { Id: id, desc: desc },
+              dataType: "json",
+              global: false,
+              success: function (data) {
+              }
+          });
+        });
+    });
+   
+    $("#btnSave").click(function (e) {
+        e.preventDefault();
+        var posIndex = 0;
+
+        $('.draggableObjectClass').each(function () {
+            $(this).find('input[id$=_ColumnOrder]').val(posIndex++);
+        });
+
+        var data = $('table').find('tr.draggableObjectClass').map(function () {
+            var id = $(this).find('input[id$=_Id]').val();
+            var colOrder = $(this).find('input[id$=_ColumnOrder]').val();
+            var desc = $(this).find('.description').text().trim();
+            var rowdata = { "Id": id, "ColumnOrder": colOrder, "Description": desc };
+            return rowdata;
+        }).get();
+        jsonstring = JSON.stringify(data);
+
+        var mydata = $("#form1").serialize();//JSON.stringify($('form1').serializeObject());
+     ///   alert(jsonstring);
+        $.ajax({
+            url: "/Home/SubmitUserTypes/",
+            data: jsonstring,
+            datatype: "json",
+            type: "POST",
+            cache: false,
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                //   alert(data);
+            }
+        });
+    });
+
+    // $(".btnDelete").click(function (e) {
+    $("#tbodysort").on("click", ".delete", function () {
+        var id = ($(this).closest('tr').find('input[id$=_Id]').val());
+
+        $(this).closest('tr').remove();
+        $.ajax({
+            url: '/Home/disableUserTypeById/',
+            data: { id: id },
+            type: "POST",
+            datatype: "text/plain",
+            datatype: "json",
+            global:false,
+        //     cache: false,
+        //    contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                /// alert(data);
+                $('#disabledUseTypes').load("/Home/DisabledUserTypes");
+            }
+        });
+    });
+</script>
+

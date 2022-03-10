@@ -1,0 +1,77 @@
+﻿@*@model System.Data.DataTable
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var db = Database.Open("Sortables");
+    var commandText = "SELECT Id, Text FROM Items ORDER BY DisplayOrder";
+    var items = db.Query(commandText);
+}
+@{
+    var json = Json.Decode(Request["Ids"]);
+    object[] ids = json;
+    var db = Database.Open("Sortables");
+    var commandText = "UPDATE Items SET DisplayOrder = @0 WHERE Id = @1";
+    foreach (var id in ids)
+    {
+        db.Execute(commandText, Array.FindIndex(ids, i => i == id), id);
+    }
+}
+<h2>Index</h2>
+
+<script>
+    $(function () {
+        $('#sortable').sortable()
+    });
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 alert-info" id="message">
+            Drag items to reorder them.
+        </div>
+    </div>
+    <div class="row">
+        <div id="sortable" class="col-md-4">
+            @foreach (var item in items)
+            {
+                <div class="list-item" id="@item.Id">
+                    @item.Text
+                    <div class="index"></div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <button>Save Order</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#sortable').sortable();
+        $('button').on('click', function(){
+            var ids = [];
+            $('.list-item').each(function (index, value) {
+                var id = $(value).prop('id');
+                ids.push(id);
+            });
+            $.post(
+                '/UpdateOrder',
+                { Ids: JSON.stringify(ids) },
+                function (response) {
+                    if ($('#message').hasClass('alert-info')) {
+                        $('#message').text('Items re-ordered successfully.')
+                                     .removeClass('alert-info')
+                                     .addClass('alert-success');
+                    } else {
+                        $('#message').effect("highlight", {}, 2000);
+                    }
+                }
+            );
+        })
+    });
+</script>*@
